@@ -17,7 +17,7 @@ import ec.simple.SimpleProblemForm;
 import ec.vector.GeneVectorIndividual;
 
 public class HelloWorldProblem extends Problem implements SimpleProblemForm {
-    private char[] _expected = "Hello, world! Arus like it!".toCharArray();
+    private char[] _expected = "Arkadiusz Szczepkowicz".toCharArray();
 
     public void evaluate(final EvolutionState evolutionState, 
                                     final Individual individual, 
@@ -31,18 +31,15 @@ public class HelloWorldProblem extends Problem implements SimpleProblemForm {
         GeneVectorIndividual charVectorIndividual = (GeneVectorIndividual) individual;
         long length = charVectorIndividual.size();
         for (int i = 0; i < length; i++) {
-            CharVectorGene charVectorGene 
-                    = (CharVectorGene) charVectorIndividual.genome[i];
+            CharVectorGene charVectorGene = (CharVectorGene) charVectorIndividual.genome[i];
             char actual = charVectorGene.getAllele();
             if (actual == _expected[i]) {
                 fitnessValue += 1;
             }
         }
 
-        SimpleFitness fitness 
-                         = (SimpleFitness) charVectorIndividual.fitness;
-        fitness.setFitness(evolutionState, fitnessValue, 
-                fitnessValue == charVectorIndividual.genomeLength());
+        SimpleFitness fitness  = (SimpleFitness) charVectorIndividual.fitness;
+        fitness.setFitness(evolutionState, fitnessValue, fitnessValue == charVectorIndividual.genomeLength());
 
         charVectorIndividual.evaluated = true;
     }
