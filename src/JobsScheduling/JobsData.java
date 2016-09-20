@@ -10,6 +10,7 @@ import ec.gp.GPData;
 import static ec.gp.GPData.P_GPDATA;
 import ec.gp.GPDefaults;
 import ec.util.Parameter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,11 +21,16 @@ import java.util.Set;
  * @author arus2
  */
 public class JobsData extends GPData{
-    
-    public List<SingleJobData> Data;
+    //kopiowanie jak w DoubleData z tutorila 4 
+    public final ArrayList<SingleJobData> Data;
 
+    public JobsData(){
+        Data = new ArrayList<SingleJobData>();       
+    }
+    
     @Override
     public void setup(final EvolutionState state, final Parameter base){
+        Data.clear();
         Data.add(new SingleJobData(0, -1));
         Data.add(new SingleJobData(1, 0));
         Data.add(new SingleJobData(2, 0));
@@ -36,5 +42,6 @@ public class JobsData extends GPData{
         Data.add(new SingleJobData(8, 7));
         Data.add(new SingleJobData(9, 2, 5, 8));
         
+        System.out.println("JobsData Initialized. SingleJobData: " + Data.size());
     }
 }

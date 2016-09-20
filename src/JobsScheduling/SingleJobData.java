@@ -10,9 +10,22 @@ package JobsScheduling;
  * @author arus2
  */
 public class SingleJobData {
-    
+
     public int JobID;
     public int [] RequiredJobs;
+    
+    @Override
+    public String toString() {
+        String text = "SingleJobData{";
+        text += " JobID=" + JobID;
+        
+        text += " RequiredJobs:";
+        for(int i=0; i < RequiredJobs.length; i++){
+            text += " " + RequiredJobs[i];
+        }
+        
+        return text + '}';
+    }
     
     public SingleJobData(int id, int... rj){
         JobID = id;

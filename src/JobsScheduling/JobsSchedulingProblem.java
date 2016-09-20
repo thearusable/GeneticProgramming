@@ -5,6 +5,7 @@
  */
 package JobsScheduling;
 
+import Jobs.JobTreeNode;
 import ec.EvolutionState;
 import ec.Individual;
 import ec.gp.GPIndividual;
@@ -23,8 +24,10 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     
     @Override
     public void evaluate(EvolutionState state, Individual ind, int subpopulation, int threadnum) {
+        
         if(!ind.evaluated){
             fitness = 0.0;
+            //((GPIndividual) ind).trees[0].child.eval(state, 0, input, stack, (GPIndividual) ind, this);
             nodeCalculate(((GPIndividual) ind).trees[0].child, state);
 
             SimpleFitness f = ((SimpleFitness) ind.fitness);
@@ -35,11 +38,11 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     
     void nodeCalculate(GPNode p, EvolutionState state)
         {
-        int pval = ((JobTreeNode) p).JobID;
+        int pval = ((JobTreeNode) p).getJobID();
         for (int i = 0; i < p.children.length; i++)
             {
             GPNode c = p.children[i];
-            int cval = ((JobTreeNode) c).JobID;
+            int cval = ((JobTreeNode) c).getJobID();
             if (pval < cval)
                 {
                 // direct fitness contribution
@@ -53,7 +56,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 while (c.children.length > 0 && cval == pval && !found)
                     {
                     c = c.children[0];
-                    cval = ((JobTreeNode) c).JobID;
+                    cval = ((JobTreeNode) c).getJobID();
                     if (pval < cval)
                         {
                         found = true;
