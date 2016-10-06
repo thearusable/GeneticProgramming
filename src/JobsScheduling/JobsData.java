@@ -22,6 +22,7 @@ import java.util.Set;
  */
 public class JobsData extends GPData{
     //kopiowanie jak w DoubleData z tutorila 4 
+    /*
     public final ArrayList<SingleJobData> Data;
 
     public JobsData(){
@@ -44,4 +45,19 @@ public class JobsData extends GPData{
         
         System.out.println("JobsData Initialized. SingleJobData: " + Data.size());
     }
+*/
+    public ArrayList<Integer> FinishedJobs;
+    
+    @Override
+    public void copyTo(GPData other){
+        ((JobsData)other).FinishedJobs = new ArrayList<>(FinishedJobs);
+    }
+    
+    @Override
+    public Object clone(){
+        JobsData other = (JobsData)(super.clone());
+        other.FinishedJobs = new ArrayList<>();
+        return other;
+    }
+    
 }

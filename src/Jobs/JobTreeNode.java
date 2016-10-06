@@ -21,7 +21,7 @@ import ec.util.Parameter;
  * @author arus2
  */
 public abstract class JobTreeNode extends GPNode {
-
+    
     @Override
     public abstract int expectedChildren(); 
     

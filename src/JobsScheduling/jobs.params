@@ -1,13 +1,10 @@
-# Copyright 2006 by Sean Luke and George Mason University
-# Licensed under the Academic Free License version 3.0
-# See the file "LICENSE" for more information
-
 parent.0 = ../ecj/ec/gp/koza/koza.params
 
-# We have one function set, of class GPFunctionSet
+breedthreads = auto
+evalthreads = auto
+
 gp.fs.size = 1
 gp.fs.0 = ec.gp.GPFunctionSet
-# We'll call the function set "f0".
 gp.fs.0.name = f0
 gp.fs.0.size = 7
 gp.fs.0.func.0 = Jobs.Job_0
@@ -33,24 +30,6 @@ stat.file       = $src\\JobsScheduling\\jobs.stat
 
 #####
 
-# 0 means add a unit for each correct node
-# 1 means add the node's value
-# 2 means add the node's value squared
-# 3 means add 3 ^ node value
-# eval.problem.contribution-type = 0
-
-# parameters are as specified in Hoang et al.
-
-# Tournament selection size
-# select.tournament.size = 6
-
-# we switch off replication and use mutation instead with probability 0.1
-# pop.subpop.0.species.pipe.source.1 = ec.gp.koza.MutationPipeline
-# pop.subpop.0.species.pipe.source.1.prob = 0.1
-
-# override max initialisation depth:
-# gp.koza.half.max-depth = 6
-
 pop.subpop.0.species.fitness = ec.simple.SimpleFitness
 
 # gp.koza.xover.maxdepth = 20
@@ -59,3 +38,5 @@ pop.subpop.0.species.fitness = ec.simple.SimpleFitness
  generations = 201
  pop.subpop.0.size = 500
 
+# style
+#pop.subpop.0.species.ind.tree.0.print-style = c

@@ -45,5 +45,8 @@ pop.subpop.0.species.fitness = ec.simple.SimpleFitness
 gp.koza.xover.maxdepth = 17
 gp.koza.mutate.maxdepth = 17
 
-generations = 500
+generations = 220
 pop.subpop.0.size = 3500
+
+
+pop.subpop.0.species.ind.tree.0.print-style = c

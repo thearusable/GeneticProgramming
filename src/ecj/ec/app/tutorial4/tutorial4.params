@@ -29,3 +29,4 @@ gp.fs.0.func.4.nc = nc2
 eval.problem = ec.app.tutorial4.MultiValuedRegression
 eval.problem.data = ec.app.tutorial4.DoubleData
 
+pop.subpop.0.species.ind.tree.0.print-style = c

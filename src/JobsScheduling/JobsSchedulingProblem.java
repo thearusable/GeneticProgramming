@@ -13,6 +13,7 @@ import ec.gp.GPNode;
 import ec.gp.GPProblem;
 import ec.simple.SimpleFitness;
 import ec.simple.SimpleProblemForm;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +22,13 @@ import ec.simple.SimpleProblemForm;
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
 
     double fitness;
+    
+    //final ArrayList<Integer> Req;
+    
+    //JobsSchedulingProblem(){
+    //    Req = new ArrayList<>();
+    //}
+   
     
     @Override
     public void evaluate(EvolutionState state, Individual ind, int subpopulation, int threadnum) {
