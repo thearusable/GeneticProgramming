@@ -26,10 +26,10 @@ public class MainClass {
         //ParamsFile = new String[] {"-file","src\\Chars\\chars.params"};
         //ParamsFile = new String[] {"-file","src\\ecj\\ec\\app\\tutorial1\\tutorial1.params"};
         //ParamsFile = new String[] {"-file","src\\ecj\\ec\\app\\tutorial2\\tutorial2.params"};
-        //ParamsFile = new String[] {"-file","src\\ecj\\ec\\app\\tutorial3\\tutorial3.params"};
+        //ParamsFile = "src\\ecj\\ec\\app\\tutorial3\\tutorial3.params";
         //ParamsFile = "src\\ecj\\ec\\app\\tutorial4\\tutorial4.params";
         //broken ?  ParamsFile = new String[] {"-file","src\\ecj\\ec\\app\\ordertree\\ordertree.params"};
-        
+        //ParamsFile = "src\\ecj\\ec\\app\\gui\\coevolve2.params";
         //ParamsFile = new String[] {"-file","src\\ecj\\ec\\app\\mona\\mona.params"};
         //stuck?    
         //ParamsFile = "src\\ecj\\ec\\app\\royaltree\\royaltree.params";
