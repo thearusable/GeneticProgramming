@@ -1,4 +1,4 @@
-parent.0 = ../ecj/ec/gp/koza/koza.params
+parent.0 = ../ec/gp/koza/koza.params
 
 breedthreads = auto
 evalthreads = auto
