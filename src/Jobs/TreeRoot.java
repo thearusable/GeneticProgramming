@@ -10,26 +10,35 @@ import ec.Problem;
 import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
+import ec.gp.GPNode;
 
 /**
  *
  * @author arus2
  */
-public class Job_0 extends JobTreeNode {
-
+public class TreeRoot extends GPNode {
+    
     @Override
     public int expectedChildren() {
-        return 0;
+        return 15;
     }
 
-    @Override
     public int getJobID() {
-        return 0;
+        return -1;
+    }
+
+    public String getRequiredJobsInfo() {
+        return "Root";
     }
 
     @Override
-    public String getRequiredJobsInfo() {
-        return "R[None]";
+    public String toString() {
+        return "Root";
+    }
+
+    @Override
+    public void eval(EvolutionState state, int thread, GPData input, ADFStack stack, GPIndividual individual, Problem problem) {
+        
     }
     
 }

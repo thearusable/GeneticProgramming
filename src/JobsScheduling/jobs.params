@@ -1,4 +1,4 @@
-parent.0 = ../ec/gp/koza/koza.params
+parent.0 = /arus.params
 
 breedthreads = auto
 evalthreads = auto
@@ -6,25 +6,18 @@ evalthreads = auto
 gp.fs.size = 1
 gp.fs.0 = ec.gp.GPFunctionSet
 gp.fs.0.name = f0
-gp.fs.0.size = 7
-gp.fs.0.func.0 = Jobs.Job_0
-gp.fs.0.func.0.nc = nc0
-gp.fs.0.func.1 = Jobs.Job_1
-gp.fs.0.func.1.nc = nc0
-gp.fs.0.func.2 = Jobs.Job_2
-gp.fs.0.func.2.nc = nc2
-gp.fs.0.func.3 = Jobs.Job_3
-gp.fs.0.func.3.nc = nc0
-gp.fs.0.func.4 = Jobs.Job_4
-gp.fs.0.func.4.nc = nc0
-gp.fs.0.func.5 = Jobs.Job_5
-gp.fs.0.func.5.nc = nc2
-gp.fs.0.func.6 = Jobs.Job_6
-gp.fs.0.func.6.nc = nc2
 
-# problem specification
+# We have five functions in the function set.  They are:
+gp.fs.0.size = 2
+gp.fs.0.func.0 = Jobs.TreeRoot
+gp.fs.0.func.0.nc = nc15
+gp.fs.0.func.1 = Jobs.TaskNode
+gp.fs.0.func.1.nc = nc0
+
 eval.problem = JobsScheduling.JobsSchedulingProblem
 eval.problem.data = JobsScheduling.JobsData
+
+pop.subpop.0.species.ind.tree.0.print-style = c
 
 stat.file       = $src\\JobsScheduling\\jobs.stat
 

@@ -35,6 +35,7 @@ public class MultiValuedRegression extends GPProblem implements SimpleProblemFor
         final int subpopulation,
         final int threadnum)
         {
+            
         if (!ind.evaluated)  // don't bother reevaluating
             {
             DoubleData input = (DoubleData)(this.input);

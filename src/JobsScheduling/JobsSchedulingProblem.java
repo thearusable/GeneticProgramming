@@ -5,15 +5,15 @@
  */
 package JobsScheduling;
 
-import Jobs.JobTreeNode;
 import ec.EvolutionState;
 import ec.Individual;
 import ec.gp.GPIndividual;
-import ec.gp.GPNode;
 import ec.gp.GPProblem;
-import ec.simple.SimpleFitness;
 import ec.simple.SimpleProblemForm;
-import java.util.ArrayList;
+import ec.app.tutorial4.DoubleData;
+import static ec.gp.GPProblem.P_DATA;
+import ec.gp.koza.KozaFitness;
+import ec.util.Parameter;
 
 /**
  *
@@ -21,61 +21,52 @@ import java.util.ArrayList;
  */
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
 
-    double fitness;
+    public double currentX;
+    public double currentY;
     
-    //final ArrayList<Integer> Req;
-    
-    //JobsSchedulingProblem(){
-    //    Req = new ArrayList<>();
-    //}
-   
-    
-    @Override
-    public void evaluate(EvolutionState state, Individual ind, int subpopulation, int threadnum) {
-        
-        if(!ind.evaluated){
-            fitness = 0.0;
-            //((GPIndividual) ind).trees[0].child.eval(state, 0, input, stack, (GPIndividual) ind, this);
-            nodeCalculate(((GPIndividual) ind).trees[0].child, state);
-
-            SimpleFitness f = ((SimpleFitness) ind.fitness);
-            f.setFitness(state, fitness, false);
-            ind.evaluated = true;
-        }
-    }
-    
-    void nodeCalculate(GPNode p, EvolutionState state)
+    public void setup(final EvolutionState state,
+        final Parameter base)
         {
-        int pval = ((JobTreeNode) p).getJobID();
-        for (int i = 0; i < p.children.length; i++)
+        super.setup(state, base);
+        
+        // verify our input is the right class (or subclasses from it)
+        if (!(input instanceof JobsData))
+            state.output.fatal("GPData class must subclass from " + JobsData.class,
+                base.push(P_DATA), null);
+        }
+        
+    public void evaluate(final EvolutionState state, 
+        final Individual ind, 
+        final int subpopulation,
+        final int threadnum)
+        {
+            
+        if (!ind.evaluated)  // don't bother reevaluating
             {
-            GPNode c = p.children[i];
-            int cval = ((JobTreeNode) c).getJobID();
-            if (pval < cval)
+            DoubleData input = (DoubleData)(this.input);
+        
+            int hits = 0;
+            double sum = 0.0;
+            double expectedResult;
+            double result;
+            for (int y=0;y<10;y++)
                 {
-                // direct fitness contribution
-                fitness += 1;
-                nodeCalculate(c, state);
+                currentX = state.random[threadnum].nextDouble();
+                currentY = state.random[threadnum].nextDouble();
+                expectedResult = currentX*currentX*currentX*currentY* currentY + currentX*currentY + currentY - currentX;
+                ((GPIndividual)ind).trees[0].child.eval(
+                    state,threadnum,input,stack,((GPIndividual)ind),this);
+
+                result = Math.abs(expectedResult - input.x);
+                if (result <= 0.01) hits++;
+                sum += result;                  
                 }
-            else if (pval == cval)
-                {
-                // neutral-left-walk
-                boolean found = false;
-                while (c.children.length > 0 && cval == pval && !found)
-                    {
-                    c = c.children[0];
-                    cval = ((JobTreeNode) c).getJobID();
-                    if (pval < cval)
-                        {
-                        found = true;
-                        }
-                    }
-                if (found)
-                    {
-                    fitness += 1;
-                    nodeCalculate(c, state);
-                    }
-                }
+
+            // the fitness better be KozaFitness!
+            KozaFitness f = ((KozaFitness)ind.fitness);
+            f.setStandardizedFitness(state, sum);
+            f.hits = hits;
+            ind.evaluated = true;
             }
         }
     }
