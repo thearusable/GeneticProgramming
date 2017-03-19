@@ -10,30 +10,26 @@ import ec.Problem;
 import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
-import ec.gp.GPNode;
 
 /**
  *
- * @author arus2
+ * @author arus
  */
-public class TreeRoot extends GPNode {
-    
+public class T1 extends TaskNode {
+
     @Override
-    public int expectedChildren() {
-        return 15;
+    public int getTaskDuration() {
+        return 23;
     }
 
+    @Override
     public int getJobID() {
-        return -1;
-    }
-
-    public String getRequiredJobsInfo() {
-        return "Root";
+        return 1;
     }
 
     @Override
     public String toString() {
-        return "Root";
+        return "T_1[23]";
     }
 
     @Override

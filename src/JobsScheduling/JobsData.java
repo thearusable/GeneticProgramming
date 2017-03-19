@@ -14,8 +14,9 @@ import ec.gp.GPData;
  * @author arus2
  */
 public class JobsData extends GPData{
-        public double x;    // return value
+    public double x;    // return value
 
+    @Override
     public void copyTo(final GPData gpd)   // copy my stuff to another DoubleData
         { ((JobsData)gpd).x = x; }
     

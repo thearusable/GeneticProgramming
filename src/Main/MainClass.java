@@ -20,10 +20,11 @@ public class MainClass {
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
         
-        METADATA.load("ta60.txt", "ta60_seq.txt", true);        
+        METADATA.load("ta60.txt", "ta60_seq.txt", false);        
         //METADATA.print();
         
         String[] Params = {"-file", "src\\JobsScheduling\\jobs.params"}; 
+        //String[] Params = {"-file", "src\\ec\\app\\twobox\\noadf.params"};
         Evolve.main(Params);
         
     }

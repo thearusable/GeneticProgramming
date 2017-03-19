@@ -2,22 +2,45 @@ parent.0 = /arus.params
 
 breedthreads = auto
 evalthreads = auto
+seed.0 = time
+
+checkpoint = false
+checkpoint-modulo = 1
+checkpoint-prefix = ec
+
+init = ec.gp.GPInitializer
 
 gp.fs.size = 1
 gp.fs.0 = ec.gp.GPFunctionSet
 gp.fs.0.name = f0
 
-# We have five functions in the function set.  They are:
-gp.fs.0.size = 2
-gp.fs.0.func.0 = Jobs.TreeRoot
-gp.fs.0.func.0.nc = nc15
-gp.fs.0.func.1 = Jobs.TaskNode
-gp.fs.0.func.1.nc = nc0
+
+gp.fs.0.size = 10
+gp.fs.0.func.0 = Jobs.M1
+gp.fs.0.func.0.nc = nc2
+gp.fs.0.func.1 = Jobs.M1
+gp.fs.0.func.1.nc = nc1
+gp.fs.0.func.2 = Jobs.M2
+gp.fs.0.func.2.nc = nc2
+gp.fs.0.func.3 = Jobs.M2
+gp.fs.0.func.3.nc = nc1
+
+gp.fs.0.func.4 = Jobs.T1
+gp.fs.0.func.4.nc = nc0
+gp.fs.0.func.5 = Jobs.T11
+gp.fs.0.func.5.nc = nc0
+gp.fs.0.func.6 = Jobs.T111
+gp.fs.0.func.6.nc = nc0
+gp.fs.0.func.7 = Jobs.T2
+gp.fs.0.func.7.nc = nc0
+gp.fs.0.func.8 = Jobs.T22
+gp.fs.0.func.8.nc = nc0
+gp.fs.0.func.9 = Jobs.T222
+gp.fs.0.func.9.nc = nc0
+
 
 eval.problem = JobsScheduling.JobsSchedulingProblem
 eval.problem.data = JobsScheduling.JobsData
-
-pop.subpop.0.species.ind.tree.0.print-style = c
 
 stat.file       = $src\\JobsScheduling\\jobs.stat
 
@@ -30,6 +53,3 @@ pop.subpop.0.species.fitness = ec.simple.SimpleFitness
 
  generations = 201
  pop.subpop.0.size = 500
-
-# style
-#pop.subpop.0.species.ind.tree.0.print-style = c

@@ -70,40 +70,6 @@
 # and so on.
 #
 
-
-
-
-
-#
-# Here are a few default values for administration stuff -- you can
-# find some basic evolution parameters in simple/params
-
-
-
-# ec.Evolve
-# ==============================
-
-# one thread
-evalthreads = 				1
-breedthreads = 				1
-
-# ECJ used to use this as its initial random seed by default.  No longer, now
-# it's assumed to be the wall clock time by default.
-# seed.0 = 				4357
-seed.0 =				time
-
-
-
-
-# ec.EvolutionState
-# ==============================
-
-# We're not writing checkpoint files.  If we were, we'd do it every
-# generation, and the prefix to all the files would be "ec.*"
-checkpoint =				false
-checkpoint-modulo =                     1
-checkpoint-prefix = 			ec
-
 # 
 # The following parameter file will set up a very basic form
 # of evolution, single-threaded, no coevolution, no exchanging,
@@ -180,15 +146,6 @@ pop.subpop.0.duplicate-retries =	0
 
 # breed.elite.0 = 			10
 
-
-# ec.SimpleStatistics
-# ==============================
-
-# output statistics to the file "out.stat" in the directory
-# the run was started in
-stat.file				$out.stat
-
-
 #
 # We define the fitness of an individual to use the traditional
 # Koza-style fitness metrics, just to make everyone happy :-)
@@ -236,8 +193,6 @@ pop.subpop.0.species.pipe.source.1 = ec.breed.ReproductionPipeline
 pop.subpop.0.species.pipe.source.1.prob = 0.1
 
 
-
-
 #
 # Here we define the default values for Crossover,
 # Reproduction, Mutation, as well as our selection
@@ -261,8 +216,6 @@ gp.koza.xover.maxdepth = 17
 gp.koza.xover.tries = 1
 
 
-
-
 # Point Mutation will use Tournament Selection, try only 1
 # time, have a max depth of 17, and use KozaNodeSelector
 # and GROW for building.  Also, Point Mutation uses a GrowBuilder
@@ -277,17 +230,11 @@ gp.koza.mutate.maxdepth = 17
 # make things really slow
 gp.koza.mutate.tries = 1
 
-
-
-
 #
 # The default tournament size for TournamentSelection is 7
 #
 
 select.tournament.size = 7
-
-
-
 
 # Since GROW is only used for subtree mutation, ECJ uses
 # the Koza-standard subtree mutation GROW values for the
@@ -373,9 +320,6 @@ gp.koza.half.min-depth = 2
 gp.koza.half.max-depth = 6
 gp.koza.half.growp = 0.5
 
-
-
-
 # Here we define 7 GPNodeConstraints, nc0...nc6, which
 # describe nodes with 0...6 children respectively, which only
 # use a single type, "nil", for their argument and return types
@@ -390,7 +334,7 @@ gp.nc.0.returns = nil
 gp.nc.0.size = 0
 
 gp.nc.1 = ec.gp.GPNodeConstraints
-gp.nc.1.name = nc1
+gp.nc.1.name = nc1 
 gp.nc.1.returns = nil
 gp.nc.1.size = 1
 gp.nc.1.child.0 = nil
@@ -440,5 +384,146 @@ gp.nc.6.child.3 = nil
 gp.nc.6.child.4 = nil
 gp.nc.6.child.5 = nil
 
+gp.nc.7 = ec.gp.GPNodeConstraints
+gp.nc.7.name = nc7
+gp.nc.7.returns = nil
+gp.nc.7.size = 7
+gp.nc.7.child.0 = nil
+gp.nc.7.child.1 = nil
+gp.nc.7.child.2 = nil
+gp.nc.7.child.3 = nil
+gp.nc.7.child.4 = nil
+gp.nc.7.child.5 = nil
+gp.nc.7.child.6 = nil
 
+gp.nc.8 = ec.gp.GPNodeConstraints
+gp.nc.8.name = nc8
+gp.nc.8.returns = nil
+gp.nc.8.size = 8
+gp.nc.8.child.0 = nil
+gp.nc.8.child.1 = nil
+gp.nc.8.child.2 = nil
+gp.nc.8.child.3 = nil
+gp.nc.8.child.4 = nil
+gp.nc.8.child.5 = nil
+gp.nc.8.child.6 = nil
+gp.nc.8.child.7 = nil
 
+gp.nc.9 = ec.gp.GPNodeConstraints
+gp.nc.9.name = nc9
+gp.nc.9.returns = nil
+gp.nc.9.size = 9
+gp.nc.9.child.0 = nil
+gp.nc.9.child.1 = nil
+gp.nc.9.child.2 = nil
+gp.nc.9.child.3 = nil
+gp.nc.9.child.4 = nil
+gp.nc.9.child.5 = nil
+gp.nc.9.child.6 = nil
+gp.nc.9.child.7 = nil
+gp.nc.9.child.8 = nil
+
+gp.nc.10 = ec.gp.GPNodeConstraints
+gp.nc.10.name = nc10
+gp.nc.10.returns = nil
+gp.nc.10.size = 10
+gp.nc.10.child.0 = nil
+gp.nc.10.child.1 = nil
+gp.nc.10.child.2 = nil
+gp.nc.10.child.3 = nil
+gp.nc.10.child.4 = nil
+gp.nc.10.child.5 = nil
+gp.nc.10.child.6 = nil
+gp.nc.10.child.7 = nil
+gp.nc.10.child.8 = nil
+gp.nc.10.child.9 = nil
+
+gp.nc.11 = ec.gp.GPNodeConstraints
+gp.nc.11.name = nc11
+gp.nc.11.returns = nil
+gp.nc.11.size = 11
+gp.nc.11.child.0 = nil
+gp.nc.11.child.1 = nil
+gp.nc.11.child.2 = nil
+gp.nc.11.child.3 = nil
+gp.nc.11.child.4 = nil
+gp.nc.11.child.5 = nil
+gp.nc.11.child.6 = nil
+gp.nc.11.child.7 = nil
+gp.nc.11.child.8 = nil
+gp.nc.11.child.9 = nil
+gp.nc.11.child.10 = nil
+
+gp.nc.12 = ec.gp.GPNodeConstraints
+gp.nc.12.name = nc12
+gp.nc.12.returns = nil
+gp.nc.12.size = 12
+gp.nc.12.child.0 = nil
+gp.nc.12.child.1 = nil
+gp.nc.12.child.2 = nil
+gp.nc.12.child.3 = nil
+gp.nc.12.child.4 = nil
+gp.nc.12.child.5 = nil
+gp.nc.12.child.6 = nil
+gp.nc.12.child.7 = nil
+gp.nc.12.child.8 = nil
+gp.nc.12.child.9 = nil
+gp.nc.12.child.10 = nil
+gp.nc.12.child.11 = nil
+
+gp.nc.13 = ec.gp.GPNodeConstraints
+gp.nc.13.name = nc13
+gp.nc.13.returns = nil
+gp.nc.13.size = 13
+gp.nc.13.child.0 = nil
+gp.nc.13.child.1 = nil
+gp.nc.13.child.2 = nil
+gp.nc.13.child.3 = nil
+gp.nc.13.child.4 = nil
+gp.nc.13.child.5 = nil
+gp.nc.13.child.6 = nil
+gp.nc.13.child.7 = nil
+gp.nc.13.child.8 = nil
+gp.nc.13.child.9 = nil
+gp.nc.13.child.10 = nil
+gp.nc.13.child.11 = nil
+gp.nc.13.child.12 = nil
+
+gp.nc.14 = ec.gp.GPNodeConstraints
+gp.nc.14.name = nc14
+gp.nc.14.returns = nil
+gp.nc.14.size = 14
+gp.nc.14.child.0 = nil
+gp.nc.14.child.1 = nil
+gp.nc.14.child.2 = nil
+gp.nc.14.child.3 = nil
+gp.nc.14.child.4 = nil
+gp.nc.14.child.5 = nil
+gp.nc.14.child.6 = nil
+gp.nc.14.child.7 = nil
+gp.nc.14.child.8 = nil
+gp.nc.14.child.9 = nil
+gp.nc.14.child.10 = nil
+gp.nc.14.child.11 = nil
+gp.nc.14.child.12 = nil
+gp.nc.14.child.13 = nil
+
+gp.nc.15 = ec.gp.GPNodeConstraints
+gp.nc.15.name = nc15
+gp.nc.15.returns = nil
+gp.nc.15.size = 15
+gp.nc.15.child.0 = nil
+gp.nc.15.child.1 = nil
+gp.nc.15.child.2 = nil
+gp.nc.15.child.3 = nil
+gp.nc.15.child.4 = nil
+gp.nc.15.child.5 = nil
+gp.nc.15.child.6 = nil
+gp.nc.15.child.7 = nil
+gp.nc.15.child.8 = nil
+gp.nc.15.child.9 = nil
+gp.nc.15.child.10 = nil
+gp.nc.15.child.11 = nil
+gp.nc.15.child.12 = nil
+gp.nc.15.child.13 = nil
+gp.nc.15.child.14 = nil

@@ -20,9 +20,6 @@ import ec.util.Parameter;
  * @author arus2
  */
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
-
-    public double currentX;
-    public double currentY;
     
     public void setup(final EvolutionState state,
         final Parameter base)
@@ -51,15 +48,15 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             double result;
             for (int y=0;y<10;y++)
                 {
-                currentX = state.random[threadnum].nextDouble();
-                currentY = state.random[threadnum].nextDouble();
-                expectedResult = currentX*currentX*currentX*currentY* currentY + currentX*currentY + currentY - currentX;
+                //currentX = state.random[threadnum].nextDouble();
+                //currentY = state.random[threadnum].nextDouble();
+                //expectedResult = currentX*currentX*currentX*currentY* currentY + currentX*currentY + currentY - currentX;
                 ((GPIndividual)ind).trees[0].child.eval(
                     state,threadnum,input,stack,((GPIndividual)ind),this);
 
-                result = Math.abs(expectedResult - input.x);
-                if (result <= 0.01) hits++;
-                sum += result;                  
+                //result = Math.abs(expectedResult - input.x);
+                //if (result <= 0.01) hits++;
+                //sum += result;                  
                 }
 
             // the fitness better be KozaFitness!

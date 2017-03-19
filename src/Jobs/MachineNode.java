@@ -9,11 +9,8 @@ import ec.gp.GPNode;
 
 /**
  *
- * @author arus2
+ * @author arus
  */
-public abstract class TaskNode extends GPNode {
-
-    abstract public int getTaskDuration();
-    abstract public int getJobID();
-
+abstract public class MachineNode extends GPNode {
+    
 }
