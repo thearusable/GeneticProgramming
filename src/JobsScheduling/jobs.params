@@ -1,18 +1,14 @@
-parent.0 = /arus.params
+parent.0 = ../base/base.params
 
-breedthreads = auto
-evalthreads = auto
-seed.0 = time
+generations = 201
+pop.subpop.0.size = 500
 
-checkpoint = false
-checkpoint-modulo = 1
-checkpoint-prefix = ec
+eval.problem = JobsScheduling.JobsSchedulingProblem
+eval.problem.data = JobsScheduling.JobsData
 
-init = ec.gp.GPInitializer
+pop.subpop.0.species.fitness = ec.simple.SimpleFitness
 
-gp.fs.size = 1
-gp.fs.0 = ec.gp.GPFunctionSet
-gp.fs.0.name = f0
+stat.file       = $src\\JobsScheduling\\jobs.stat
 
 
 gp.fs.0.size = 10
@@ -37,19 +33,3 @@ gp.fs.0.func.8 = Jobs.T22
 gp.fs.0.func.8.nc = nc0
 gp.fs.0.func.9 = Jobs.T222
 gp.fs.0.func.9.nc = nc0
-
-
-eval.problem = JobsScheduling.JobsSchedulingProblem
-eval.problem.data = JobsScheduling.JobsData
-
-stat.file       = $src\\JobsScheduling\\jobs.stat
-
-#####
-
-pop.subpop.0.species.fitness = ec.simple.SimpleFitness
-
-# gp.koza.xover.maxdepth = 20
-# gp.koza.mutate.maxdepth = 20
-
- generations = 201
- pop.subpop.0.size = 500

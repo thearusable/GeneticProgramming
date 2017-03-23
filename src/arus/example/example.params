@@ -1,0 +1,51 @@
+parent.0 = ../base/base.params
+
+generations = 201
+pop.subpop.0.size = 500
+
+eval.problem = JobsScheduling.JobsSchedulingProblem
+eval.problem.data = arus.base.BaseData
+
+pop.subpop.0.species.fitness = arus.base.LowerBetterFitness
+
+stat.file = $src\\arus\\example\\example.stat
+
+
+gp.fs.0.size = 18
+gp.fs.0.func.0 = arus.example.M1
+gp.fs.0.func.0.nc = nc2
+gp.fs.0.func.1 = arus.example.M1
+gp.fs.0.func.1.nc = nc1
+gp.fs.0.func.2 = arus.example.M2
+gp.fs.0.func.2.nc = nc2
+gp.fs.0.func.3 = arus.example.M2
+gp.fs.0.func.3.nc = nc1
+gp.fs.0.func.4 = arus.example.M3
+gp.fs.0.func.4.nc = nc2
+gp.fs.0.func.5 = arus.example.M3
+gp.fs.0.func.5.nc = nc1
+gp.fs.0.func.6 = arus.example.M4
+gp.fs.0.func.6.nc = nc2
+gp.fs.0.func.7 = arus.example.M4
+gp.fs.0.func.7.nc = nc1
+
+gp.fs.0.func.8 = arus.example.J1T1
+gp.fs.0.func.8.nc = nc0
+gp.fs.0.func.9 = arus.example.J1T2
+gp.fs.0.func.9.nc = nc0
+gp.fs.0.func.10 = arus.example.J1T3
+gp.fs.0.func.10.nc = nc0
+gp.fs.0.func.11 = arus.example.J2T1
+gp.fs.0.func.11.nc = nc0
+gp.fs.0.func.12 = arus.example.J2T2
+gp.fs.0.func.12.nc = nc0
+gp.fs.0.func.13 = arus.example.J2T3
+gp.fs.0.func.13.nc = nc0
+gp.fs.0.func.14 = arus.example.J2T4
+gp.fs.0.func.14.nc = nc0
+gp.fs.0.func.15 = arus.example.J3T1
+gp.fs.0.func.15.nc = nc0
+gp.fs.0.func.16 = arus.example.J3T2
+gp.fs.0.func.16.nc = nc0
+gp.fs.0.func.17 = arus.example.J3T3
+gp.fs.0.func.17.nc = nc0

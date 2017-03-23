@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package JobsScheduling;
+package arus;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -34,7 +34,7 @@ public class METADATA {
         return true;
     }
     
-    static public void print(){
+    static private void print(){
         System.out.println("Jobs: " + JOBS_COUNT + " MACHINES: " + MACHINES_COUNT + " MAKESPAN: " + MAKESPAN_ORIGINAL);
         
         if(times != null){
