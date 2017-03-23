@@ -32,5 +32,10 @@ public class J1T1 extends BaseTask{
     public int getProcessingTime() {
         return 10;
     }
+
+    @Override
+    public int getUniqueId() {
+        return 0;
+    }
     
 }

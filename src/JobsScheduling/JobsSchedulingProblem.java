@@ -14,7 +14,9 @@ import ec.util.Parameter;
 import arus.base.BaseData;
 import arus.base.LowerBetterFitness;
 import ec.gp.GPIndividual;
+import ec.gp.GPNode;
 import ec.gp.GPTree;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -43,12 +45,31 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         final int subpopulation,
         final int threadnum)
         {
-            //ind.evaluated = true;
+            
         if (!ind.evaluated)  // don't bother reevaluating
             {
-            //DoubleData data = (DoubleData)(this.input);
-            GPIndividual GPInd = (GPIndividual) ind;
-            GPTree tree = GPInd.trees[0];
+            float fitness = 0;
+            boolean isIdeal = false;
+            
+            BaseData data = (BaseData)(this.input);
+
+            GPIndividual GPInd = (GPIndividual)ind;
+            GPNode root = GPInd.trees[0].child;
+            
+            root.eval(state, threadnum, input, stack, GPInd, this);
+            
+            //System.out.printf(Arrays.toString(data.TaskCount));
+            
+            for(int i = 0; i < data.TaskCount.length; i++){
+                if(data.TaskCount[i] == 1) fitness += 1;
+                /*
+                if(data.TaskCount[i] > 1){
+                   fitness += data.TaskCount[i] - 1;
+                }else if(data.TaskCount[i] == 0){
+                    fitness += 1;
+                }
+                */
+            }
             
             
             //int hits = 0;
@@ -72,12 +93,13 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //KozaFitness f = ((KozaFitness)ind.fitness);
             //f.setStandardizedFitness(state, sum);
             //f.hits = hits;
-
             
-            LowerBetterFitness fitness;
-            fitness = (LowerBetterFitness) ind.fitness;
+            if(fitness == 0.f) isIdeal = true;
             
-            fitness.setFitness(state, rand.nextDouble(), false);
+            LowerBetterFitness fitnessObject;
+            fitnessObject = (LowerBetterFitness) ind.fitness;
+            
+            fitnessObject.setFitness(state, fitness, isIdeal);
 
             ind.evaluated = true;
             }

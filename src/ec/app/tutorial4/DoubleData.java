@@ -14,7 +14,9 @@ public class DoubleData extends GPData
 
     @Override
     public void copyTo(final GPData gpd)   // copy my stuff to another DoubleData
-        { ((DoubleData)gpd).x = x; }
+        { 
+            ((DoubleData)gpd).x = x; 
+        }
     }
 
 

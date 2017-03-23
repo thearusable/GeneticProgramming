@@ -33,4 +33,9 @@ public class J2T2 extends BaseTask{
         return 3;
     }
     
+    @Override
+    public int getUniqueId() {
+        return 4;
+    }
+    
 }

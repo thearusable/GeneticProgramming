@@ -33,4 +33,9 @@ public class J3T3 extends BaseTask{
         return 3;
     }
     
+    @Override
+    public int getUniqueId() {
+        return 9;
+    }
+    
 }

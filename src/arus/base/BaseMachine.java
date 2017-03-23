@@ -33,7 +33,9 @@ public abstract class BaseMachine extends GPNode {
             , GPIndividual individual
             , Problem problem) 
     {
-        
+        for(int i = 0; i < children.length; i++){
+            children[i].eval(state, thread, input, stack, individual, problem);
+        }
     }
     
     

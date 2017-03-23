@@ -6,6 +6,7 @@
 package arus.base;
 
 import ec.gp.GPData;
+import java.util.Arrays;
 
 /**
  *
@@ -13,11 +14,18 @@ import ec.gp.GPData;
  */
 public class BaseData extends GPData {
 
-    
+    public int[] TaskCount = new int[10];
     
     @Override
+    public Object clone() {
+        BaseData bd = new BaseData();
+        bd.TaskCount = TaskCount.clone();
+        return bd;
+    }
+
+    @Override
     public void copyTo(GPData gpd) {
-        super.copyTo(gpd); //To change body of generated methods, choose Tools | Templates.
+        ((BaseData)gpd).TaskCount = TaskCount.clone();
     }
     
 }

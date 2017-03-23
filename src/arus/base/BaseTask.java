@@ -22,6 +22,7 @@ public abstract class BaseTask extends GPNode {
     public abstract int getWhichInJob();
     public abstract int getMachineId();
     public abstract int getProcessingTime();
+    public abstract int getUniqueId();
 
     @Override
     public String toString() {
@@ -36,7 +37,13 @@ public abstract class BaseTask extends GPNode {
             , GPIndividual individual
             , Problem problem) 
     {
-
+        BaseData data = (BaseData) input;
+        
+        for(int i = 0; i < children.length; i++){
+            children[i].eval(state, thread, input, stack, individual, problem);
+        }
+                
+        data.TaskCount[getUniqueId()] += 1;
     }
     
     
