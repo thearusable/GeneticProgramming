@@ -11,7 +11,7 @@ import ec.gp.GPProblem;
 import ec.simple.SimpleProblemForm;
 import static ec.gp.GPProblem.P_DATA;
 import ec.util.Parameter;
-import arus.base.BaseData;
+import arus.base.TreeData;
 import arus.base.LowerBetterFitness;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
@@ -34,8 +34,8 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         super.setup(state, base);
         
         // verify our input is the right class (or subclasses from it)
-        if (!(input instanceof BaseData))
-            state.output.fatal("GPData class must subclass from " + BaseData.class,
+        if (!(input instanceof TreeData))
+            state.output.fatal("GPData class must subclass from " + TreeData.class,
                 base.push(P_DATA), null);
         }
         
@@ -48,10 +48,10 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
         if (!ind.evaluated)  // don't bother reevaluating
             {
-            float fitness = 0;
+            double fitness = Math.random();
             boolean isIdeal = false;
             
-            BaseData data = (BaseData)(this.input);
+            TreeData data = (TreeData)(this.input);
 
             GPIndividual GPInd = (GPIndividual)ind;
             GPNode root = GPInd.trees[0].child;

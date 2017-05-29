@@ -17,7 +17,7 @@ import ec.gp.GPNode;
  * @author arus2
  */
 public abstract class BaseTask extends GPNode {
-
+    
     public abstract int getJobId();
     public abstract int getWhichInJob();
     public abstract int getMachineId();
@@ -37,7 +37,7 @@ public abstract class BaseTask extends GPNode {
             , GPIndividual individual
             , Problem problem) 
     {
-        BaseData data = (BaseData) input;
+        TreeData data = (TreeData) input;
         
         for(int i = 0; i < children.length; i++){
             children[i].eval(state, thread, input, stack, individual, problem);

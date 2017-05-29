@@ -12,20 +12,20 @@ import java.util.Arrays;
  *
  * @author arus2
  */
-public class BaseData extends GPData {
+public class TreeData extends GPData {
 
     public int[] TaskCount = new int[10];
     
     @Override
     public Object clone() {
-        BaseData bd = new BaseData();
+        TreeData bd = new TreeData();
         bd.TaskCount = TaskCount.clone();
         return bd;
     }
 
     @Override
     public void copyTo(GPData gpd) {
-        ((BaseData)gpd).TaskCount = TaskCount.clone();
+        ((TreeData)gpd).TaskCount = TaskCount.clone();
     }
     
 }

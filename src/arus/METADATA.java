@@ -5,6 +5,7 @@
  */
 package arus;
 
+import arus.base.Task;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -23,9 +24,14 @@ public class METADATA {
     public static int MACHINES_COUNT;
     public static int MAKESPAN_ORIGINAL;
     
+    public static Task [] tasks;
+    
     static public boolean load(String dataFile, String resultsFile, boolean debug) throws IOException{
         LoadDataFile(dataFile);
         LoadSequenceFile(resultsFile);
+        
+        //build tasks array
+        
         
         if(debug == true){
             print();
@@ -108,6 +114,7 @@ public class METADATA {
                     MACHINES_COUNT = readedData[1];
                     times = new int[JOBS_COUNT][MACHINES_COUNT];
                     machines = new int[JOBS_COUNT][MACHINES_COUNT];
+                    tasks = new Task[JOBS_COUNT * MACHINES_COUNT];
                 }
                 //times
                 if(stage == 2){

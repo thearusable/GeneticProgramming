@@ -16,7 +16,7 @@ public class LowerBetterFitness extends SimpleFitness {
 
     @Override
     public boolean betterThan(Fitness _fitness) {
-        return ((SimpleFitness)_fitness).fitness() > fitness();
+        return ((LowerBetterFitness)_fitness).fitness() > fitness();
     }
     
 }
