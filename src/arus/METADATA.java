@@ -30,14 +30,24 @@ public class METADATA {
         LoadDataFile(dataFile);
         LoadSequenceFile(resultsFile);
         
-        //build tasks array
-        
+        buildTasksList();        
         
         if(debug == true){
             print();
         }
         
         return true;
+    }
+    
+    static public void buildTasksList(){
+        int tasksCounter = 0;
+        System.out.println("times.length: " + times.length + " times[0].length: " + times[0].length );
+        for(int x = 0; x < times.length; ++x){ //JobID
+            for(int y =0; y < times[0].length; ++y){ //taskInJob
+                tasks[tasksCounter] = new Task(y, x, times[x][y], machines[x][y]);
+                tasksCounter += 1;
+            }
+        }
     }
     
     static private void print(){
@@ -61,6 +71,12 @@ public class METADATA {
                 }   
                 System.out.println();
             }
+        }
+        
+        System.out.println("TASKS:");
+        
+        for(int i = 0; i < tasks.length; ++i){
+            System.out.println(tasks[i].toString());
         }
     }
     

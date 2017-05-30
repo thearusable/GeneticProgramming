@@ -10,6 +10,19 @@ package arus.base;
  * @author arsc
  */
 public class Task {
+
+    @Override
+    public String toString() {
+        return "Task{" + "whichTaskInJob=" + whichTaskInJob + ", jobID=" + jobID + ", duration=" + duration + ", requiredMachineID=" + requiredMachineID + '}';
+    }
+
+    public Task(int whichTaskInJob, int jobID, int duration, int requiredMachineID) {
+        this.whichTaskInJob = whichTaskInJob;
+        this.jobID = jobID;
+        this.duration = duration;
+        this.requiredMachineID = requiredMachineID;
+    }
+    
     public int whichTaskInJob;
     public int jobID;
     public int duration;
