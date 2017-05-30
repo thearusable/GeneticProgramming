@@ -5,7 +5,7 @@
  */
 package arus.base;
 
-import arus.base.Task;
+import arus.METADATA;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -17,7 +17,7 @@ import ec.gp.GPNode;
  *
  * @author arsc
  */
-public class TaskNode extends GPNode {
+public abstract class TaskNode extends GPNode {
 
     public TaskNode(Task task) {
         this.task = task;
@@ -25,24 +25,29 @@ public class TaskNode extends GPNode {
     }
     
     public TaskNode(){
-        //TODO - randomize task when created 
-        task = new Task();
+        task =  METADATA.getTask( getWhichOne() );
         startingTime = 0;
     }
     //
+    public abstract int getWhichOne();
+    
     public Task task;
     public int startingTime;
 
-    @Override
-    public String toString() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
-    public void eval(EvolutionState state, int thread, GPData input, ADFStack stack, GPIndividual individual, Problem problem) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String toString() {
+        return "[J" + task.jobID + "T" + task.whichTaskInJob + "]";
     }
     
-    
+    @Override
+    public void eval(EvolutionState state, int thread, GPData input, ADFStack stack, GPIndividual individual, Problem problem){
+        
+        TreeData data = ((TreeData)input); 
+        
+        //Add occurs
+        data.howManyTimesOccurs[getWhichOne()] += 1;
+        
+    }
     
 }

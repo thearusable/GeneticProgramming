@@ -15,17 +15,12 @@ import arus.base.TreeData;
 import arus.base.LowerBetterFitness;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
-import ec.gp.GPTree;
-import java.util.Arrays;
-import java.util.Random;
 
 /**
  *
  * @author arus2
  */
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
-    
-    Random rand = new Random();
     
     @Override
     public void setup(final EvolutionState state,
@@ -48,7 +43,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
         if (!ind.evaluated)  // don't bother reevaluating
             {
-            double fitness = Math.random();
+            double fitness = 0.0;
             boolean isIdeal = false;
             
             TreeData data = (TreeData)(this.input);
@@ -56,12 +51,28 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             GPIndividual GPInd = (GPIndividual)ind;
             GPNode root = GPInd.trees[0].child;
             
-            root.eval(state, threadnum, input, stack, GPInd, this);
+            root.eval(state, threadnum, data, stack, GPInd, this);
             
-            //System.out.printf(Arrays.toString(data.TaskCount));
+            //penality for number of each task
+            for(int i = 0; i < data.howManyTimesOccurs.length; ++i){
+                if(data.howManyTimesOccurs[i] > 1){
+                    fitness += data.howManyTimesOccurs[i] - 1;
+                }else if(data.howManyTimesOccurs[i] < 1){
+                    fitness += 1.0;
+                }
+            }
             
-            for(int i = 0; i < data.TaskCount.length; i++){
-                if(data.TaskCount[i] == 1) fitness += 1;
+            //penality for tasks on wrong machines
+            fitness += data.numberOfTasksOnWrongMachine;
+            
+            //penality for too many tasks on machine
+            fitness += data.toManyChilds;
+            
+            System.out.println(data.toString());
+            
+            
+            //for(int i = 0; i < data.TaskCount.length; i++){
+            //    if(data.TaskCount[i] == 1) fitness += 1;
                 /*
                 if(data.TaskCount[i] > 1){
                    fitness += data.TaskCount[i] - 1;
@@ -69,7 +80,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                     fitness += 1;
                 }
                 */
-            }
+            //}
             
             
             //int hits = 0;
@@ -102,6 +113,8 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             fitnessObject.setFitness(state, fitness, isIdeal);
 
             ind.evaluated = true;
+            //reset data 
+            data.reset();
             }
         }
     }

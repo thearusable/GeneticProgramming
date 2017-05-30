@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 /**
@@ -23,8 +24,9 @@ public class METADATA {
     public static int JOBS_COUNT;
     public static int MACHINES_COUNT;
     public static int MAKESPAN_ORIGINAL;
+    public static int TASKS_COUNT;
     
-    public static Task [] tasks;
+    private static Task [] tasks;
     
     static public boolean load(String dataFile, String resultsFile, boolean debug) throws IOException{
         LoadDataFile(dataFile);
@@ -47,6 +49,20 @@ public class METADATA {
                 tasks[tasksCounter] = new Task(y, x, times[x][y], machines[x][y]);
                 tasksCounter += 1;
             }
+        }
+    }
+    
+    static public Task getRandomTask(){
+        Random rand = new Random();
+        return tasks[ rand.nextInt(tasks.length + 1) ];
+    }
+    
+    static public Task getTask(int whichOne){
+        if(whichOne > tasks.length){
+            System.out.println("That tasks doeas not exist");
+            throw new ArrayIndexOutOfBoundsException();
+        }else{
+            return tasks[whichOne];
         }
     }
     
@@ -130,7 +146,6 @@ public class METADATA {
                     MACHINES_COUNT = readedData[1];
                     times = new int[JOBS_COUNT][MACHINES_COUNT];
                     machines = new int[JOBS_COUNT][MACHINES_COUNT];
-                    tasks = new Task[JOBS_COUNT * MACHINES_COUNT];
                 }
                 //times
                 if(stage == 2){
@@ -150,6 +165,8 @@ public class METADATA {
                     currentReadedJob++;
                 }
             }
+            tasks = new Task[JOBS_COUNT * times[0].length];
+            TASKS_COUNT = JOBS_COUNT * times[0].length;
             returnValue = true;
         }
         return returnValue;
