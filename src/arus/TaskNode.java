@@ -38,7 +38,7 @@ public abstract class TaskNode extends GPNode {
 
     @Override
     public String toString() {
-        return "[J" + task.jobID + "T" + task.whichTaskInJob + "M" + task.requiredMachineID + "]";
+        return "j" + task.jobID + "t" + task.whichTaskInJob + "m" + task.requiredMachineID;
     }
     
     @Override

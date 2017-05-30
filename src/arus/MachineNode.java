@@ -37,17 +37,25 @@ public abstract class MachineNode extends GPNode {
         TreeData data = ((TreeData)input); 
         
         int x = 0;
+        boolean haveTask = false;
         for(int i = 0; i < children.length; ++i){
             //eval childrens
             children[i].eval(state, thread, input, stack, individual, problem);
             
             //check if task is on good machine
             if(children[i].getClass().getPackage().getName().endsWith("tasks")){
+                haveTask = true;
                 TaskNode tn = ((TaskNode)children[i]);
                 if(getID() != tn.task.requiredMachineID){
                     data.numberOfTasksOnWrongMachine += 1;
                 }
             }
+        }
+        
+        //check if machine have task child
+        if(!haveTask && children.length == 1){
+            System.out.print("asdasdas");
+            data.machinesWithoutChilds += 1;
         }
         
         //check if machine have only one child task

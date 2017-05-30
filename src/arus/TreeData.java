@@ -16,17 +16,20 @@ public class TreeData extends GPData {
 
     @Override
     public String toString() {
-        return "TreeData{" + "howManyTimesOccurs=" + Arrays.toString(howManyTimesOccurs) + ", " + numberOfTasksOnWrongMachine + ", " + toManyChilds + '}';
+        return "TreeData{" + "howManyTimesOccurs=" + Arrays.toString(howManyTimesOccurs) 
+                + ", " + numberOfTasksOnWrongMachine + ", " + toManyChilds + ", " + machinesWithoutChilds + '}';
     }
 
     public int[] howManyTimesOccurs;
     public int numberOfTasksOnWrongMachine;
     public int toManyChilds;
+    public int machinesWithoutChilds;
     
     public TreeData() {
         howManyTimesOccurs = new int[METADATA.TASKS_COUNT];
         numberOfTasksOnWrongMachine = 0;
         toManyChilds = 0;
+        machinesWithoutChilds = 0;
     }
     
     public void reset(){
@@ -35,6 +38,7 @@ public class TreeData extends GPData {
         }
         numberOfTasksOnWrongMachine = 0;
         toManyChilds = 0;
+        machinesWithoutChilds = 0;
     }
     
     @Override

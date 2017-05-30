@@ -68,7 +68,10 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //penality for too many tasks on machine
             fitness += data.toManyChilds;
             
-            System.out.println(data.toString());
+            //penality for machines without task
+            fitness += data.machinesWithoutChilds;
+            
+            //System.out.println(data.toString());
             
             
             //for(int i = 0; i < data.TaskCount.length; i++){

@@ -26,12 +26,15 @@ public class MainClass {
             METADATA.load("test.txt", true); 
             
             //set problem params
-            String[] Params = {"-file", "src\\arus\\problems\\test.params"}; 
+            // gp.tree.print-style=c
+            // gp.tree.print-style=dot
+            // gp.tree.print-style=latex
+            String[] Params = {"-file", "src\\arus\\problems\\test.params", "-p", "gp.tree.print-style=dot"}; 
             
             //run gp
             Evolve.main(Params);
             
-        }catch(Exception e){
+        }catch(IOException e){
             System.out.println(e.getMessage());
         }        
     }
