@@ -5,7 +5,7 @@
  */
 package arus.machines;
 
-import arus.base.MachineNode;
+import arus.MachineNode;
 
 /**
  *

@@ -19,11 +19,16 @@ public class MainClass {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {       
-        // TODO code application logic here
+
         boolean isLoaded = METADATA.load("test.txt", "test_seq.txt", true);        
         
-        String[] Params = {"-file", "src\\arus\\example\\example.params"}; 
-        //String[] Params = {"-file", "src\\ec\\app\\twobox\\noadf.params"};
+        if(isLoaded == false){
+            System.out.println("File cannot be readed.");
+            return;
+        }
+        
+        String[] Params = {"-file", "src\\arus\\problems\\test.params"}; 
+        
         Evolve.main(Params);
         
     }

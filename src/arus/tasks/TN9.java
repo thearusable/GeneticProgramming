@@ -5,7 +5,7 @@
  */
 package arus.tasks;
 
-import arus.base.TaskNode;
+import arus.TaskNode;
 
 /**
  *
