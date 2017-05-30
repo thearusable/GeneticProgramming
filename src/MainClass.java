@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus;
+
 
 //import JobsScheduling.METADATA;
 import ec.Evolve;
 import java.io.IOException;
+import arus.METADATA;
 
 /**
  *
@@ -20,16 +21,18 @@ public class MainClass {
      */
     public static void main(String[] args) throws IOException {       
 
-        boolean isLoaded = METADATA.load("test.txt", "test_seq.txt", true);        
-        
-        if(isLoaded == false){
-            System.out.println("File cannot be readed.");
-            return;
-        }
-        
-        String[] Params = {"-file", "src\\arus\\problems\\test.params"}; 
-        
-        Evolve.main(Params);
-        
+        try{
+            //load tasks data
+            METADATA.load("test.txt", true); 
+            
+            //set problem params
+            String[] Params = {"-file", "src\\arus\\problems\\test.params"}; 
+            
+            //run gp
+            Evolve.main(Params);
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }        
     }
 }

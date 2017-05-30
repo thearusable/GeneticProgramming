@@ -17,30 +17,65 @@ import java.util.StringTokenizer;
  * @author arus2
  */
 public class METADATA {
-    public static int[][] times;
-    public static int[][] machines;
-    
+  
     public static int JOBS_COUNT;
     public static int MACHINES_COUNT;
-    public static int MAKESPAN_ORIGINAL;
+    public static int TASKS_PER_JOB;
     public static int TASKS_COUNT;
     
     private static Task [] tasks;
     
-    static public boolean load(String dataFile, String resultsFile, boolean debug) throws IOException{
-        LoadDataFile(dataFile);
-        LoadSequenceFile(resultsFile);
+    
+    static public void load(String dataFile, boolean debug) throws IOException {
+        int[][] times = new int[0][0];
+        int[][] machines = new int[0][0];
         
-        buildTasksList();        
-        
-        if(debug == true){
-            print();
+        BufferedReader reader = new BufferedReader(new FileReader(dataFile)); 
+        String line;
+        int[] readedData;
+        int stage = 1;
+        int currentReadedJob = 0;
+            
+        while((line = reader.readLine()) != null){
+            //ignore comments
+            if(isComment(line) || line.length() == 0) continue;
+            //metadata
+            if(stage == 1){
+                if(line.contains("Times")){
+                    stage = 2;
+                    continue;
+                }
+                readedData = split(line);
+                JOBS_COUNT = readedData[0];
+                MACHINES_COUNT = readedData[1];
+                times = new int[JOBS_COUNT][MACHINES_COUNT];
+                machines = new int[JOBS_COUNT][MACHINES_COUNT];
+            }
+            //times
+            if(stage == 2){
+                if(line.contains("Machines")){
+                    currentReadedJob = 0;
+                    stage = 3;
+                    continue;
+                }
+                readedData = split(line);
+                times[currentReadedJob] = readedData;
+                currentReadedJob++;
+            }
+            //machines
+            if(stage == 3){
+                readedData = split(line);
+                machines[currentReadedJob] = readedData;
+                currentReadedJob++;
+            }
         }
         
-        return true;
-    }
-    
-    static public void buildTasksList(){
+        tasks = new Task[JOBS_COUNT * times[0].length];
+        
+        TASKS_COUNT = JOBS_COUNT * times[0].length;
+        TASKS_PER_JOB = times[0].length;
+        
+        //build tasks list
         int tasksCounter = 0;
         System.out.println("times.length: " + times.length + " times[0].length: " + times[0].length );
         for(int x = 0; x < times.length; ++x){ //JobID
@@ -66,35 +101,12 @@ public class METADATA {
     }
     
     static private void print(){
-        System.out.println("Jobs: " + JOBS_COUNT + " MACHINES: " + MACHINES_COUNT + " MAKESPAN: " + MAKESPAN_ORIGINAL);
-        
-        if(times != null){
-            System.out.println("Times:");
-            for(int i =0; i<times.length; i++){
-                for(int j = 0; j < times[i].length; j++){
-                    System.out.print(times[i][j] + " ");
-                }
-                System.out.println();
-            }
-        }
-        
-        if(machines != null){
-            System.out.println("Machines:");
-            for(int i =0; i<machines.length; i++){
-                for(int j = 0; j < machines[i].length; j++){
-                    System.out.print(machines[i][j] + " ");
-                }   
-                System.out.println();
-            }
-        }
-        
         System.out.println("TASKS:");
         
         for(int i = 0; i < tasks.length; ++i){
             System.out.println(tasks[i].toString());
         }
     }
-    
     
     /////////////////////////////////////////////
     
@@ -120,72 +132,5 @@ public class METADATA {
         }
         
         return intData;
-    }
-    
-    private static boolean LoadDataFile(String DataFileName) throws FileNotFoundException, IOException{
-        boolean returnValue = false;
-        try ( // DataFile
-            BufferedReader reader = new BufferedReader(new FileReader(DataFileName))) {
-            String line;
-            int[] readedData;
-            int stage = 1;
-            int currentReadedJob = 0;
-            
-            while((line = reader.readLine()) != null){
-                //ignore comments
-                if(isComment(line) || line.length() == 0) continue;
-                //metadata
-                if(stage == 1){
-                    if(line.contains("Times")){
-                        stage = 2;
-                        continue;
-                    }
-                    readedData = split(line);
-                    JOBS_COUNT = readedData[0];
-                    MACHINES_COUNT = readedData[1];
-                    times = new int[JOBS_COUNT][MACHINES_COUNT];
-                    machines = new int[JOBS_COUNT][MACHINES_COUNT];
-                }
-                //times
-                if(stage == 2){
-                    if(line.contains("Machines")){
-                        currentReadedJob = 0;
-                        stage = 3;
-                        continue;
-                    }
-                    readedData = split(line);
-                    times[currentReadedJob] = readedData;
-                    currentReadedJob++;
-                }
-                //machines
-                if(stage == 3){
-                    readedData = split(line);
-                    machines[currentReadedJob] = readedData;
-                    currentReadedJob++;
-                }
-            }
-            tasks = new Task[JOBS_COUNT * times[0].length];
-            TASKS_COUNT = JOBS_COUNT * times[0].length;
-            returnValue = true;
-        }
-        return returnValue;
-    }
-    
-    private static boolean LoadSequenceFile(String SequenceFileNamme) throws FileNotFoundException, IOException{
-        try (BufferedReader reader = new BufferedReader(new FileReader(SequenceFileNamme))) {
-            String line;
-            int[] readedData;
-            
-            while((line = reader.readLine()) != null){
-                //ignore comments
-                if(isComment(line) || line.length() == 0) continue;
-
-                readedData = split(line);
-                MAKESPAN_ORIGINAL = readedData[2];    
-
-                return true;
-            }
-        }
-        return true;
     }
 }
