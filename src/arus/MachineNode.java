@@ -41,21 +41,21 @@ public abstract class MachineNode extends GPNode {
             //eval childrens
             children[i].eval(state, thread, input, stack, individual, problem);
             
-            //check if machine is good
+            //check if task is on good machine
             if(children[i].getClass().getPackage().getName().endsWith("tasks")){
                 TaskNode tn = ((TaskNode)children[i]);
                 if(getID() != tn.task.requiredMachineID){
                     data.numberOfTasksOnWrongMachine += 1;
-                    x += 1;
                 }
             }
         }
         
-        //if machine have to many tasks
-        if(x > 1){
-            data.toManyChilds += x - 1;
+        //check if machine have only one child task
+        if(children.length > 1){
+            if(children[0].getClass().getPackage().getName().endsWith("tasks") && children[1].getClass().getPackage().getName().endsWith("tasks")){
+                data.toManyChilds += 1;
+            }   
         }
-        
     }
     
 }

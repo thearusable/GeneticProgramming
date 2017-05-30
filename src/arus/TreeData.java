@@ -5,7 +5,6 @@
  */
 package arus;
 
-import arus.METADATA;
 import ec.gp.GPData;
 import java.util.Arrays;
 
