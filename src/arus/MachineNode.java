@@ -33,7 +33,7 @@ public abstract class MachineNode extends GPNode {
     
     @Override
     public void eval(EvolutionState state, int thread, GPData input, ADFStack stack, GPIndividual individual, Problem problem) {
-        //TODO
+        //Calculating everything from the bottom to the top
         TreeData data = ((TreeData)input); 
         
         int x = 0;
@@ -54,7 +54,6 @@ public abstract class MachineNode extends GPNode {
         
         //check if machine have task child
         if(!haveTask && children.length == 1){
-            System.out.print("asdasdas");
             data.machinesWithoutChilds += 1;
         }
         

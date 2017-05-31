@@ -11,8 +11,6 @@ import ec.gp.GPProblem;
 import ec.simple.SimpleProblemForm;
 import static ec.gp.GPProblem.P_DATA;
 import ec.util.Parameter;
-import arus.TreeData;
-import arus.LowerBetterFitness;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 
@@ -71,42 +69,10 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //penality for machines without task
             fitness += data.machinesWithoutChilds;
             
-            //System.out.println(data.toString());
+            System.out.println(data.toString());
             
             
-            //for(int i = 0; i < data.TaskCount.length; i++){
-            //    if(data.TaskCount[i] == 1) fitness += 1;
-                /*
-                if(data.TaskCount[i] > 1){
-                   fitness += data.TaskCount[i] - 1;
-                }else if(data.TaskCount[i] == 0){
-                    fitness += 1;
-                }
-                */
-            //}
-            
-            
-            //int hits = 0;
-            //double sum = 0.0;
-            //double expectedResult;
-            //double result;
-            //for (int y=0;y<10;y++)
-                //{
-                //currentX = state.random[threadnum].nextDouble();
-                //currentY = state.random[threadnum].nextDouble();
-                //expectedResult = currentX*currentX*currentX*currentY* currentY + currentX*currentY + currentY - currentX;
-                //((GPIndividual)ind).trees[0].child.eval(
-                //    state,threadnum,input,stack,((GPIndividual)ind),this);
 
-                //result = Math.abs(expectedResult - input.x);
-                //if (result <= 0.01) hits++;
-                //sum += result;                  
-                //}
-
-            // the fitness better be KozaFitness!
-            //KozaFitness f = ((KozaFitness)ind.fitness);
-            //f.setStandardizedFitness(state, sum);
-            //f.hits = hits;
             
             if(fitness == 0.f) isIdeal = true;
             
