@@ -13,6 +13,11 @@ import static ec.gp.GPProblem.P_DATA;
 import ec.util.Parameter;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import ec.simple.SimpleShortStatistics;
+import ec.simple.SimpleStatistics;
+import ec.util.Output;
+import graphviz.GraphViz;
+import java.io.File;
 
 /**
  *
@@ -46,6 +51,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             TreeData data = (TreeData)(this.input);
 
+            
             GPIndividual GPInd = (GPIndividual)ind;
             GPNode root = GPInd.trees[0].child;
             
@@ -60,6 +66,8 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 }
             }
             
+            
+            
             //penality for tasks on wrong machines
             fitness += data.numberOfTasksOnWrongMachine;
             
@@ -69,10 +77,22 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //penality for machines without task
             fitness += data.machinesWithoutChilds;
             
+            
+            
             System.out.println(data.toString());
             
-            
-
+            //WYSWIETLANIE GRAFU
+            //SimpleStatistics sss = (SimpleStatistics)state.statistics;
+            //GPIndividual BestSoFarInd = (GPIndividual)sss.best_of_run[ sss.best_of_run.length - 1 ];
+            //GPNode RootOfBestInd = BestSoFarInd.trees[0].child;
+            //if(RootOfBestInd != null){
+            //    System.out.println("sd");
+                //System.out.println(RootOfBestInd.makeGraphvizTree());
+            //}
+            //get tree in dot
+            //bestSoFar in SimpleShortStatistics
+            //System.out.println(root.makeGraphvizTree());
+            //System.out.println(RootOfBestInd.makeGraphvizTree());
             
             if(fitness == 0.f) isIdeal = true;
             
@@ -86,4 +106,20 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             data.reset();
             }
         }
+    
+    
+    public static void createDotGraph(String dotFormat,String fileName){
+        GraphViz gv=new GraphViz();
+        gv.addln(gv.start_graph());
+        gv.add(dotFormat);
+        gv.addln(gv.end_graph());
+        // String type = "gif";
+        String type = "pdf";
+        // gv.increaseDpi();
+        gv.decreaseDpi();
+        gv.decreaseDpi();
+        File out = new File(fileName+"."+ type); 
+        gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );
     }
+    
+}

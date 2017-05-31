@@ -29,7 +29,7 @@ public class MainClass {
             // gp.tree.print-style=c
             // gp.tree.print-style=dot
             // gp.tree.print-style=latex
-            String[] Params = {"-file", "src\\arus\\problems\\test.params", "-p", "gp.tree.print-style=dot"}; 
+            String[] Params = {"-file", "src\\arus\\problems\\test.params", "-p", ""}; 
             
             //run gp
             Evolve.main(Params);

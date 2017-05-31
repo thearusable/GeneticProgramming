@@ -1,10 +1,10 @@
 #Nb of jobs, Nb of Machines, Time seed, Machine seed, Upper bound, Lower bound
-        3        2  874340513  509669280      1367      1243
+        3        3  874340513  509669280      1367      1243
 Times
  91 17 4
  77 77 9
  92 3 12
 Machines
- 1 2 1
- 1 2 1
+ 0 2 1
+ 1 2 0
  1 2 2

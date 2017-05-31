@@ -13,6 +13,7 @@ import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import static java.lang.Math.max;
 
 /**
  *
@@ -38,9 +39,9 @@ public abstract class TaskNode extends GPNode {
 
     @Override
     public String toString() {
-        return "j" + task.jobID + "t" + task.whichTaskInJob + "m" + task.requiredMachineID;
+        return "j" + task.jobID + "t" + task.whichTaskInJob + "D" + task.duration;
     }
-    
+        
     @Override
     public void eval(EvolutionState state, int thread, GPData input, ADFStack stack, GPIndividual individual, Problem problem){
         
@@ -48,6 +49,17 @@ public abstract class TaskNode extends GPNode {
         
         //Add occurs
         data.howManyTimesOccurs[getWhichOne()] += 1;
+        
+        //read startTime
+        int startTimePerJob = data.StartupTimesPerJob[task.jobID];
+        int startTimePerMachine = data.StartupTimesPerMachine[task.requiredMachineID];
+        int startTime = max(startTimePerJob, startTimePerMachine);
+        //assing values in times array
+        data.times[task.jobID][task.whichTaskInJob].startTime = startTime;
+        data.times[task.jobID][task.whichTaskInJob].endTime = startTime + task.duration;
+        //update new times
+        data.StartupTimesPerJob[task.jobID] = startTime + task.duration;
+        data.StartupTimesPerMachine[task.requiredMachineID] = startTime + task.duration;
         
     }
     
