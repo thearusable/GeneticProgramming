@@ -23,7 +23,7 @@
  ******************************************************************************
  */
 
-package graph;
+package window;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

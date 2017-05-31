@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus.tasks;
+package machines;
 
-import arus.TaskNode;
+import arus.MachineNode;
 
 /**
  *
  * @author arsc
  */
-public class TN9 extends TaskNode {
+public class M2 extends MachineNode {
 
     @Override
-    public int getWhichOne() {
-        return 9;
+    public int getID(){
+        return 2;
     }
-    
+
 }

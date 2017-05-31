@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus.machines;
+package machines;
 
 import arus.MachineNode;
 
@@ -11,11 +11,11 @@ import arus.MachineNode;
  *
  * @author arsc
  */
-public class M1 extends MachineNode {
+public class M0 extends MachineNode {
 
     @Override
     public int getID(){
-        return 1;
+        return 0;
     }
 
 }

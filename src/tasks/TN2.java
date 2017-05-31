@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus.tasks;
+package tasks;
 
 import arus.TaskNode;
 
@@ -11,11 +11,11 @@ import arus.TaskNode;
  *
  * @author arsc
  */
-public class TN8 extends TaskNode {
+public class TN2 extends TaskNode {
 
     @Override
     public int getWhichOne() {
-        return 8;
+        return 2;
     }
     
 }
