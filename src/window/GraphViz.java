@@ -81,24 +81,27 @@ public class GraphViz
     /**
      * Load the config.properties file.
      */
-    private final static String cfgProp = "/Users/seteropere/NetBeansProjects/TestApplication/src/config.properties";
+    private final static String cfgProp = "config.properties";
     private final static Properties configFile = new Properties() {
         private final static long serialVersionUID = 1L; {
             try {
                 load(new FileInputStream(cfgProp));
-            } catch (Exception e) {}
+                System.out.println("config.properties loaded.");
+            } catch (Exception e) {
+                System.out.println("Cannot load cfgProp: " + cfgProp);
+            }
         }
     };
 
     /**
      * The dir. where temporary files will be created.
      */
-  private static String TEMP_DIR = "/Users/seteropere/NetBeansProjects/TestApplication";
+  private static String TEMP_DIR;
 
     /**
      * Where is your dot program located? It will be called externally.
      */
-  private static String DOT = configFile.getProperty("dotFor" + osName);
+  private static String DOT;
 
     /**
      * The image size in dpi. 96 dpi is normal size. Higher values are 10% higher each.
@@ -140,13 +143,25 @@ public class GraphViz
      */
     private StringBuilder graph = new StringBuilder();
 
-    /**
-     * Constructor: creates a new GraphViz object that will contain
-     * a graph.
-     */
-    public GraphViz() {
+    public GraphViz(String tempPath, boolean debug) {
+        //set path to dot program
+        if(osName.contains("Windows")){
+            DOT = configFile.getProperty("dotForWindows");
+            TEMP_DIR = tempPath;
+        }else if(osName.contains("Mac")){
+            DOT = configFile.getProperty("dotForMacOSX");
+            TEMP_DIR = tempPath;
+        }else{
+            DOT = configFile.getProperty("dotForLinux");
+            TEMP_DIR = tempPath;
+        }
+        if(debug){
+            System.out.println("osName: " + osName);
+            System.out.println("temp dir: " + TEMP_DIR);
+            System.out.println("dot: " + DOT);
+            System.out.println("");
+        }
     }
-
     /**
      * Returns the graph's source description in dot language.
      * @return Source of the graph in dot language.
@@ -226,6 +241,10 @@ public class GraphViz
     {
         try {
             FileOutputStream fos = new FileOutputStream(to);
+            if(img == null){
+                System.out.println("Cannot generate image.");
+                return -1;
+            }
             fos.write(img);
             fos.close();
         } catch (java.io.IOException ioe) { return -1; }

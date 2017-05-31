@@ -11,7 +11,7 @@ stat =	arus.MyStatistics
 pop.subpop.0.species.fitness = arus.LowerBetterFitness
 
 stat.file = $src\\problems\\test.stat
-stat.best = $src\\problems\\test.dot
+stat.png = $src\\problems\\test.png
 
 
 gp.fs.0.size = 15

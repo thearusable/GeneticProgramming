@@ -12,6 +12,9 @@ import ec.util.Parameter;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.management.InvalidApplicationException;
 import window.GraphViz;
 
@@ -22,15 +25,15 @@ import window.GraphViz;
 public class MyStatistics extends SimpleStatistics {
     
     /** log best file parameter */
-    public static final String P_BEST_FILE = "best";
+    public static final String P_PNG_FILE = "png";
     
-    public File bestFile;
+    public File bestPNGFile;
     
     @Override
     public void setup(final EvolutionState state, final Parameter base){
         super.setup(state,base);
         
-        bestFile = state.parameters.getFile(base.push(P_BEST_FILE),null);
+        bestPNGFile = state.parameters.getFile(base.push(P_PNG_FILE),null);
     }
     
     @Override
@@ -38,44 +41,25 @@ public class MyStatistics extends SimpleStatistics {
         super.finalStatistics(state,result);
         
         try{
-            //create or override file
-            PrintWriter writer = new PrintWriter(bestFile.getAbsolutePath(), "UTF-8");
-            
             GPIndividual BestSoFarInd = (GPIndividual)best_of_run[0];
-            //write dot tree to file
-            writer.println(BestSoFarInd.trees[0].child.makeGraphvizTree());
-            //close file
-            writer.close();
+            String dotTree = BestSoFarInd.trees[0].child.makeGraphvizTree();
+
+            System.out.println("best: " + bestPNGFile.getAbsolutePath());
             
-            //test dot 
-            GraphViz gv = new GraphViz();
-            gv.addln(gv.start_graph());
-            gv.addln("A -> B;");
-            gv.addln("A -> C;");
-            gv.addln(gv.end_graph());
+            //change to multiplatform path
+            String tempPath = Paths.get("").toAbsolutePath().toString();
+            
+            //init grapviz and pass tree data
+            GraphViz gv = new GraphViz(tempPath, true);
+            gv.add(dotTree);
             System.out.println(gv.getDotSource());
             
-            String type = "gif";
-            File out = new File("out." + type);   // out.gif in this example
-            gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );
+            //create png file
+            gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), "png" ), bestPNGFile );
             
-        } catch (IOException e) {
+        } catch (Exception e) {
             // do something
         }
-    }
-    
-    public static void createDotGraph(String dotFormat,String fileName){
-        GraphViz gv=new GraphViz();
-        gv.addln(gv.start_graph());
-        gv.add(dotFormat);
-        gv.addln(gv.end_graph());
-        // String type = "gif";
-        String type = "pdf";
-        // gv.increaseDpi();
-        gv.decreaseDpi();
-        gv.decreaseDpi();
-        File out = new File(fileName+"."+ type); 
-        gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );
     }
     
 }
