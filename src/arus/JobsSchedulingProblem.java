@@ -16,7 +16,7 @@ import ec.gp.GPNode;
 import ec.simple.SimpleShortStatistics;
 import ec.simple.SimpleStatistics;
 import ec.util.Output;
-import graphviz.GraphViz;
+import graph.GraphViz;
 import java.io.File;
 
 /**
@@ -51,7 +51,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             TreeData data = (TreeData)(this.input);
 
-            
             GPIndividual GPInd = (GPIndividual)ind;
             GPNode root = GPInd.trees[0].child;
             
@@ -66,8 +65,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 }
             }
             
-            
-            
             //penality for tasks on wrong machines
             fitness += data.numberOfTasksOnWrongMachine;
             
@@ -77,13 +74,20 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //penality for machines without task
             fitness += data.machinesWithoutChilds;
             
+            //penality for order of tasks in job
             
             
-            System.out.println(data.toString());
+            //penality for overlapping tasks
+            
+            
+            
+            //System.out.println(data.toString());
+            
+            
             
             //WYSWIETLANIE GRAFU
             //SimpleStatistics sss = (SimpleStatistics)state.statistics;
-            //GPIndividual BestSoFarInd = (GPIndividual)sss.best_of_run[ sss.best_of_run.length - 1 ];
+            //GPIndividual BestSoFarInd = (GPIndividual)sss.best_of_run[0];
             //GPNode RootOfBestInd = BestSoFarInd.trees[0].child;
             //if(RootOfBestInd != null){
             //    System.out.println("sd");
