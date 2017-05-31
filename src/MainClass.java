@@ -9,6 +9,9 @@
 import ec.Evolve;
 import java.io.IOException;
 import arus.METADATA;
+import ec.EvolutionState;
+import ec.util.Parameter;
+import ec.util.ParameterDatabase;
 import java.io.File;
 import graph.GraphViz;
 
@@ -21,8 +24,23 @@ public class MainClass {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {       
 
+    static Parameter param = new Parameter("data");
+
+    public static void main(String[] args) throws IOException {       
+     
+        try{
+            ParameterDatabase pm = new ParameterDatabase();
+        
+            File test = pm.getFile(param,null);
+        
+            System.out.println(test.getAbsolutePath());
+        
+        }catch(Exception e){
+            System.out.println("data param not loaded");
+            return;
+        }
+        
         try{
             //load tasks data
             METADATA.load("test.txt", true); 
