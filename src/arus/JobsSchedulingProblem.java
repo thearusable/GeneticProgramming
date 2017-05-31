@@ -16,7 +16,7 @@ import ec.gp.GPNode;
 import ec.simple.SimpleShortStatistics;
 import ec.simple.SimpleStatistics;
 import ec.util.Output;
-import window.GraphViz;
+import graph.GraphViz;
 import java.io.File;
 
 /**

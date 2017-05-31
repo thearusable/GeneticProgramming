@@ -10,7 +10,7 @@ import ec.Evolve;
 import java.io.IOException;
 import arus.METADATA;
 import java.io.File;
-import window.GraphViz;
+import graph.GraphViz;
 
 /**
  *

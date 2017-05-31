@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus;
+package graph;
 
 import ec.EvolutionState;
 import ec.gp.GPIndividual;
@@ -16,7 +16,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.management.InvalidApplicationException;
-import window.GraphViz;
+import graph.GraphViz;
 
 /**
  *
@@ -43,20 +43,16 @@ public class MyStatistics extends SimpleStatistics {
         try{
             GPIndividual BestSoFarInd = (GPIndividual)best_of_run[0];
             String dotTree = BestSoFarInd.trees[0].child.makeGraphvizTree();
-
-            System.out.println("best: " + bestPNGFile.getAbsolutePath());
             
             //change to multiplatform path
             String tempPath = Paths.get("").toAbsolutePath().toString();
             
             //init grapviz and pass tree data
-            GraphViz gv = new GraphViz(tempPath, true);
+            GraphViz gv = new GraphViz(tempPath, false);
             gv.add(dotTree);
-            System.out.println(gv.getDotSource());
             
             //create png file
             gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), "png" ), bestPNGFile );
-            
         } catch (Exception e) {
             // do something
         }

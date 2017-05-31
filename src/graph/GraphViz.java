@@ -23,7 +23,7 @@
  ******************************************************************************
  */
 
-package window;
+package graph;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -73,34 +73,27 @@ import java.util.Properties;
  */
 public class GraphViz
 {
-    /**
-     * Detects the client's operating system.
-     */
+    //Detects the client's operating system.
     private final static String osName = System.getProperty("os.name").replaceAll("\\s","");
 
-    /**
-     * Load the config.properties file.
-     */
-    private final static String cfgProp = "config.properties";
+    
+    //Load the config.properties file.
+    private final static String cfgProp = "src" + File.separator + "graph" + File.separator +"config.properties";
     private final static Properties configFile = new Properties() {
         private final static long serialVersionUID = 1L; {
             try {
                 load(new FileInputStream(cfgProp));
-                System.out.println("config.properties loaded.");
             } catch (Exception e) {
                 System.out.println("Cannot load cfgProp: " + cfgProp);
             }
         }
     };
 
-    /**
-     * The dir. where temporary files will be created.
-     */
+  //The dir. where temporary files will be created.
   private static String TEMP_DIR;
 
-    /**
-     * Where is your dot program located? It will be called externally.
-     */
+   
+  //Where is your dot program located? It will be called externally.
   private static String DOT;
 
     /**
@@ -110,24 +103,18 @@ public class GraphViz
      * dpi patch by Peter Mueller
      */
     private int[] dpiSizes = {46, 51, 57, 63, 70, 78, 86, 96, 106, 116, 128, 141, 155, 170, 187, 206, 226, 249};
-
-    /**
-     * Define the index in the image size array.
-     */
+    
+    //Define the index in the image size array.
     private int currentDpiPos = 7;
 
-    /**
-     * Increase the image size (dpi).
-     */
+    //Increase the image size (dpi).
     public void increaseDpi() {
         if ( this.currentDpiPos < (this.dpiSizes.length - 1) ) {
             ++this.currentDpiPos;
         }
     }
 
-    /**
-     * Decrease the image size (dpi).
-     */
+    //Decrease the image size (dpi).
     public void decreaseDpi() {
         if (this.currentDpiPos > 0) {
             --this.currentDpiPos;
@@ -138,24 +125,22 @@ public class GraphViz
         return this.dpiSizes[this.currentDpiPos];
     }
 
-    /**
-     * The source of the graph written in dot language.
-     */
+    //The source of the graph written in dot language.
     private StringBuilder graph = new StringBuilder();
 
     public GraphViz(String tempPath, boolean debug) {
         //set path to dot program
         if(osName.contains("Windows")){
             DOT = configFile.getProperty("dotForWindows");
-            TEMP_DIR = tempPath;
         }else if(osName.contains("Mac")){
             DOT = configFile.getProperty("dotForMacOSX");
-            TEMP_DIR = tempPath;
         }else{
             DOT = configFile.getProperty("dotForLinux");
-            TEMP_DIR = tempPath;
         }
-        if(debug){
+        //set temp path
+        TEMP_DIR = tempPath;
+        
+        if(debug == true){
             System.out.println("osName: " + osName);
             System.out.println("temp dir: " + TEMP_DIR);
             System.out.println("dot: " + DOT);
@@ -175,20 +160,6 @@ public class GraphViz
      */
     public void add(String line) {
         this.graph.append(line);
-    }
-
-    /**
-     * Adds a string to the graph's source (with newline).
-     */
-    public void addln(String line) {
-        this.graph.append(line + "\n");
-    }
-
-    /**
-     * Adds a newline to the graph's source.
-     */
-    public void addln() {
-        this.graph.append('\n');
     }
 
     public void clearGraph(){
@@ -242,13 +213,13 @@ public class GraphViz
         try {
             FileOutputStream fos = new FileOutputStream(to);
             if(img == null){
-                System.out.println("Cannot generate image.");
                 return -1;
             }
             fos.write(img);
-            fos.close();
+            fos.close();           
+            System.out.println("PNG saved.");
         } catch (java.io.IOException ioe) { return -1; }
-        return 1;
+        return 0;
     }
 
     /**
@@ -308,10 +279,6 @@ public class GraphViz
             temp = File.createTempFile("dorrr",".dot", new File(GraphViz.TEMP_DIR));
             FileWriter fout = new FileWriter(temp);
             fout.write(str);
-                       BufferedWriter br=new BufferedWriter(new FileWriter("dotsource.dot"));
-                       br.write(str);
-                       br.flush();
-                       br.close();
             fout.close();
         }
         catch (Exception e) {
@@ -319,39 +286,6 @@ public class GraphViz
             return null;
         }
         return temp;
-    }
-
-    /**
-     * Returns a string that is used to start a graph.
-     * @return A string to open a graph.
-     */
-    public String start_graph() {
-        return "digraph G {";
-    }
-
-    /**
-     * Returns a string that is used to end a graph.
-     * @return A string to close a graph.
-     */
-    public String end_graph() {
-        return "}";
-    }
-
-    /**
-     * Takes the cluster or subgraph id as input parameter and returns a string
-     * that is used to start a subgraph.
-     * @return A string to open a subgraph.
-     */
-    public String start_subgraph(int clusterid) {
-        return "subgraph cluster_" + clusterid + " {";
-    }
-
-    /**
-     * Returns a string that is used to end a graph.
-     * @return A string to close a graph.
-     */
-    public String end_subgraph() {
-        return "}";
     }
 
     /**
