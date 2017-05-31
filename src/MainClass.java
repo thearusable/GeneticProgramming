@@ -9,6 +9,8 @@
 import ec.Evolve;
 import java.io.IOException;
 import arus.METADATA;
+import java.io.File;
+import window.GraphViz;
 
 /**
  *
@@ -29,7 +31,7 @@ public class MainClass {
             // gp.tree.print-style=c
             // gp.tree.print-style=dot
             // gp.tree.print-style=latex
-            String[] Params = {"-file", "src\\arus\\problems\\test.params", "-p", ""}; 
+            String[] Params = {"-file", "src\\problems\\test.params", "-p", ""}; 
             
             //run gp
             Evolve.main(Params);

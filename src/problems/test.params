@@ -1,4 +1,4 @@
-parent.0 = ../base.params
+parent.0 = ../arus/base.params
 
 generations = 100
 pop.subpop.0.size = 500
@@ -6,9 +6,12 @@ pop.subpop.0.size = 500
 eval.problem = arus.JobsSchedulingProblem
 eval.problem.data = arus.TreeData
 
+stat =	arus.MyStatistics
+
 pop.subpop.0.species.fitness = arus.LowerBetterFitness
 
-stat.file = $src\\arus\\problems\\test.stat
+stat.file = $src\\problems\\test.stat
+stat.best = $src\\problems\\test.dot
 
 
 gp.fs.0.size = 15
