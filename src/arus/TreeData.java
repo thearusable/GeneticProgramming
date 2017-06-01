@@ -7,6 +7,7 @@ package arus;
 
 import ec.gp.GPData;
 import java.util.Arrays;
+import java.util.Vector;
 
 /**
  *
@@ -21,7 +22,10 @@ public class TreeData extends GPData {
     
     //para (int,int) - startTime, EndTime
     //2d array - Job0: pair(0,x)
-    public Times[][] times;
+    public Times[][] timesPerJob;
+    //must be dynamic
+    Vector<Vector<Times>> timesPerMachine = new Vector<Vector<Times>>(METADATA.MACHINES_COUNT);
+    //public Times[][] timesPerMachine;
     
     //startup time per job (and meybe second per machine)
     public int[] StartupTimesPerJob;
@@ -34,7 +38,11 @@ public class TreeData extends GPData {
         toManyChilds = 0;
         machinesWithoutChilds = 0;
         
-        times = new Times[METADATA.JOBS_COUNT][METADATA.TASKS_PER_JOB];
+        timesPerJob = new Times[METADATA.JOBS_COUNT][METADATA.TASKS_PER_JOB];
+        //schoud by enough big number
+        timesPerMachine = new Vector<Vector<Times>>(METADATA.MACHINES_COUNT);
+        //timesPerMachine = new Times[METADATA.MACHINES_COUNT][METADATA.TASKS_PER_JOB * 2];
+        
         StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
         StartupTimesPerMachine = new int[METADATA.MACHINES_COUNT];
         
@@ -59,10 +67,16 @@ public class TreeData extends GPData {
         toManyChilds = 0;
         machinesWithoutChilds = 0;
         
-        for(int i = 0; i < times.length; ++ i){
-            for(int j = 0; j < times[0].length; ++j){
-                times[i][j] = new Times();
+        for(int i = 0; i < timesPerJob.length; ++ i){
+            for(int j = 0; j < timesPerJob[0].length; ++j){
+                timesPerJob[i][j] = new Times();
             }
+        }
+        
+        timesPerMachine.clear();
+        
+        for(int i = 0; i < METADATA.MACHINES_COUNT; ++ i){
+            timesPerMachine.add(new Vector<Times>());
         }
         
         for(int i = 0; i < StartupTimesPerJob.length; ++i){
@@ -76,18 +90,25 @@ public class TreeData extends GPData {
     
     @Override
     public String toString() {
-        String str = "";
-        str += "howManyTimesOccurs=" + Arrays.toString(howManyTimesOccurs) + "\n times=\n";
+        String str = "------------------------\n";
+        str += "howManyTimesOccurs:\n" + Arrays.toString(howManyTimesOccurs) + "\ntimesPerJob:\n";
         
-        for(int i = 0; i < times.length; ++i){
-            str += Arrays.toString(times[i]);
+        for(int i = 0; i < timesPerJob.length; ++i){
+            str += Arrays.toString(timesPerJob[i]);
+            str += "\n";
+        }
+        str += "timesPerMachine: \n";
+        for(int i = 0; i < timesPerMachine.size(); ++i){
+            str += timesPerMachine.get(i).toString();
+            //str += Arrays.toString(timesPerMachine[i]);
             str += "\n";
         }
         
-        str += "perJob: " + Arrays.toString(StartupTimesPerJob);
-        str += "\nperMachine: " + Arrays.toString(StartupTimesPerMachine) + "\n";
-        
-        str += numberOfTasksOnWrongMachine + ", " + toManyChilds + ", " + machinesWithoutChilds + '}';
+        str += "StartupTimesPerJob: " + Arrays.toString(StartupTimesPerJob);
+        str += "\nStartupTimesPerMachine: " + Arrays.toString(StartupTimesPerMachine) + "\n";
+        str += "numberOfTasksOnWrongMachine: " + numberOfTasksOnWrongMachine + "\n";
+        str += "toManyChilds: " + toManyChilds + "\n";
+        str += "machinesWithoutChilds: " + machinesWithoutChilds;
         
         return str;
     }
@@ -96,7 +117,8 @@ public class TreeData extends GPData {
     public Object clone() {
         TreeData bd = new TreeData();
         bd.howManyTimesOccurs = howManyTimesOccurs.clone();
-        bd.times = times.clone();
+        bd.timesPerJob = timesPerJob.clone();
+        bd.timesPerMachine = timesPerMachine;
         bd.StartupTimesPerJob = StartupTimesPerJob.clone();
         bd.StartupTimesPerMachine = StartupTimesPerMachine.clone();
         return bd;
@@ -105,7 +127,8 @@ public class TreeData extends GPData {
     @Override
     public void copyTo(GPData gpd) {
         ((TreeData)gpd).howManyTimesOccurs = howManyTimesOccurs.clone();
-        ((TreeData)gpd).times = times.clone();
+        ((TreeData)gpd).timesPerJob = timesPerJob.clone();
+        ((TreeData)gpd).timesPerMachine = timesPerMachine; 
         ((TreeData)gpd).StartupTimesPerJob = StartupTimesPerJob.clone();
         ((TreeData)gpd).StartupTimesPerMachine = StartupTimesPerMachine.clone();
     }

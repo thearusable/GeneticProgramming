@@ -5,10 +5,7 @@
  */
 package arus;
 
-import ec.util.Parameter;
-import ec.util.ParameterDatabase;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;

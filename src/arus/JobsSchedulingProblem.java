@@ -22,7 +22,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     
     final private double fitnessWeight = 0.1;
     final private double structuralErrorWeight = 1.0;
-    final private double doublingTaskWeight = 1.0;
+    final private double doublingTaskWeight = 100.0;
     final private double missingTaskWeight = 100.0;
     final private double scheduleErrorWeight = 1.0;
     
@@ -57,10 +57,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //collect data
             root.eval(state, threadnum, data, stack, GPInd, this);
             
-            
-            
             //penality for number of each task
-            //posibly need for adding rewarding for having tasks
             for(int i = 0; i < data.howManyTimesOccurs.length; ++i){
                 if(data.howManyTimesOccurs[i] > 1){
                     fitness += (data.howManyTimesOccurs[i] - 1) * doublingTaskWeight;
@@ -79,9 +76,18 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             fitness += data.machinesWithoutChilds * structuralErrorWeight;
             
             //penality for order of tasks in job
+            /*
+            for( int i = 0; i < data.timesPerJob.length; ++i){
+                int lastEndTime = 0;
+                for(int j = 0; j < data.timesPerJob[i].length; ++j){
+                    if(data.timesPerJob[i][j].startTime < lastEndTime){
+                        fitness += 1.0 * scheduleErrorWeight;
+                    }
+                    lastEndTime = data.timesPerJob[i][j].endTime;
+                }
+            }*/
             
-            
-            //penality for overlapping tasks
+            //penality for overlapping tasks on machine
             
             
             //Add makespan to fitness

@@ -14,6 +14,7 @@ import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 import static java.lang.Math.max;
+import java.util.Vector;
 
 /**
  *
@@ -54,9 +55,17 @@ public abstract class TaskNode extends GPNode {
         int startTimePerJob = data.StartupTimesPerJob[task.jobID];
         int startTimePerMachine = data.StartupTimesPerMachine[task.requiredMachineID];
         int startTime = max(startTimePerJob, startTimePerMachine);
-        //assing values in times array
-        data.times[task.jobID][task.whichTaskInJob].startTime = startTime;
-        data.times[task.jobID][task.whichTaskInJob].endTime = startTime + task.duration;
+        //assing values in timesPerJob array
+        data.timesPerJob[task.jobID][task.whichTaskInJob].startTime = startTime;
+        data.timesPerJob[task.jobID][task.whichTaskInJob].endTime = startTime + task.duration;
+        //assing values in timesPerMachine vector
+        if(data.timesPerMachine.size() > task.requiredMachineID){
+            //data.timesPerMachine.get(task.requiredMachineID).add(new Times(startTime, startTime + task.duration));
+        }else{
+            //data.timesPerMachine.add(new Vector<Times>());
+            //data.timesPerMachine.get(task.requiredMachineID).add(new Times(startTime, startTime + task.duration));
+            //data.timesPerMachine.get(task.requiredMachineID).add(new Times(startTime, startTime + task.duration));
+        }
         //update new times
         data.StartupTimesPerJob[task.jobID] = startTime + task.duration;
         data.StartupTimesPerMachine[task.requiredMachineID] = startTime + task.duration;
