@@ -20,6 +20,12 @@ import ec.gp.GPNode;
  */
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
     
+    final private double fitnessWeight = 0.1;
+    final private double structuralErrorWeight = 1.0;
+    final private double doublingTaskWeight = 1.0;
+    final private double missingTaskWeight = 100.0;
+    final private double scheduleErrorWeight = 1.0;
+    
     @Override
     public void setup(final EvolutionState state,
         final Parameter base)
@@ -42,32 +48,35 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         if (!ind.evaluated)  // don't bother reevaluating
             {
             double fitness = 0.0;
-            boolean isIdeal = false;
             
             TreeData data = (TreeData)(this.input);
 
             GPIndividual GPInd = (GPIndividual)ind;
             GPNode root = GPInd.trees[0].child;
             
+            //collect data
             root.eval(state, threadnum, data, stack, GPInd, this);
             
+            
+            
             //penality for number of each task
+            //posibly need for adding rewarding for having tasks
             for(int i = 0; i < data.howManyTimesOccurs.length; ++i){
                 if(data.howManyTimesOccurs[i] > 1){
-                    fitness += data.howManyTimesOccurs[i] - 1;
+                    fitness += (data.howManyTimesOccurs[i] - 1) * doublingTaskWeight;
                 }else if(data.howManyTimesOccurs[i] < 1){
-                    fitness += 1.0;
+                    fitness += 1.0 * missingTaskWeight;
                 }
             }
             
             //penality for tasks on wrong machines
-            fitness += data.numberOfTasksOnWrongMachine;
+            fitness += data.numberOfTasksOnWrongMachine * structuralErrorWeight;
             
             //penality for too many tasks on machine
-            fitness += data.toManyChilds;
+            fitness += data.toManyChilds * structuralErrorWeight;
             
             //penality for machines without task
-            fitness += data.machinesWithoutChilds;
+            fitness += data.machinesWithoutChilds * structuralErrorWeight;
             
             //penality for order of tasks in job
             
@@ -75,19 +84,17 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //penality for overlapping tasks
             
             
+            //Add makespan to fitness
+            fitness += data.getMakespan() * fitnessWeight;
             
             //System.out.println(data.toString());
             
-            
-            if(fitness == 0.f) isIdeal = true;
-            
-            LowerBetterFitness fitnessObject;
-            fitnessObject = (LowerBetterFitness) ind.fitness;
-            
-            fitnessObject.setFitness(state, fitness, isIdeal);
 
+            //Assing calculated fitness
+            ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
+            //mark individual as evaluated
             ind.evaluated = true;
-            //reset TreeData 
+            //reset collect data in TreeData 
             data.reset();
             }
         }   

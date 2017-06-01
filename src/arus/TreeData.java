@@ -7,7 +7,6 @@ package arus;
 
 import ec.gp.GPData;
 import java.util.Arrays;
-import javafx.util.Pair;
 
 /**
  *
@@ -40,6 +39,16 @@ public class TreeData extends GPData {
         StartupTimesPerMachine = new int[METADATA.MACHINES_COUNT];
         
         reset();
+    }
+    
+    public int getMakespan(){
+        int makespan = StartupTimesPerMachine[0];
+        
+        for(int i = 1; i < StartupTimesPerMachine.length; ++i){
+            if(StartupTimesPerMachine[i] > makespan) makespan = StartupTimesPerMachine[i];
+        }
+        
+        return makespan;
     }
     
     public void reset(){

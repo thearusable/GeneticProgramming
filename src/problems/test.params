@@ -2,7 +2,7 @@
 parent.0 = ../arus/base.params
 
 #max generations number
-generations = 100
+generations = 500
 #size of single population
 pop.subpop.0.size = 500
 
