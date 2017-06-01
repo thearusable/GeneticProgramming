@@ -1,20 +1,27 @@
+#base configuration
 parent.0 = ../arus/base.params
 
+#max generations number
 generations = 100
+#size of single population
 pop.subpop.0.size = 500
 
+#definition of problem to solve
 eval.problem = arus.JobsSchedulingProblem
+#problem data
 eval.problem.data = arus.TreeData
 
+#class used for statistics purposes
 stat =	graph.MyStatistics
 
+#custom fitness class
 pop.subpop.0.species.fitness = arus.LowerBetterFitness
 
+#output
 stat.file = $src\\problems\\test.stat
 stat.png = $src\\problems\\test.png
-data = $src\\problems\\test.txt
 
-
+#nodes
 gp.fs.0.size = 15
 gp.fs.0.func.0 = machines.M0
 gp.fs.0.func.0.nc = nc2

@@ -13,11 +13,6 @@ import static ec.gp.GPProblem.P_DATA;
 import ec.util.Parameter;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
-import ec.simple.SimpleShortStatistics;
-import ec.simple.SimpleStatistics;
-import ec.util.Output;
-import graph.GraphViz;
-import java.io.File;
 
 /**
  *
@@ -84,20 +79,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //System.out.println(data.toString());
             
             
-            
-            //WYSWIETLANIE GRAFU
-            //SimpleStatistics sss = (SimpleStatistics)state.statistics;
-            //GPIndividual BestSoFarInd = (GPIndividual)sss.best_of_run[0];
-            //GPNode RootOfBestInd = BestSoFarInd.trees[0].child;
-            //if(RootOfBestInd != null){
-            //    System.out.println("sd");
-                //System.out.println(RootOfBestInd.makeGraphvizTree());
-            //}
-            //get tree in dot
-            //bestSoFar in SimpleShortStatistics
-            //System.out.println(root.makeGraphvizTree());
-            //System.out.println(RootOfBestInd.makeGraphvizTree());
-            
             if(fitness == 0.f) isIdeal = true;
             
             LowerBetterFitness fitnessObject;
@@ -106,7 +87,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             fitnessObject.setFitness(state, fitness, isIdeal);
 
             ind.evaluated = true;
-            //reset data 
+            //reset TreeData 
             data.reset();
             }
         }   

@@ -5,7 +5,10 @@
  */
 package arus;
 
+import ec.util.Parameter;
+import ec.util.ParameterDatabase;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
@@ -16,14 +19,13 @@ import java.util.StringTokenizer;
  * @author arus2
  */
 public class METADATA {
-  
+    
     public static int JOBS_COUNT;
     public static int MACHINES_COUNT;
     public static int TASKS_PER_JOB;
     public static int TASKS_COUNT;
     
     private static Task [] tasks;
-    
     
     static public void load(String dataFile, boolean debug) throws IOException {
         int[][] times = new int[0][0];
