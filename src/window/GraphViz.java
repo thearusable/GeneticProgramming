@@ -23,10 +23,9 @@
  ******************************************************************************
  */
 
-package graph;
+package window;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -78,7 +77,7 @@ public class GraphViz
 
     
     //Load the config.properties file.
-    private final static String cfgProp = "src" + File.separator + "graph" + File.separator +"config.properties";
+    private final static String cfgProp = "src" + File.separator + "window" + File.separator +"config.properties";
     private final static Properties configFile = new Properties() {
         private final static long serialVersionUID = 1L; {
             try {

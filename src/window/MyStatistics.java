@@ -3,20 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package graph;
+package window;
 
 import ec.EvolutionState;
 import ec.gp.GPIndividual;
 import ec.simple.SimpleStatistics;
 import ec.util.Parameter;
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import javax.management.InvalidApplicationException;
-import graph.GraphViz;
 
 /**
  *

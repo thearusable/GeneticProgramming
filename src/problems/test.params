@@ -2,9 +2,10 @@
 parent.0 = ../arus/base.params
 
 #max generations number
-generations = 500
-#size of single population
-pop.subpop.0.size = 500
+generations = 5000
+
+#size of a tournament
+select.tournament.size = 5
 
 #definition of problem to solve
 eval.problem = arus.JobsSchedulingProblem
@@ -12,7 +13,7 @@ eval.problem = arus.JobsSchedulingProblem
 eval.problem.data = arus.TreeData
 
 #class used for statistics purposes
-stat =	graph.MyStatistics
+stat =	window.MyStatistics
 
 #custom fitness class
 pop.subpop.0.species.fitness = arus.LowerBetterFitness

@@ -6,9 +6,10 @@
 
 
 //import JobsScheduling.METADATA;
-import ec.Evolve;
+import arus.CustomEvolve;
 import java.io.IOException;
 import arus.METADATA;
+import window.MainWindow;
 
 /**
  *
@@ -22,6 +23,7 @@ public class MainClass {
     public static void main(String[] args) throws IOException {       
         
         try{
+            MainWindow window = new MainWindow();
             //load tasks data
             METADATA.load("test.txt", true); 
             
@@ -33,8 +35,8 @@ public class MainClass {
             String[] Params = {"-file", "src\\problems\\test.params"}; 
             
             //run gp
-            Evolve.main(Params);
-            
+            CustomEvolve.main(Params);
+ 
         }catch(IOException e){
             System.out.println(e.getMessage());
         }        

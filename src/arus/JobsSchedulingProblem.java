@@ -21,7 +21,9 @@ import ec.gp.GPNode;
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
     
     final private double fitnessWeight = 0.1;
-    final private double structuralErrorWeight = 1.0;
+    final private double machinesWithoutTaskChildsErrorWeight = 1.0;
+    final private double wrongMachineErrorWeight = 5.0;
+    final private double toManyChildsErrorWeight = 1.0;
     final private double doublingTaskWeight = 1.2;
     final private double missingTaskWeight = 1.2;
     final private double scheduleErrorWeight = 1.0;
@@ -67,13 +69,13 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             }
             
             //penality for tasks on wrong machines
-            fitness += data.numberOfTasksOnWrongMachine * structuralErrorWeight;
+            fitness += data.numberOfTasksOnWrongMachine * wrongMachineErrorWeight;
             
             //penality for too many tasks on machine
-            fitness += data.toManyChilds * structuralErrorWeight;
+            fitness += data.toManyChilds * toManyChildsErrorWeight;
             
             //penality for machines without task
-            fitness += data.machinesWithoutChilds * structuralErrorWeight;
+            fitness += data.machinesWithoutChilds * machinesWithoutTaskChildsErrorWeight;
             
             //penality for order of tasks in job
             /*
@@ -89,15 +91,15 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //penality for overlapping tasks on machine
             
-            
+            double onlyTreeFitness = fitness;
             //Add makespan to fitness
-            //fitness += data.getMakespan() * fitnessWeight;
+            fitness += data.getMakespan() * fitnessWeight;
             
             //System.out.println(data.toString());
             
 
             //Assing calculated fitness
-            ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, fitness == 0.0);
+            ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, onlyTreeFitness == 0.0);
             //mark individual as evaluated
             ind.evaluated = true;
             //reset collect data in TreeData 
