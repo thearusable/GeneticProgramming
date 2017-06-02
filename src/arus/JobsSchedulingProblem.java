@@ -91,13 +91,13 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             
             //Add makespan to fitness
-            fitness += data.getMakespan() * fitnessWeight;
+            //fitness += data.getMakespan() * fitnessWeight;
             
             //System.out.println(data.toString());
             
 
             //Assing calculated fitness
-            ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
+            ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, fitness == 0.0);
             //mark individual as evaluated
             ind.evaluated = true;
             //reset collect data in TreeData 
