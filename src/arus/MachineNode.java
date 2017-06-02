@@ -25,10 +25,12 @@ public abstract class MachineNode extends GPNode {
     }
     
     public int iD;
+    private boolean hideName = true;
     
     @Override
     public String toString() {
-        return "M" + iD;
+        if(hideName == true) return ".";
+        else return "M" + iD;
     }
     
     @Override
@@ -51,6 +53,9 @@ public abstract class MachineNode extends GPNode {
                 }
             }
         }
+        
+        //hiding name of machine without childs
+        hideName = !haveTask;
         
         //check if machine have task child
         if(!haveTask && children.length == 1){

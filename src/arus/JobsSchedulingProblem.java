@@ -22,8 +22,8 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     
     final private double fitnessWeight = 0.1;
     final private double structuralErrorWeight = 1.0;
-    final private double doublingTaskWeight = 100.0;
-    final private double missingTaskWeight = 100.0;
+    final private double doublingTaskWeight = 1.2;
+    final private double missingTaskWeight = 1.2;
     final private double scheduleErrorWeight = 1.0;
     
     @Override
@@ -60,9 +60,9 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //penality for number of each task
             for(int i = 0; i < data.howManyTimesOccurs.length; ++i){
                 if(data.howManyTimesOccurs[i] > 1){
-                    fitness += (data.howManyTimesOccurs[i] - 1) * doublingTaskWeight;
+                    fitness += (data.howManyTimesOccurs[i] - 1) * doublingTaskWeight * METADATA.MAX_TASK_DURATION;
                 }else if(data.howManyTimesOccurs[i] < 1){
-                    fitness += 1.0 * missingTaskWeight;
+                    fitness += missingTaskWeight * METADATA.MAX_TASK_DURATION;
                 }
             }
             

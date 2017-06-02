@@ -21,6 +21,7 @@ public class METADATA {
     public static int MACHINES_COUNT;
     public static int TASKS_PER_JOB;
     public static int TASKS_COUNT;
+    public static int MAX_TASK_DURATION;
     
     private static Task [] tasks;
     
@@ -79,6 +80,8 @@ public class METADATA {
             for(int y =0; y < times[0].length; ++y){ //taskInJob
                 tasks[tasksCounter] = new Task(y, x, times[x][y], machines[x][y]);
                 tasksCounter += 1;
+                
+                if(times[x][y] > MAX_TASK_DURATION) MAX_TASK_DURATION = times[x][y];
             }
         }
         //debug print
@@ -107,6 +110,8 @@ public class METADATA {
         for(int i = 0; i < tasks.length; ++i){
             System.out.println(tasks[i].toString());
         }
+        
+        System.out.println("MAX_TASK_DURATION: " + MAX_TASK_DURATION);
     }
     
     /////////////////////////////////////////////
