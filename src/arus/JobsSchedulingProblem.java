@@ -13,6 +13,10 @@ import static ec.gp.GPProblem.P_DATA;
 import ec.util.Parameter;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import window.MainWindow;
 
 /**
  *
@@ -37,7 +41,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         // verify our input is the right class (or subclasses from it)
         if (!(input instanceof TreeData))
             state.output.fatal("GPData class must subclass from " + TreeData.class,
-                base.push(P_DATA), null);
+                base.push(P_DATA), null);      
         }
         
     @Override
