@@ -7,6 +7,7 @@ package arus;
  */
 
 
+import java.io.File;
 import java.io.IOException;
 import window.MainWindow;
 
@@ -32,7 +33,8 @@ public class MainClass {
             // gp.tree.print-style=c
             // gp.tree.print-style=dot
             // gp.tree.print-style=latex
-            String[] Params = {"-file", "src\\problems\\test.params"}; 
+            String paramsFile = "src" + File.separator + "problems" + File.separator + "test.params";
+            String[] Params = {"-file", paramsFile}; 
             
             //run gp
             CustomEvolve.main(Params);

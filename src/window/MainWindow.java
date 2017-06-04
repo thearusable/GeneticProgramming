@@ -40,6 +40,7 @@ import org.jfree.ui.RectangleInsets;
  */
 public class MainWindow {
 
+    JFrame guiFrame = new JFrame();
     
     private JTextArea console = new JTextArea();
     private JScrollPane consoleScroll = new JScrollPane(console);
@@ -73,12 +74,10 @@ public class MainWindow {
     }
     
     public MainWindow() throws IOException {
-        JFrame guiFrame = new JFrame();
+        
         //GridBagConstraints cons = new GridBagConstraints();
         //cons.fill = GridBagConstraints.HORIZONTAL;
-        
-        JPanel statsPanel = new JPanel();
-        statsPanel.setSize(300, 300);
+
         //maximialize window
         guiFrame.setExtendedState(guiFrame.getExtendedState() | JFrame.MAXIMIZED_VERT | JFrame.MAXIMIZED_HORIZ);
         
@@ -112,7 +111,7 @@ public class MainWindow {
         //cons.gridx = 0;
         //cons.gridwidth = 2;
         //cons.gridy = 0;
-        //guiFrame.add(chartPanel);
+        guiFrame.add(chartPanel);
         
         //add console to JFrame
         //cons.fill = GridBagConstraints.HORIZONTAL;
@@ -120,10 +119,12 @@ public class MainWindow {
         //cons.gridwidth = 1;
         //cons.gridy = 0;
         //cons.anchor = GridBagConstraints.PAGE_END;
-        console.setSize(300, 300);
-        guiFrame.add(consoleScroll);
-        //guiFrame.setLayout(new FlowLayout());
+        //consoleScroll.setSize(300, 300);
+        //console.setSize(300, 300); === crash on osx
+        
         //guiFrame.add(consoleScroll);
+        //guiFrame.setLayout(new FlowLayout());
+        guiFrame.add(consoleScroll);
         //guiFrame.add(statsPanel);
         
         //guiFrame.add(consoleScroll, FlowLayout.RIGHT);
@@ -132,10 +133,6 @@ public class MainWindow {
         
         //redirect output to console
         redirectSystemStreams();
-        
-        //close app when closing window
-        guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //make sure the JFrame is visible
         
         guiFrame.setVisible(true);
     }
@@ -152,22 +149,22 @@ public class MainWindow {
         OutputStream out = new OutputStream() {
             @Override
             public void write(int b) throws IOException {
-                updateTextArea(String.valueOf((char) b));
+                //updateTextArea(String.valueOf((char) b));
             }
 
             @Override
             public void write(byte[] b, int off, int len) throws IOException {
-                updateTextArea(new String(b, off, len));
+                //updateTextArea(new String(b, off, len));
             }
 
             @Override
             public void write(byte[] b) throws IOException {
-                write(b, 0, b.length);
+                ///write(b, 0, b.length);
             }
         };
 
-        System.setOut(new PrintStream(out, true));
-        System.setErr(new PrintStream(out, true));
+        //System.setOut(new PrintStream(out, true));
+        //System.setErr(new PrintStream(out, true));
     }
     
     public static void addEntryToGraph(double generation, double minF_Fitness, double avgF_Fitness){
