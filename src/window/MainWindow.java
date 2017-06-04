@@ -12,7 +12,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import static java.awt.GridBagConstraints.*;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -43,7 +45,7 @@ public class MainWindow {
     JFrame guiFrame = new JFrame();
     
     private JTextArea console = new JTextArea();
-    private JScrollPane consoleScroll = new JScrollPane(console);
+    private JScrollPane consoleScroll = new JScrollPane(console, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private DefaultCaret consoleCaret = (DefaultCaret)console.getCaret();
     
     //final private NumberAxis xAxis = new NumberAxis();
@@ -56,6 +58,8 @@ public class MainWindow {
     JFreeChart lineChart = ChartFactory.createXYLineChart("Generations fitnesses", "generation", "fitness", dataset, PlotOrientation.VERTICAL, true, true, false);
     ChartPanel chartPanel = new ChartPanel(lineChart);
     StandardChartTheme theme = (StandardChartTheme)org.jfree.chart.StandardChartTheme.createJFreeTheme();
+    
+    JPanel stats = new JPanel();
     
     private void setGraphStyle(){
         String fontName = "Lucida Sans";
@@ -90,8 +94,8 @@ public class MainWindow {
         
         //set layout
         //guiFrame.setLayout(new BorderLayout());
-        //guiFrame.setLayout(new GridBagLayout());
-        guiFrame.setLayout(new SpringLayout());
+        guiFrame.setLayout(new GridBagLayout());
+        //guiFrame.setLayout(new SpringLayout());
         
         //auto-scroll to bottom
         consoleCaret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
@@ -102,33 +106,49 @@ public class MainWindow {
         
         //set graph style
         setGraphStyle();
-  
+        
         //////////////////////////Adding components
-        //add graph to JFrame
-        chartPanel.setPreferredSize(new Dimension(800, 600));
+        chartPanel.setPreferredSize(new Dimension(1149, 800));
         chartPanel.setMouseWheelEnabled(true);
-        //cons.fill = GridBagConstraints.HORIZONTAL;
-        //cons.gridx = 0;
-        //cons.gridwidth = 2;
-        //cons.gridy = 0;
-        guiFrame.add(chartPanel);
+        chartPanel.setBackground(Color.red);
+
+        consoleScroll.setBackground(Color.GREEN);
         
-        //add console to JFrame
-        //cons.fill = GridBagConstraints.HORIZONTAL;
-        //cons.gridx = 2;
-        //cons.gridwidth = 1;
-        //cons.gridy = 0;
-        //cons.anchor = GridBagConstraints.PAGE_END;
-        //consoleScroll.setSize(300, 300);
-        //console.setSize(300, 300); === crash on osx
+        stats.setBackground(Color.MAGENTA);
         
-        //guiFrame.add(consoleScroll);
-        //guiFrame.setLayout(new FlowLayout());
-        guiFrame.add(consoleScroll);
-        //guiFrame.add(statsPanel);
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        //gbc.insets = new Insets(0,0,0,0);
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.anchor = FIRST_LINE_START;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+      //panel.add(new JButton("Button 1"),gbc);
+        guiFrame.add(chartPanel, gbc);
+
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.anchor = FIRST_LINE_END;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridheight = 2;
+        //panel.add(new JButton("Button 2"),gbc); 
+        guiFrame.add(consoleScroll, gbc);
         
+        //guiFrame.add(consoleScroll, SpringLayout.SOUTH);
+        //guiFrame.add(chartPanel, SpringLayout.WEST);
         //guiFrame.add(consoleScroll, FlowLayout.RIGHT);
         
+        gbc.fill = GridBagConstraints.VERTICAL;
+        //gbc.insets = new Insets(0,0,0,0);
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.anchor = SOUTHWEST;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        
+      //panel.add(new JButton("Button 1"),gbc);
+        //guiFrame.add(stats, gbc);
         
         
         //redirect output to console
@@ -149,22 +169,22 @@ public class MainWindow {
         OutputStream out = new OutputStream() {
             @Override
             public void write(int b) throws IOException {
-                //updateTextArea(String.valueOf((char) b));
+                updateTextArea(String.valueOf((char) b));
             }
 
             @Override
             public void write(byte[] b, int off, int len) throws IOException {
-                //updateTextArea(new String(b, off, len));
+                updateTextArea(new String(b, off, len));
             }
 
             @Override
             public void write(byte[] b) throws IOException {
-                ///write(b, 0, b.length);
+                write(b, 0, b.length);
             }
         };
 
-        //System.setOut(new PrintStream(out, true));
-        //System.setErr(new PrintStream(out, true));
+        System.setOut(new PrintStream(out, true));
+        System.setErr(new PrintStream(out, true));
     }
     
     public static void addEntryToGraph(double generation, double minF_Fitness, double avgF_Fitness){
