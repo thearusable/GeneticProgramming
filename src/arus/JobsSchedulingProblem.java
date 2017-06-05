@@ -32,6 +32,8 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     final private double missingTaskWeight = 1.2;
     final private double scheduleErrorWeight = 1.0;
     
+    final private boolean findOnlyFirstValidTree = true;
+    
     @Override
     public void setup(final EvolutionState state,
         final Parameter base)
@@ -101,13 +103,32 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //System.out.println(data.toString());
             
+            
+            //ending condition
+            boolean ended;
+            if(findOnlyFirstValidTree == true){
+                ended = onlyTreeFitness == 0.0;
+            }else{
+                ended = false;
+            }
 
             //Assing calculated fitness
-            ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, onlyTreeFitness == 0.0);
+            ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, ended);
             //mark individual as evaluated
             ind.evaluated = true;
             //reset collect data in TreeData 
             data.reset();
             }
-        }   
+        }
+    
+    //get makespan of individual
+    public int getMakespan(GPIndividual ind){
+        TreeData data = new TreeData();
+        
+        GPNode root = ind.trees[0].child;
+        EvolutionState state = new EvolutionState();
+        root.eval(state, 0, data, stack, ind, this);
+        
+        return data.getMakespan();
+    }
 }

@@ -5,7 +5,7 @@
  */
 package window;
 
-import arus.MainClass;
+import arus.JobsSchedulingProblem;
 import ec.EvolutionState;
 import ec.Individual;
 import ec.gp.GPIndividual;
@@ -13,6 +13,7 @@ import ec.simple.SimpleProblemForm;
 import ec.simple.SimpleStatistics;
 import ec.util.Parameter;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 
 /**
@@ -30,6 +31,7 @@ public class MyStatistics extends SimpleStatistics {
     public void setup(final EvolutionState state, final Parameter base){
         super.setup(state,base);
         
+        //read path to png file from params
         bestPNGFile = state.parameters.getFile(base.push(P_PNG_FILE),null);
     }
     
@@ -38,8 +40,14 @@ public class MyStatistics extends SimpleStatistics {
         super.finalStatistics(state,result);
         
         try{
+            //get dot tree
             GPIndividual BestSoFarInd = (GPIndividual)best_of_run[0];
             String dotTree = BestSoFarInd.trees[0].child.makeGraphvizTree();
+            
+            //set makespan
+            JobsSchedulingProblem problem = new JobsSchedulingProblem();
+            int makespan = problem.getMakespan(BestSoFarInd);
+            
             
             //change to multiplatform path
             String tempPath = Paths.get("").toAbsolutePath().toString();
@@ -50,7 +58,11 @@ public class MyStatistics extends SimpleStatistics {
             
             //create png file
             gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), "png" ), bestPNGFile );
-        } catch (Exception e) {
+            
+            //update value in window
+            MainWindow.updateMinimumMakespan(makespan, bestPNGFile.getCanonicalPath());
+            
+        } catch (IOException e) {
             // do something
         }
     }
@@ -59,6 +71,9 @@ public class MyStatistics extends SimpleStatistics {
     @Override
     public void postEvaluationStatistics(final EvolutionState state){
         super.postEvaluationStatistics(state);
+        
+        //set generation number
+        MainWindow.updateGenerationNumber(state.generation);
         
         // for now we just print the best fitness per subpopulation.
         Individual[] best_i = new Individual[state.population.subpops.length];  // quiets compiler complaints
@@ -103,7 +118,7 @@ public class MyStatistics extends SimpleStatistics {
                 avgF += state.population.subpops[x].individuals[i].fitness.fitness();
             }
             avgF /= state.population.subpops[x].individuals.length;
-                
+            
             //add data to graph
             MainWindow.addEntryToGraph(state.generation, best_i[x].fitness.fitness(), avgF);
             //.addValue(best_i[x].fitness.fitness(), "g", Integer.toString(state.generation));
@@ -122,6 +137,11 @@ public class MyStatistics extends SimpleStatistics {
                 }   
             }
 
+        
+        //set minimum fitness
+        double minF = getBestSoFar()[0].fitness.fitness();
+        
+        MainWindow.updateMinimumFitness(minF);
     }
     
 }

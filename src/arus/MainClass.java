@@ -21,10 +21,15 @@ public class MainClass {
      * @throws java.io.IOException
      */
     
+    public static boolean showWindows = true;
+    
     public static void main(String[] args) throws IOException {       
         
         try{
-            MainWindow window = new MainWindow();
+            if(showWindows){
+                MainWindow window = new MainWindow();
+            }
+            
             //load tasks data
             METADATA.load("test.txt", true); 
             
@@ -38,8 +43,7 @@ public class MainClass {
             
             //run gp
             CustomEvolve.main(Params);
- 
-            //window.dataset.addValue(100, "g", "3");
+
         }catch(IOException e){
             System.out.println(e.getMessage());
         }        
