@@ -13,7 +13,7 @@ import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 
 /**
- *
+ * ERC ???
  * @author arsc
  */
 public abstract class MachineNode extends GPNode {

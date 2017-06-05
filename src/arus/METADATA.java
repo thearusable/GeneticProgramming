@@ -90,9 +90,13 @@ public class METADATA {
         }
     }
     
-    static public Task getRandomTask(){
+    static public Task getRandomTask(){      
         Random rand = new Random();
-        return tasks[ rand.nextInt(tasks.length + 1) ];
+        return tasks[ rand.nextInt(tasks.length ) ];
+    }
+    
+    static public int getRandomMachineID(){
+        return (int) (Math.random() * MACHINES_COUNT);
     }
     
     static public Task getTask(int whichOne){

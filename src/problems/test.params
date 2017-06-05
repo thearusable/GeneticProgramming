@@ -17,7 +17,7 @@ stat.file = $src\\problems\\test.stat
 stat.png = $src\\problems\\test.png
 
 #nodes
-gp.fs.0.size = 15
+gp.fs.0.size = 7
 gp.fs.0.func.0 = machines.M0
 gp.fs.0.func.0.nc = nc2
 gp.fs.0.func.1 = machines.M0
@@ -31,23 +31,5 @@ gp.fs.0.func.4.nc = nc2
 gp.fs.0.func.5 = machines.M2
 gp.fs.0.func.5.nc = nc1
 
-gp.fs.0.func.6 = tasks.TN0
+gp.fs.0.func.6 = arus.TaskNodeERC
 gp.fs.0.func.6.nc = nc0
-gp.fs.0.func.7 = tasks.TN1
-gp.fs.0.func.7.nc = nc0
-gp.fs.0.func.8 = tasks.TN2
-gp.fs.0.func.8.nc = nc0
-gp.fs.0.func.9 = tasks.TN3
-gp.fs.0.func.9.nc = nc0
-gp.fs.0.func.10 = tasks.TN4
-gp.fs.0.func.10.nc = nc0
-gp.fs.0.func.11 = tasks.TN5
-gp.fs.0.func.11.nc = nc0
-gp.fs.0.func.12 = tasks.TN6
-gp.fs.0.func.12.nc = nc0
-gp.fs.0.func.13 = tasks.TN7
-gp.fs.0.func.13.nc = nc0
-gp.fs.0.func.14 = tasks.TN8
-gp.fs.0.func.14.nc = nc0
-gp.fs.0.func.15 = tasks.TN9
-gp.fs.0.func.15.nc = nc0
