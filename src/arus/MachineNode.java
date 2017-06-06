@@ -45,13 +45,22 @@ public abstract class MachineNode extends GPNode {
             children[i].eval(state, thread, input, stack, individual, problem);
             
             //check if task is on good machine
+            /*
             if(children[i].getClass().getPackage().getName().endsWith("tasks")){
                 haveTask = true;
                 TaskNode tn = ((TaskNode)children[i]);
                 if(getID() != tn.task.requiredMachineID){
                     data.numberOfTasksOnWrongMachine += 1;
                 }
+            }*/
+            if(children[i].getClass().getName().contains("TaskNodeERC")){
+                haveTask = true;
+                TaskNodeERC tn = ((TaskNodeERC)children[i]);
+                if(getID() != tn.task.requiredMachineID){
+                    data.numberOfTasksOnWrongMachine += 1;
+                }
             }
+            //System.out.println("equals: " + children[i].getClass().getName().contains("TaskNodeERC"));
         }
         
         //hiding name of machine without childs
@@ -64,9 +73,12 @@ public abstract class MachineNode extends GPNode {
         
         //check if machine have only one child task
         if(children.length > 1){
-            if(children[0].getClass().getPackage().getName().endsWith("tasks") && children[1].getClass().getPackage().getName().endsWith("tasks")){
+            //if(children[0].getClass().getPackage().getName().endsWith("tasks") && children[1].getClass().getPackage().getName().endsWith("tasks")){
+            //    data.toManyChilds += 1;
+            //}
+            if(children[0].getClass().getName().contains("TaskNodeERC") && children[1].getClass().getName().contains("TaskNodeERC")){
                 data.toManyChilds += 1;
-            }   
+            }
         }
     }
     

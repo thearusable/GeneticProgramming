@@ -26,11 +26,12 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     
     final private double fitnessWeight = 0.1;
     final private double machinesWithoutTaskChildsErrorWeight = 1.0;
-    final private double wrongMachineErrorWeight = 5.0;
-    final private double toManyChildsErrorWeight = 1.0;
+    final private double wrongMachineErrorWeight = 20.0;
+    final private double toManyChildsErrorWeight = 5.0;
     final private double doublingTaskWeight = 1.2;
-    final private double missingTaskWeight = 1.2;
+    final private double missingTaskWeight = 2.0;
     final private double scheduleErrorWeight = 1.0;
+    final private double wrongChildOfDummyErrorWeight = 1.0;
     
     final private boolean findOnlyFirstValidTree = true;
     
@@ -82,6 +83,8 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //penality for machines without task
             fitness += data.machinesWithoutChilds * machinesWithoutTaskChildsErrorWeight;
+            
+            fitness += data.wrongChildOfDummy * wrongChildOfDummyErrorWeight;
             
             //penality for order of tasks in job
             /*

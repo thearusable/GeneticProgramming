@@ -78,7 +78,7 @@ public class METADATA {
         int tasksCounter = 0;
         for(int x = 0; x < times.length; ++x){ //JobID
             for(int y =0; y < times[0].length; ++y){ //taskInJob
-                tasks[tasksCounter] = new Task(y, x, times[x][y], machines[x][y]);
+                tasks[tasksCounter] = new Task(tasksCounter, y, x, times[x][y], machines[x][y]);
                 tasksCounter += 1;
                 
                 if(times[x][y] > MAX_TASK_DURATION) MAX_TASK_DURATION = times[x][y];
@@ -92,7 +92,51 @@ public class METADATA {
     
     static public Task getRandomTask(){      
         Random rand = new Random();
-        return tasks[ rand.nextInt(tasks.length ) ];
+        return tasks[ rand.nextInt(tasks.length) ];
+    }
+    
+    static public Task getCloseTaskWithinJob(int taskID){
+        double rand = Math.random();
+        boolean getGreater;
+        if(rand > 0.5){
+            getGreater = true;
+        }else{
+            getGreater = false;
+        }
+        
+        if(getGreater == true && (taskID + 1) >= tasks.length ){
+            getGreater = false;
+        }else if (getGreater == false && (taskID - 1) < 0){
+            getGreater = true;
+        }
+        
+        if(getGreater == true){
+            return tasks[taskID + 1];
+        }else {
+            return tasks[taskID - 1];
+        }
+    }
+    
+    static public int getSimilarMachine(int machineID){
+        double rand = Math.random();
+        boolean getGreater;
+        if(rand > 0.5){
+            getGreater = true;
+        }else{
+            getGreater = false;
+        }
+        
+        if(getGreater == true && (machineID + 1) >= MACHINES_COUNT ){
+            getGreater = false;
+        }else if (getGreater == false && (machineID - 1) < 0){
+            getGreater = true;
+        }
+        
+        if(getGreater == true){
+            return machineID + 1;
+        }else {
+            return machineID - 1;
+        }
     }
     
     static public int getRandomMachineID(){

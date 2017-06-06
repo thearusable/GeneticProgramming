@@ -3,6 +3,7 @@ parent.0 = ../arus/base.params
 
 #max generations number
 generations = 1000
+pop.subpop.0.size = 4000
 
 #size of a tournament
 select.tournament.size = 5
@@ -17,19 +18,12 @@ stat.file = $src\\problems\\test.stat
 stat.png = $src\\problems\\test.png
 
 #nodes
-gp.fs.0.size = 7
-gp.fs.0.func.0 = machines.M0
-gp.fs.0.func.0.nc = nc2
-gp.fs.0.func.1 = machines.M0
+gp.fs.0.size = 3
+gp.fs.0.func.0 = arus.TaskNodeERC
+gp.fs.0.func.0.nc = nc0
+gp.fs.0.func.1 = arus.MachineERC
 gp.fs.0.func.1.nc = nc1
-gp.fs.0.func.2 = machines.M1
-gp.fs.0.func.2.nc = nc2
-gp.fs.0.func.3 = machines.M1
-gp.fs.0.func.3.nc = nc1
-gp.fs.0.func.4 = machines.M2
-gp.fs.0.func.4.nc = nc2
-gp.fs.0.func.5 = machines.M2
-gp.fs.0.func.5.nc = nc1
 
-gp.fs.0.func.6 = arus.TaskNodeERC
-gp.fs.0.func.6.nc = nc0
+gp.fs.0.func.2 = arus.DummyERC
+gp.fs.0.func.2.nc = nc3
+

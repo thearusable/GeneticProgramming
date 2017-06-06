@@ -5,6 +5,9 @@
  */
 package arus;
 
+import arus.METADATA;
+import arus.Task;
+import arus.TreeData;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -21,9 +24,15 @@ import static java.lang.Math.max;
  */
 public class TaskNodeERC extends ERC{
 
-    public TaskNodeERC(Task task) {
-        this.task = task;
-        startingTime = 0;
+
+    @Override
+    public int expectedChildren() {
+        return 0;
+    }
+
+    @Override
+    public String name() {
+        return "ERC0";
     }
     
     public TaskNodeERC(){
@@ -34,10 +43,9 @@ public class TaskNodeERC extends ERC{
     public Task task;
     public int startingTime;
 
-
     @Override
     public String toString() {
-        return "j" + task.jobID + "t" + task.whichTaskInJob + "m" + task.requiredMachineID + "D" + task.duration;
+        return "j" + task.jobID + " t" + task.whichTaskInJob + " m" + task.requiredMachineID + " D" + task.duration;
     }
         
     @Override
@@ -46,7 +54,7 @@ public class TaskNodeERC extends ERC{
         TreeData data = ((TreeData)input); 
         
         //Add occurs
-        data.howManyTimesOccurs[task.jobID * METADATA.TASKS_PER_JOB + task.requiredMachineID] += 1;
+        data.howManyTimesOccurs[task.jobID * METADATA.TASKS_PER_JOB + task.whichTaskInJob] += 1;
         
         //read startTime
         int startTimePerJob = data.StartupTimesPerJob[task.jobID];
@@ -67,29 +75,32 @@ public class TaskNodeERC extends ERC{
         data.StartupTimesPerJob[task.jobID] = startTime + task.duration;
         data.StartupTimesPerMachine[task.requiredMachineID] = startTime + task.duration;
         
+        //penality for wrong parent
+        if(parent.getClass() != MachineERC.class){
+            data.numberOfTasksOnWrongMachine += 1;
+        }
     }
     
     @Override
-    public void resetNode(EvolutionState es, int i) {
+    public void resetNode(EvolutionState es, int thread) {
         task = METADATA.getRandomTask();
         startingTime = 0;
     }
 
     @Override
     public boolean nodeEquals(GPNode gpnode) {
-        TaskNodeERC temp;
-        try{
-            temp = (TaskNodeERC)gpnode;
-        }catch(Exception e){
-            return false;
-        }
-        if(task == temp.task) return true;
-        else return false;
+        return (gpnode.getClass() == this.getClass() && ((TaskNodeERC)gpnode).task.ID == task.ID);
     }
 
     @Override
     public String encode() {
         return Code.encode(task.jobID) + Code.encode(task.requiredMachineID) + Code.encode(task.whichTaskInJob) + Code.encode(task.duration);
+    }
+    
+    
+    @Override
+    public void mutateERC(EvolutionState state, int thread) {
+        task = METADATA.getCloseTaskWithinJob(task.ID);
     }
     
 }

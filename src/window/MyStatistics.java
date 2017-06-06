@@ -120,8 +120,9 @@ public class MyStatistics extends SimpleStatistics {
             avgF /= state.population.subpops[x].individuals.length;
             
             //add data to graph
-            MainWindow.addEntryToGraph(state.generation, best_i[x].fitness.fitness(), avgF);
-            //.addValue(best_i[x].fitness.fitness(), "g", Integer.toString(state.generation));
+            if(state.generation > 0){
+                MainWindow.addEntryToGraph(state.generation, best_i[x].fitness.fitness(), avgF);
+            }
             
             if (doGeneration) state.output.println("Subpopulation " + x + ":",statisticslog);
             if (doGeneration) best_i[x].printIndividualForHumans(state,statisticslog);
