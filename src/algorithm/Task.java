@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus;
+package algorithm;
 
-import arus.METADATA;
-import arus.Task;
-import arus.TreeData;
+
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -22,8 +20,7 @@ import static java.lang.Math.max;
  *
  * @author arsc
  */
-public class TaskNodeERC extends ERC{
-
+public class Task extends ERC{
 
     @Override
     public int expectedChildren() {
@@ -32,15 +29,15 @@ public class TaskNodeERC extends ERC{
 
     @Override
     public String name() {
-        return "ERC0";
+        return "ERCT";
     }
     
-    public TaskNodeERC(){
+    public Task(){
         task =  METADATA.getRandomTask();
         startingTime = 0;
     }
     
-    public Task task;
+    public TaskData task;
     public int startingTime;
 
     @Override
@@ -76,7 +73,7 @@ public class TaskNodeERC extends ERC{
         data.StartupTimesPerMachine[task.requiredMachineID] = startTime + task.duration;
         
         //penality for wrong parent
-        if(parent.getClass() != MachineERC.class){
+        if(parent.getClass() != Machine.class){
             data.numberOfTasksOnWrongMachine += 1;
         }
     }
@@ -89,7 +86,7 @@ public class TaskNodeERC extends ERC{
 
     @Override
     public boolean nodeEquals(GPNode gpnode) {
-        return (gpnode.getClass() == this.getClass() && ((TaskNodeERC)gpnode).task.ID == task.ID);
+        return (gpnode.getClass() == this.getClass() && ((Task)gpnode).task.ID == task.ID);
     }
 
     @Override

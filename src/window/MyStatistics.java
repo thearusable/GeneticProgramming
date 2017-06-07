@@ -5,7 +5,7 @@
  */
 package window;
 
-import arus.JobsSchedulingProblem;
+import algorithm.JobsSchedulingProblem;
 import ec.EvolutionState;
 import ec.Individual;
 import ec.gp.GPIndividual;
@@ -14,7 +14,6 @@ import ec.simple.SimpleStatistics;
 import ec.util.Parameter;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 /**
  *
@@ -49,11 +48,8 @@ public class MyStatistics extends SimpleStatistics {
             int makespan = problem.getMakespan(BestSoFarInd);
             
             
-            //change to multiplatform path
-            String tempPath = Paths.get("").toAbsolutePath().toString();
-            
             //init grapviz and pass tree data
-            GraphViz gv = new GraphViz(tempPath, false);
+            GraphViz gv = new GraphViz(false);
             gv.add(dotTree);
             
             //create png file

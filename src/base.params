@@ -40,7 +40,7 @@ pop.subpop.0.duplicate-retries = 0
 # breed.elite.0 = 10
 
 init = ec.gp.GPInitializer
-pop.subpop.0.species.fitness = arus.LowerBetterFitness
+pop.subpop.0.species.fitness = algorithm.LowerBetterFitness
 pop.subpop.0.species = ec.gp.GPSpecies
 pop.subpop.0.species.ind = ec.gp.GPIndividual
 pop.subpop.0.duplicate-retries = 100

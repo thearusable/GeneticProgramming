@@ -1,4 +1,4 @@
-package arus;
+package algorithm;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -30,18 +30,13 @@ public class MainClass {
                 MainWindow window = new MainWindow();
             }
             
-            //load tasks data
-            METADATA.load("test.txt", true); 
+            String path = "src" + File.separator;
             
-            //print styles 
-            // -p -...
-            // gp.tree.print-style=c
-            // gp.tree.print-style=dot
-            // gp.tree.print-style=latex
-            String paramsFile = "src" + File.separator + "problems" + File.separator + "test.params";
-            String[] Params = {"-file", paramsFile}; 
+            //load tasks data
+            METADATA.load(path + "test.txt", true); 
             
             //run gp
+            String[] Params = {"-file", path + "test.params"};            
             CustomEvolve.main(Params);
 
         }catch(IOException e){

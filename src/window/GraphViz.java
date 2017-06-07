@@ -75,18 +75,6 @@ public class GraphViz
     //Detects the client's operating system.
     private final static String osName = System.getProperty("os.name").replaceAll("\\s","");
 
-    
-    //Load the config.properties file.
-    private final static String cfgProp = "src" + File.separator + "window" + File.separator +"config.properties";
-    private final static Properties configFile = new Properties() {
-        private final static long serialVersionUID = 1L; {
-            try {
-                load(new FileInputStream(cfgProp));
-            } catch (Exception e) {
-                System.out.println("Cannot load cfgProp: " + cfgProp);
-            }
-        }
-    };
 
   //The dir. where temporary files will be created.
   private static String TEMP_DIR;
@@ -127,18 +115,20 @@ public class GraphViz
     //The source of the graph written in dot language.
     private StringBuilder graph = new StringBuilder();
 
-    public GraphViz(String tempPath, boolean debug) {
+    public GraphViz(boolean debug) {
         //set path to dot program
         if(osName.contains("Windows")){
-            DOT = configFile.getProperty("dotForWindows");
+            String[] source = System.getenv("PATH").split(";");
+            DOT = (source[source.length - 1]) + "\\dot.exe";
+            TEMP_DIR = System.getProperty("java.io.tmpdir");
         }else if(osName.contains("Mac")){
-            DOT = configFile.getProperty("dotForMacOSX");
+            DOT = "/usr/local/bin/dot";
+            TEMP_DIR = "/tmp";
         }else{
-            DOT = configFile.getProperty("dotForLinux");
+            DOT = "/usr/bin/dot";
+            TEMP_DIR = "/tmp";
         }
-        //set temp path
-        TEMP_DIR = tempPath;
-        
+
         if(debug == true){
             System.out.println("osName: " + osName);
             System.out.println("temp dir: " + TEMP_DIR);

@@ -1,5 +1,5 @@
 #base configuration
-parent.0 = ../arus/base.params
+parent.0 = base.params
 
 #max generations number
 generations = 1000
@@ -9,21 +9,21 @@ pop.subpop.0.size = 4000
 select.tournament.size = 5
 
 #definition of problem to solve
-eval.problem = arus.JobsSchedulingProblem
+eval.problem = algorithm.JobsSchedulingProblem
 #problem data
-eval.problem.data = arus.TreeData
+eval.problem.data = algorithm.TreeData
 
 #output
-stat.file = $src\\problems\\test.stat
-stat.png = $src\\problems\\test.png
+stat.file = $out.stat
+stat.png = $out.png
 
 #nodes
 gp.fs.0.size = 3
-gp.fs.0.func.0 = arus.TaskNodeERC
+gp.fs.0.func.0 = algorithm.Task
 gp.fs.0.func.0.nc = nc0
-gp.fs.0.func.1 = arus.MachineERC
+gp.fs.0.func.1 = algorithm.Machine
 gp.fs.0.func.1.nc = nc1
 
-gp.fs.0.func.2 = arus.DummyERC
+gp.fs.0.func.2 = algorithm.Dummy
 gp.fs.0.func.2.nc = nc3
 

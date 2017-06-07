@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus;
+package algorithm;
 
 import ec.EvolutionState;
 import ec.Problem;
@@ -18,7 +18,7 @@ import ec.util.Code;
  *
  * @author arsc
  */
-public class MachineERC extends ERC {
+public class Machine extends ERC {
 
     public int ID;
     
@@ -49,7 +49,7 @@ public class MachineERC extends ERC {
 
     @Override
     public boolean nodeEquals(GPNode gpnode) {
-        return (gpnode.getClass() == this.getClass() && ((MachineERC)gpnode).ID == ID);
+        return (gpnode.getClass() == this.getClass() && ((Machine)gpnode).ID == ID);
     }
 
     @Override
@@ -61,13 +61,15 @@ public class MachineERC extends ERC {
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = (TreeData)gpdata;
         
-        for(int x = 0; x < children.length; ++x){
-            if(children[x].getClass() != TaskNodeERC.class){
+        for(int x = 0; x < children.length; ++x){                                        
+            //if machine have wrong child
+            if(children[x].getClass() != Task.class){
                 data.numberOfTasksOnWrongMachine += 1;
             }
             
-            if(children[x].getClass() == TaskNodeERC.class){
-                TaskNodeERC t = (TaskNodeERC)children[x];
+            if(children[x].getClass() == Task.class){
+                Task t = (Task)children[x];
+                //if child have wrong machine ID
                 if(t.task.requiredMachineID != ID){
                     data.numberOfTasksOnWrongMachine += 1;
                 }

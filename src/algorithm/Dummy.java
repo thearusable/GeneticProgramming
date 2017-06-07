@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus;
+package algorithm;
 
 import ec.EvolutionState;
 import ec.Problem;
@@ -17,7 +17,7 @@ import ec.gp.GPNode;
  *
  * @author arsc
  */
-public class DummyERC extends ERC{
+public class Dummy extends ERC{
 
     @Override
     public String toString() {
@@ -36,7 +36,7 @@ public class DummyERC extends ERC{
 
     @Override
     public void resetNode(EvolutionState es, int i) {
-        
+        //nothing to do
     }
 
     @Override
@@ -54,7 +54,8 @@ public class DummyERC extends ERC{
         TreeData data = (TreeData)gpdata;
         
         for(int x = 0; x < children.length; ++x){
-            if(children[x].getClass() == TaskNodeERC.class){
+            //if dummy have wrong children
+            if(children[x].getClass() == Task.class){
                 data.wrongChildOfDummy += 1;
             }
             

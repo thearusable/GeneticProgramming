@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus;
+package algorithm;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -23,7 +23,7 @@ public class METADATA {
     public static int TASKS_COUNT;
     public static int MAX_TASK_DURATION;
     
-    private static Task [] tasks;
+    private static TaskData [] tasks;
     
     static public void load(String dataFile, boolean debug) throws IOException {
         int[][] times = new int[0][0];
@@ -69,7 +69,7 @@ public class METADATA {
             }
         }
         
-        tasks = new Task[JOBS_COUNT * times[0].length];
+        tasks = new TaskData[JOBS_COUNT * times[0].length];
         
         TASKS_COUNT = JOBS_COUNT * times[0].length;
         TASKS_PER_JOB = times[0].length;
@@ -78,7 +78,7 @@ public class METADATA {
         int tasksCounter = 0;
         for(int x = 0; x < times.length; ++x){ //JobID
             for(int y =0; y < times[0].length; ++y){ //taskInJob
-                tasks[tasksCounter] = new Task(tasksCounter, y, x, times[x][y], machines[x][y]);
+                tasks[tasksCounter] = new TaskData(tasksCounter, y, x, times[x][y], machines[x][y]);
                 tasksCounter += 1;
                 
                 if(times[x][y] > MAX_TASK_DURATION) MAX_TASK_DURATION = times[x][y];
@@ -90,12 +90,12 @@ public class METADATA {
         }
     }
     
-    static public Task getRandomTask(){      
+    static public TaskData getRandomTask(){      
         Random rand = new Random();
         return tasks[ rand.nextInt(tasks.length) ];
     }
     
-    static public Task getCloseTaskWithinJob(int taskID){
+    static public TaskData getCloseTaskWithinJob(int taskID){
         double rand = Math.random();
         boolean getGreater;
         if(rand > 0.5){
@@ -143,7 +143,7 @@ public class METADATA {
         return (int) (Math.random() * MACHINES_COUNT);
     }
     
-    static public Task getTask(int whichOne){
+    static public TaskData getTask(int whichOne){
         if(whichOne > tasks.length){
             System.out.println("That tasks doeas not exist");
             throw new ArrayIndexOutOfBoundsException();

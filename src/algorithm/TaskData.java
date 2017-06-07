@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus;
+package algorithm;
 
 /**
  *
  * @author arsc
  */
-public class Task {
+public class TaskData {
 
     @Override
     public String toString() {
         return "Task{ID:" + ID + ", whichTaskInJob=" + whichTaskInJob + ", jobID=" + jobID + ", duration=" + duration + ", requiredMachineID=" + requiredMachineID + '}';
     }
 
-    public Task(int iD, int whichTaskInJob, int jobID, int duration, int requiredMachineID) {
+    public TaskData(int iD, int whichTaskInJob, int jobID, int duration, int requiredMachineID) {
         this.ID = iD;
         this.whichTaskInJob = whichTaskInJob;
         this.jobID = jobID;

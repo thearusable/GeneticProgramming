@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arus;
+package algorithm;
 
 import ec.EvolutionState;
 import ec.Individual;
@@ -13,10 +13,6 @@ import static ec.gp.GPProblem.P_DATA;
 import ec.util.Parameter;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import window.MainWindow;
 
 /**
  *
