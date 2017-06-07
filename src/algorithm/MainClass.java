@@ -9,6 +9,8 @@ package algorithm;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import window.MainWindow;
 
 /**
@@ -23,24 +25,41 @@ public class MainClass {
     
     public static boolean showWindows = true;
     
+    //args[0] - problem name
     public static void main(String[] args) throws IOException {       
+        if(showWindows){
+            MainWindow window = new MainWindow();
+        }
         
-        try{
-            if(showWindows){
-                MainWindow window = new MainWindow();
-            }
-            
-            String path = "src" + File.separator;
-            
+        String problemName;
+        
+        if(args.length < 1) {
+            problemName = "test";
+        }else{
+            //someday remowing extension here
+            problemName = args[0];
+        }
+        
+        String path = Paths.get("").toAbsolutePath().toString() + File.separator;
+        
+        try{ 
             //load tasks data
-            METADATA.load(path + "test.txt", true); 
+            METADATA.load(path + problemName + ".txt", true); 
             
-            //run gp
-            String[] Params = {"-file", path + "test.params"};            
-            CustomEvolve.main(Params);
-
         }catch(IOException e){
-            System.out.println(e.getMessage());
-        }        
+            
+            path += "src" + File.separator;
+            
+            try{ 
+            //load tasks data
+            METADATA.load(path + problemName + ".txt", true); 
+            }catch(IOException e2){
+                System.exit(0);
+            }
+        }
+
+        //run gp
+        String[] Params = {"-file", path + problemName + ".params"};            
+        CustomEvolve.main(Params);
     }
 }

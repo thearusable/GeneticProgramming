@@ -10,6 +10,18 @@
 <project name="GP" default="default" basedir=".">
     <description>Builds, tests, and runs the project GP.</description>
     <import file="nbproject/build-impl.xml"/>
+	
+	<target name="-post-jar"> 
+		<copy file="src/base.params" flatten="true" todir="${dist.dir}"/>
+        <copy file="src/test.txt" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/test.params" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/ta12.txt" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/ta12.params" flatten="true" todir="${dist.dir}"/>
+		
+		<delete file="${dist.dir}/README.TXT"/> 
+		<copy file="src/README.TXT" flatten="true" todir="${dist.dir}"/> 		
+    </target> 
+	
     <!--
 
     There exist several targets which are by default empty and which can be 
