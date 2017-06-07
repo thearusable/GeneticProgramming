@@ -13,6 +13,7 @@ import static ec.gp.GPProblem.P_DATA;
 import ec.util.Parameter;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import window.MainWindow;
 
 /**
  *
@@ -29,39 +30,38 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     final private double scheduleErrorWeight = 1.0;
     final private double wrongChildOfDummyErrorWeight = 1.0;
     
-    final private boolean findOnlyFirstValidTree = true;
+    //ending calculations before max generations number will occur
+    static private int BestFitnessOccursToEndCalculations = 1000;
+    static private double lowestFitness = Integer.MAX_VALUE;
+    static private int BestFitnessOccurCount;
     
     @Override
-    public void setup(final EvolutionState state,
-        final Parameter base)
-        {
+    public void setup(final EvolutionState state, final Parameter base){
         super.setup(state, base);
-        
         // verify our input is the right class (or subclasses from it)
-        if (!(input instanceof TreeData))
-            state.output.fatal("GPData class must subclass from " + TreeData.class,
-                base.push(P_DATA), null);      
+        if (!(input instanceof TreeData)){
+            state.output.fatal("GPData class must subclass from " + TreeData.class, base.push(P_DATA), null);      
         }
+    }
         
     @Override
     public void evaluate(final EvolutionState state, 
         final Individual ind, 
         final int subpopulation,
-        final int threadnum)
-        {
+        final int threadnum){
             
-        if (!ind.evaluated)  // don't bother reevaluating
+        if (!ind.evaluated)
             {
             double fitness = 0.0;
-            
-            TreeData data = (TreeData)(this.input);
 
+            TreeData data = (TreeData)(this.input);
+            
             GPIndividual GPInd = (GPIndividual)ind;
             GPNode root = GPInd.trees[0].child;
             
             //collect data
             root.eval(state, threadnum, data, stack, GPInd, this);
-            
+            //System.out.print(".");
             //penality for number of each task
             for(int i = 0; i < data.howManyTimesOccurs.length; ++i){
                 if(data.howManyTimesOccurs[i] > 1){
@@ -97,20 +97,35 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //penality for overlapping tasks on machine
             
             double onlyTreeFitness = fitness;
+            int onlyMakespan = data.getMakespan();
             //Add makespan to fitness
-            fitness += data.getMakespan() * fitnessWeight;
+            fitness += onlyMakespan * fitnessWeight;
             
             //System.out.println(data.toString());
             
-            
-            //ending condition
-            boolean ended;
-            if(findOnlyFirstValidTree == true){
-                ended = onlyTreeFitness == 0.0;
-            }else{
-                ended = false;
-            }
 
+            
+            
+            
+            //countin lowest makespan
+            boolean ended = false;
+            if(onlyMakespan < lowestFitness && onlyTreeFitness == 0.0){
+                System.out.println("New lowest makespan " + onlyMakespan);
+                lowestFitness = onlyMakespan;
+                BestFitnessOccurCount = 0;
+                MainWindow.updateMinimumMakespan(onlyMakespan);
+                MainWindow.hitsReset();
+            }else if(lowestFitness == data.getMakespan() && onlyTreeFitness == 0.0){
+                BestFitnessOccurCount += 1;
+                MainWindow.hit();
+            }else if(onlyMakespan < lowestFitness){
+                MainWindow.updateTreeFitness(onlyTreeFitness);
+            }
+            
+            if(BestFitnessOccurCount >= BestFitnessOccursToEndCalculations){
+                ended = true;
+            }
+            
             //Assing calculated fitness
             ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, ended);
             //mark individual as evaluated

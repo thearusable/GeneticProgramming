@@ -64,11 +64,17 @@ public class MainWindow {
     //stats
     static JPanel stats = new JPanel();
     static JLabel generationsNumberLabel = new JLabel("Current Generation: ");
-    static JTextField generationsNumberField = new JTextField(3);
+    static JTextField generationsNumberField = new JTextField(4);
     static JLabel minimumFitnessLabel = new JLabel("       Minimum Fitness: ");
-    static JTextField minimumFitnessField = new JTextField(12);
+    static JTextField minimumFitnessField = new JTextField(6);
     static JLabel minimumMakepsanLabel = new JLabel("       Makespan: ");
     static JTextField minimumMakepsanField = new JTextField(4);
+    static JLabel hitsLabel = new JLabel("       Hits: ");
+    static JTextField hitsField = new JTextField(4);
+    static JLabel treeLabel = new JLabel("       Tree: ");
+    static JTextField treeField = new JTextField(8);
+    static int hitsCounter = 0;
+    static int makespan = Integer.MAX_VALUE;
     //styles
     static StandardChartTheme theme = (StandardChartTheme)org.jfree.chart.StandardChartTheme.createJFreeTheme();
     static String fontName = "Lucida Sans";
@@ -102,7 +108,7 @@ public class MainWindow {
     
     public MainWindow() throws IOException {
         //set maximum window size
-        guiFrame.setMinimumSize(new Dimension(1200, 900));
+        guiFrame.setMinimumSize(new Dimension(1500, 900));
         
         //maximialize window
         guiFrame.setExtendedState(guiFrame.getExtendedState() | JFrame.MAXIMIZED_VERT | JFrame.MAXIMIZED_HORIZ);
@@ -200,10 +206,14 @@ public class MainWindow {
         generationsNumberLabel.setFont(new Font(fontName,Font.PLAIN, 16));
         minimumFitnessLabel.setFont(new Font(fontName,Font.PLAIN, 16));
         minimumMakepsanLabel.setFont(new Font(fontName,Font.PLAIN, 16));
+        hitsLabel.setFont(new Font(fontName,Font.PLAIN, 16));
+        treeLabel.setFont(new Font(fontName,Font.PLAIN, 16));
         
         generationsNumberField.setFont(new Font(fontName,Font.PLAIN, 16));
         minimumFitnessField.setFont(new Font(fontName,Font.PLAIN, 16));
         minimumMakepsanField.setFont(new Font(fontName,Font.PLAIN, 16));
+        hitsField.setFont(new Font(fontName,Font.PLAIN, 16));
+        treeField.setFont(new Font(fontName,Font.PLAIN, 16));
                 
         stats.add(generationsNumberLabel, gbc0);
         stats.add(generationsNumberField, gbc0);
@@ -211,6 +221,10 @@ public class MainWindow {
         stats.add(minimumFitnessField, gbc0);
         stats.add(minimumMakepsanLabel, gbc0);
         stats.add(minimumMakepsanField, gbc0);
+        stats.add(hitsLabel, gbc0);
+        stats.add(hitsField, gbc0);
+        stats.add(treeLabel, gbc0);
+        stats.add(treeField, gbc0);
         
         
         //Button
@@ -320,11 +334,30 @@ public class MainWindow {
         minimumFitnessField.setText(Double.toString(fitness));
     }
     
-    public static void updateMinimumMakespan(int makespan, String path){
+    public static void updateMinimumMakespan(int span){
+        if(span < makespan){
+            makespan = span;
+        }
         minimumMakepsanField.setText(Integer.toString(makespan));
-        
+    }
+    
+    public static void updateBestPath(String path){
         bestPath = path;
-        
         openBestPNG.setEnabled(true);
     }
+    
+    public static void hit(){
+        hitsCounter++;
+        hitsField.setText(Integer.toString(hitsCounter));
+    }
+    
+    public static void hitsReset(){
+        hitsCounter = 0;
+        hitsField.setText(Integer.toString(hitsCounter));
+    }
+    
+    public static void updateTreeFitness(double number){
+        treeField.setText(Double.toString(number));
+    }
+    
 }

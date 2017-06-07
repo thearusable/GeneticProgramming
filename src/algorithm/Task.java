@@ -52,7 +52,7 @@ public class Task extends ERC{
         
         //Add occurs
         data.howManyTimesOccurs[task.jobID * METADATA.TASKS_PER_JOB + task.whichTaskInJob] += 1;
-        
+        /*
         //read startTime
         int startTimePerJob = data.StartupTimesPerJob[task.jobID];
         int startTimePerMachine = data.StartupTimesPerMachine[task.requiredMachineID];
@@ -71,7 +71,7 @@ public class Task extends ERC{
         //update new times
         data.StartupTimesPerJob[task.jobID] = startTime + task.duration;
         data.StartupTimesPerMachine[task.requiredMachineID] = startTime + task.duration;
-        
+        */
         //penality for wrong parent
         if(parent.getClass() != Machine.class){
             data.numberOfTasksOnWrongMachine += 1;

@@ -56,7 +56,8 @@ public class MyStatistics extends SimpleStatistics {
             gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), "png" ), bestPNGFile );
             
             //update value in window
-            MainWindow.updateMinimumMakespan(makespan, bestPNGFile.getCanonicalPath());
+            //MainWindow.updateMinimumMakespan(makespan);
+            MainWindow.updateBestPath(bestPNGFile.getCanonicalPath());
             
         } catch (IOException e) {
             // do something
