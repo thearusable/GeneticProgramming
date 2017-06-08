@@ -13,6 +13,7 @@ import static ec.gp.GPProblem.P_DATA;
 import ec.util.Parameter;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import java.util.Random;
 import window.MainWindow;
 
 /**
@@ -63,13 +64,35 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             root.eval(state, threadnum, data, stack, GPInd, this);
             //System.out.print(".");
             //penality for number of each task
+            /*
             for(int i = 0; i < data.howManyTimesOccurs.length; ++i){
                 if(data.howManyTimesOccurs[i] > 1){
                     fitness += (data.howManyTimesOccurs[i] - 1) * doublingTaskWeight * METADATA.MAX_TASK_DURATION;
                 }else if(data.howManyTimesOccurs[i] < 1){
                     fitness += missingTaskWeight * METADATA.MAX_TASK_DURATION;
                 }
-            }
+            }*/
+            
+            System.out.println(data.toString());
+            
+            Stats stats = data.getStats();
+            
+            fitness += stats.machineWithBadParent;
+            
+            fitness += stats.taskInWrongOrder;
+            
+            fitness += stats.taskOnWrongMachine;
+            
+            fitness += stats.taskWithBadParent;
+            
+            fitness += stats.taskWithBadTime;
+            
+            
+            //adding makespan to fitness
+            double onlyTreeFitness = fitness;
+            int onlyMakespan = stats.makespan;
+            
+            fitness += onlyMakespan;
             
             //penality for tasks on wrong machines
             //fitness += data.numberOfTasksOnWrongMachine * wrongMachineErrorWeight;
@@ -96,26 +119,22 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //penality for overlapping tasks on machine
             
-            double onlyTreeFitness = fitness;
-            int onlyMakespan = data.getMakespan();
+            
             //Add makespan to fitness
             //fitness += onlyMakespan * fitnessWeight;
             
             //System.out.println(data.toString());
-            
-
             
             
             
             //countin lowest makespan
             boolean ended = false;
             if(onlyMakespan < lowestFitness && onlyTreeFitness == 0.0){
-                System.out.println("New lowest makespan " + onlyMakespan);
                 lowestFitness = onlyMakespan;
                 BestFitnessOccurCount = 0;
                 MainWindow.updateMinimumMakespan(onlyMakespan);
                 MainWindow.hitsReset();
-            }else if(lowestFitness == data.getMakespan() && onlyTreeFitness == 0.0){
+            }else if(lowestFitness == onlyMakespan && onlyTreeFitness == 0.0){
                 BestFitnessOccurCount += 1;
                 MainWindow.hit();
             }else if(onlyMakespan < lowestFitness){
@@ -143,6 +162,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         EvolutionState state = new EvolutionState();
         root.eval(state, 0, data, stack, ind, this);
         
-        return data.getMakespan();
+        return data.getStats().makespan;
     }
 }

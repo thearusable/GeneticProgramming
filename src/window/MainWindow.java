@@ -6,6 +6,7 @@
 package window;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -164,19 +165,13 @@ public class MainWindow {
         openBestPNG.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame graph = new JFrame();
-                graph.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                graph.setExtendedState(graph.getExtendedState() | JFrame.MAXIMIZED_VERT | JFrame.MAXIMIZED_HORIZ);
-                
-                JPanel panel = new JPanel();
-                ImageIcon image = new ImageIcon(bestPath);
-                
-                JLabel label = new JLabel();
-                label.setIcon(image);
-                panel.add(label);
-                graph.add(panel);
-                
-                graph.setVisible(true);
+                try {
+                    File file = new File(bestPath);
+                    Desktop.getDesktop().open(file);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Cant open PNG file.");
+                }
             }
         });
         

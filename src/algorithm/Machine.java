@@ -60,21 +60,14 @@ public class Machine extends ERC {
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = (TreeData)gpdata;
+
+        if(parent != null){
+            data.machineOccur(parent.getClass() == Machine.class);
+        }else{
+            data.machineOccur(true);
+        }
         
-        for(int x = 0; x < children.length; ++x){                                        
-            //if machine have wrong child
-            if(children[x].getClass() != Task.class){
-                data.numberOfTasksOnWrongMachine += 1;
-            }
-            
-            if(children[x].getClass() == Task.class){
-                Task t = (Task)children[x];
-                //if child have wrong machine ID
-                if(t.task.requiredMachineID != ID){
-                    data.numberOfTasksOnWrongMachine += 1;
-                }
-            }
-            
+        for(int x = 0; x < children.length; ++x){
             children[x].eval(es, i, data, adfs, gpi, prblm);
         }
     }

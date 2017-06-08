@@ -51,15 +51,8 @@ public class Dummy extends ERC{
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        TreeData data = (TreeData)gpdata;
-        
         for(int x = 0; x < children.length; ++x){
-            //if dummy have wrong children
-            if(children[x].getClass() == Task.class){
-                data.wrongChildOfDummy += 1;
-            }
-            
-            children[x].eval(es, i, data, adfs, gpi, prblm);
+            children[x].eval(es, i, gpdata, adfs, gpi, prblm);
         }
     }
     

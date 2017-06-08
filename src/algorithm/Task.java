@@ -50,32 +50,17 @@ public class Task extends ERC{
         
         TreeData data = ((TreeData)input); 
         
-        //Add occurs
-        data.howManyTimesOccurs[task.jobID * METADATA.TASKS_PER_JOB + task.whichTaskInJob] += 1;
-        /*
-        //read startTime
-        int startTimePerJob = data.StartupTimesPerJob[task.jobID];
-        int startTimePerMachine = data.StartupTimesPerMachine[task.requiredMachineID];
-        int startTime = max(startTimePerJob, startTimePerMachine);
-        //assing values in timesPerJob array
-        data.timesPerJob[task.jobID][task.whichTaskInJob].startTime = startTime;
-        data.timesPerJob[task.jobID][task.whichTaskInJob].endTime = startTime + task.duration;
-        //assing values in timesPerMachine vector
-        if(data.timesPerMachine.size() > task.requiredMachineID){
-            //data.timesPerMachine.get(task.requiredMachineID).add(new Times(startTime, startTime + task.duration));
-        }else{
-            //data.timesPerMachine.add(new Vector<Times>());
-            //data.timesPerMachine.get(task.requiredMachineID).add(new Times(startTime, startTime + task.duration));
-            //data.timesPerMachine.get(task.requiredMachineID).add(new Times(startTime, startTime + task.duration));
+        int parentID = -1;
+        if(parent == null){
+            parentID = -1;
+        }else if(parent.getClass() == Dummy.class){
+            parentID = -1;
+        }else if(parent.getClass() == Machine.class){
+            parentID = ((Machine)parent).ID;
         }
-        //update new times
-        data.StartupTimesPerJob[task.jobID] = startTime + task.duration;
-        data.StartupTimesPerMachine[task.requiredMachineID] = startTime + task.duration;
-        */
-        //penality for wrong parent
-        if(parent.getClass() != Machine.class){
-            data.numberOfTasksOnWrongMachine += 1;
-        }
+        
+        data.taskOccur(task.ID, parentID);
+        
     }
     
     @Override

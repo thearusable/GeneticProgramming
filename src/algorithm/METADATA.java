@@ -25,6 +25,14 @@ public class METADATA {
     
     private static TaskData [] tasks;
     
+    static public int getJobID(int taskID){
+        return tasks[taskID].jobID;
+    }
+    
+    static public int getTaskDuration(int taskID){
+        return tasks[taskID].duration;
+    }
+    
     static public void load(String dataFile, boolean debug) throws IOException {
         int[][] times = new int[0][0];
         int[][] machines = new int[0][0];

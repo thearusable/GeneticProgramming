@@ -7,140 +7,132 @@ package algorithm;
 
 import ec.gp.GPData;
 import java.util.Arrays;
-import java.util.Vector;
+import java.util.Random;
 
 /**
  *
  * @author arus2
  */
-public class TreeData extends GPData {
+public final class TreeData extends GPData {
 
-    public int[] howManyTimesOccurs;
-    
-    //calculated from MachineERC
-    public int numberOfTasksOnWrongMachine;
-    public int toManyChilds;
-    public int machinesWithoutChilds;
-    
-    //calculated from DummyERC
-    public int wrongChildOfDummy;
-    
-    //para (int,int) - startTime, EndTime
-    //2d array - Job0: pair(0,x)
-    public Times[][] timesPerJob;
-    //must be dynamic
-    public Vector<Vector<Times>> timesPerMachine = new Vector<Vector<Times>>(METADATA.MACHINES_COUNT);
-    //public Times[][] timesPerMachine;
-    
-    //startup time per job (and meybe second per machine)
-    public int[] StartupTimesPerJob;
-    public int[] StartupTimesPerMachine;
-   
+    //occurrence of each task
+    private Occurrence[] occurrences; //index == taskID
+    private int[] StartupTimesPerJob; //index == jobID
+    private int[] PreviousExecuteTaskPerJob; //index == jobID
+    Stats stats; 
     
     public TreeData() {
-        howManyTimesOccurs = new int[METADATA.TASKS_COUNT];
-        numberOfTasksOnWrongMachine = 0;
-        toManyChilds = 0;
-        machinesWithoutChilds = 0;
-        wrongChildOfDummy = 0;
-        
-        timesPerJob = new Times[METADATA.JOBS_COUNT][METADATA.TASKS_PER_JOB];
-        //schoud by enough big number
-        timesPerMachine = new Vector<Vector<Times>>(METADATA.MACHINES_COUNT);
-        //timesPerMachine = new Times[METADATA.MACHINES_COUNT][METADATA.TASKS_PER_JOB * 2];
-        
+        occurrences = new Occurrence[METADATA.JOBS_COUNT * METADATA.TASKS_PER_JOB];
         StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
-        StartupTimesPerMachine = new int[METADATA.MACHINES_COUNT];
+        PreviousExecuteTaskPerJob = new int[METADATA.JOBS_COUNT];
+        stats = new Stats();
         
         reset();
     }
     
-    public int getMakespan(){
-        int makespan = StartupTimesPerMachine[0];
-        
-        for(int i = 1; i < StartupTimesPerMachine.length; ++i){
-            if(StartupTimesPerMachine[i] > makespan) makespan = StartupTimesPerMachine[i];
+    public void taskOccur(int taskID, int parentID){
+        TaskData task = METADATA.getTask(taskID);
+        //fill startupTime and record task occurrence
+        StartupTimesPerJob[task.jobID] = occurrences[taskID].Occur(taskID, parentID, StartupTimesPerJob[task.jobID]);
+        //checking task parent and machine id
+        if(parentID >= 0 && task.requiredMachineID != parentID){
+            stats.taskOnWrongMachine += 1;
+        }else if (parentID == -1){
+            stats.taskWithBadParent += 1;
         }
+        //checking execute order
+        if(PreviousExecuteTaskPerJob[task.jobID] >= 0 
+                && task.whichTaskInJob != PreviousExecuteTaskPerJob[task.jobID] - 1){
+            
+            stats.taskInWrongOrder += 1;
+        }
+        //assing last executed task
+        PreviousExecuteTaskPerJob[task.jobID] = task.whichTaskInJob;
         
-        return makespan;
     }
     
-    public void reset(){
-        for(int i = 0; i < howManyTimesOccurs.length; ++i ){
-            howManyTimesOccurs[i] = 0;
+    public void machineOccur(boolean isNotValid){
+        if(isNotValid == true){
+            stats.machineWithBadParent += 1;
         }
-        numberOfTasksOnWrongMachine = 0;
-        toManyChilds = 0;
-        machinesWithoutChilds = 0;
-        wrongChildOfDummy = 0;
-        
-        for(int i = 0; i < timesPerJob.length; ++ i){
-            for(int j = 0; j < timesPerJob[0].length; ++j){
-                timesPerJob[i][j] = new Times();
+    }
+    
+    public Stats getStats(){
+        //check how many times each task Occurrs
+        for(int i = 0; i < occurrences.length; ++i){
+            int x = occurrences[i].getHowManyTimesOccurrs();
+            if(x < 1){ // missing
+                stats.taskMissing += 1;
+            }else if(x > 1){ // doubling
+                stats.taskDoubled += 1;
             }
         }
         
-        timesPerMachine.clear();
+        //check if tasks times dont overlap
         
-        for(int i = 0; i < METADATA.MACHINES_COUNT; ++ i){
-            timesPerMachine.add(new Vector<Times>());
+        
+        //calc makespan
+        int makespan = StartupTimesPerJob[0];
+        for(int i = 1; i < StartupTimesPerJob.length; ++i){
+            if(StartupTimesPerJob[i] > makespan) makespan = StartupTimesPerJob[i];
+        }
+        stats.makespan = makespan;
+
+        return stats;
+    }
+    
+    public void reset(){
+        
+        for(int i = 0; i < occurrences.length; ++i){
+            occurrences[i] = new Occurrence();
         }
         
         for(int i = 0; i < StartupTimesPerJob.length; ++i){
             StartupTimesPerJob[i] = 0;
         }
         
-        for(int i = 0; i < StartupTimesPerMachine.length; ++i){
-            StartupTimesPerMachine[i] = 0;
+        for(int i = 0; i < PreviousExecuteTaskPerJob.length; ++i){
+            PreviousExecuteTaskPerJob[i] = -1;
         }
+        
+        stats.reset();
     }
     
     @Override
     public String toString() {
         String str = "------------------------\n";
-        str += "howManyTimesOccurs:\n" + Arrays.toString(howManyTimesOccurs) + "\ntimesPerJob:\n";
-        
-        for(int i = 0; i < timesPerJob.length; ++i){
-            str += Arrays.toString(timesPerJob[i]);
-            str += "\n";
-        }
-        str += "timesPerMachine: \n";
-        for(int i = 0; i < timesPerMachine.size(); ++i){
-            str += timesPerMachine.get(i).toString();
-            //str += Arrays.toString(timesPerMachine[i]);
-            str += "\n";
+        str += "Occurrences: \n";
+        for(int i = 0; i < occurrences.length; ++i){
+            str += occurrences[i].toString() + "\n";
         }
         
-        str += "StartupTimesPerJob: " + Arrays.toString(StartupTimesPerJob);
-        str += "\nStartupTimesPerMachine: " + Arrays.toString(StartupTimesPerMachine) + "\n";
-        str += "numberOfTasksOnWrongMachine: " + numberOfTasksOnWrongMachine + "\n";
-        str += "toManyChilds: " + toManyChilds + "\n";
-        str += "machinesWithoutChilds: " + machinesWithoutChilds;
-        str += "wrongChildOfDummy: " + wrongChildOfDummy;
+        str += "PreviousExecuteTaskPerJob: " + Arrays.toString(PreviousExecuteTaskPerJob);
+        str += "\nStartupTimesPerJob: " + Arrays.toString(StartupTimesPerJob);
+        str += "\n" + stats.toString();
         
         return str;
     }
     
     @Override
     public Object clone() {
-        TreeData bd = new TreeData();
-        bd.howManyTimesOccurs = howManyTimesOccurs.clone();
-        bd.timesPerJob = timesPerJob.clone();
-        bd.timesPerMachine = timesPerMachine;
-        bd.wrongChildOfDummy = wrongChildOfDummy;
-        bd.StartupTimesPerJob = StartupTimesPerJob.clone();
-        bd.StartupTimesPerMachine = StartupTimesPerMachine.clone();
-        return bd;
+        TreeData other = (TreeData)super.clone();
+        other.occurrences = (Occurrence[])occurrences.clone();
+        other.StartupTimesPerJob = (int[])StartupTimesPerJob.clone();
+        other.PreviousExecuteTaskPerJob = (int[])PreviousExecuteTaskPerJob.clone();
+        other.stats = (Stats)stats.clone();
+        return other;
     }
 
     @Override
-    public void copyTo(GPData gpd) {
-        ((TreeData)gpd).howManyTimesOccurs = howManyTimesOccurs.clone();
-        ((TreeData)gpd).timesPerJob = timesPerJob.clone();
-        ((TreeData)gpd).timesPerMachine = timesPerMachine;
-        ((TreeData)gpd).wrongChildOfDummy = wrongChildOfDummy;
-        ((TreeData)gpd).StartupTimesPerJob = StartupTimesPerJob.clone();
-        ((TreeData)gpd).StartupTimesPerMachine = StartupTimesPerMachine.clone();
+    public void copyTo(final GPData o) {
+        TreeData other = (TreeData)o;
+        System.arraycopy(occurrences, 0, other.occurrences, 0, occurrences.length);
+        System.arraycopy(StartupTimesPerJob, 0, other.StartupTimesPerJob, 0, StartupTimesPerJob.length);
+        System.arraycopy(PreviousExecuteTaskPerJob, 0, other.PreviousExecuteTaskPerJob, 0, PreviousExecuteTaskPerJob.length);
+        other.stats = (Stats)stats.clone();
     }
     
+    private Occurrence getOccurrence(int jobID, int whichTaskInJob){
+        return occurrences[jobID * METADATA.TASKS_PER_JOB + whichTaskInJob];
+    }
 }
