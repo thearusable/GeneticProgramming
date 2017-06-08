@@ -67,7 +67,7 @@ public class MyStatistics extends SimpleStatistics {
     boolean warned = false;
     @Override
     public void postEvaluationStatistics(final EvolutionState state){
-        super.postEvaluationStatistics(state);
+        //super.postEvaluationStatistics(state);
         
         //set generation number
         MainWindow.updateGenerationNumber(state.generation);

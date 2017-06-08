@@ -105,14 +105,14 @@ gp.tc.0.init.max-depth = 8
 
 breedthreads = auto
 evalthreads = auto
-seed.0 = time
-seed.1 = time
-seed.2 = time
-seed.3 = time
-seed.4 = time
-seed.5 = time
-seed.6 = time
-seed.7 = time
+seed.0 = -2041175239
+seed.1 = 2041175239
+seed.2 = -1041175238
+seed.3 = 1041175239
+seed.4 = -3041175210
+seed.5 = 3041175211
+seed.6 = -4041175212
+seed.7 = 4041175214
 
 checkpoint = false
 checkpoint-modulo = 1

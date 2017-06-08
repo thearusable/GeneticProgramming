@@ -2,11 +2,11 @@
 parent.0 = base.params
 
 #max generations number
-generations = 500
-pop.subpop.0.size = 5000
+generations = 50000
+pop.subpop.0.size = 4000
 
 #size of a tournament
-select.tournament.size = 20
+select.tournament.size = 10
 
 #definition of problem to solve
 eval.problem = algorithm.JobsSchedulingProblem
@@ -18,11 +18,34 @@ stat.file = $ta12.stat
 stat.png = $ta12.png
 
 #nodes
-gp.fs.0.size = 3
+gp.fs.0.size = 6
 gp.fs.0.func.0 = algorithm.Task
 gp.fs.0.func.0.nc = nc0
 gp.fs.0.func.1 = algorithm.Machine
 gp.fs.0.func.1.nc = nc1
 
+#add moooooore
 gp.fs.0.func.2 = algorithm.Dummy
-gp.fs.0.func.2.nc = nc8
+gp.fs.0.func.2.nc = nc2
+gp.fs.0.func.3 = algorithm.Dummy
+gp.fs.0.func.3.nc = nc3
+gp.fs.0.func.4 = algorithm.Dummy
+gp.fs.0.func.4.nc = nc4
+gp.fs.0.func.5 = algorithm.Dummy
+gp.fs.0.func.5.nc = nc5
+gp.fs.0.func.6 = algorithm.Dummy
+gp.fs.0.func.6.nc = nc6
+gp.fs.0.func.7 = algorithm.Dummy
+gp.fs.0.func.7.nc = nc7
+gp.fs.0.func.8 = algorithm.Dummy
+gp.fs.0.func.8.nc = nc8
+gp.fs.0.func.9 = algorithm.Dummy
+gp.fs.0.func.9.nc = nc9
+gp.fs.0.func.10 = algorithm.Dummy
+gp.fs.0.func.10.nc = nc10
+gp.fs.0.func.11 = algorithm.Dummy
+gp.fs.0.func.11.nc = nc11
+gp.fs.0.func.12 = algorithm.Dummy
+gp.fs.0.func.12.nc = nc12
+gp.fs.0.func.13 = algorithm.Dummy
+gp.fs.0.func.13.nc = nc13

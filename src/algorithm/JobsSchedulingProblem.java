@@ -26,7 +26,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     final private double wrongMachineErrorWeight = 20.0;
     final private double toManyChildsErrorWeight = 5.0;
     final private double doublingTaskWeight = 1.2;
-    final private double missingTaskWeight = 2.0;
+    final private double missingTaskWeight = 5.0;
     final private double scheduleErrorWeight = 1.0;
     final private double wrongChildOfDummyErrorWeight = 1.0;
     
@@ -72,15 +72,15 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             }
             
             //penality for tasks on wrong machines
-            fitness += data.numberOfTasksOnWrongMachine * wrongMachineErrorWeight;
+            //fitness += data.numberOfTasksOnWrongMachine * wrongMachineErrorWeight;
             
             //penality for too many tasks on machine
-            fitness += data.toManyChilds * toManyChildsErrorWeight;
+            //fitness += data.toManyChilds * toManyChildsErrorWeight;
             
             //penality for machines without task
-            fitness += data.machinesWithoutChilds * machinesWithoutTaskChildsErrorWeight;
+            //fitness += data.machinesWithoutChilds * machinesWithoutTaskChildsErrorWeight;
             
-            fitness += data.wrongChildOfDummy * wrongChildOfDummyErrorWeight;
+            //fitness += data.wrongChildOfDummy * wrongChildOfDummyErrorWeight;
             
             //penality for order of tasks in job
             /*
@@ -99,7 +99,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             double onlyTreeFitness = fitness;
             int onlyMakespan = data.getMakespan();
             //Add makespan to fitness
-            fitness += onlyMakespan * fitnessWeight;
+            //fitness += onlyMakespan * fitnessWeight;
             
             //System.out.println(data.toString());
             
