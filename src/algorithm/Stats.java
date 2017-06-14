@@ -26,7 +26,15 @@ public final class Stats {
     
     @Override
     public String toString() {
-        return "Stats{\n" + "machineWithBadParent=" + machineWithBadParent + ", taskWithBadParent=" + taskWithBadParent + ", taskMissing=" + taskMissing + ", taskDoubled=" + taskDoubled + ",\n taskOnWrongMachine=" + taskOnWrongMachine + ", taskInWrongOrder=" + taskInWrongOrder + ", taskWithBadTime=" + taskWithBadTime + ", makespan=" + makespan + '}';
+        return "Stats" 
+                + "\nmachineWithBadParent = " + machineWithBadParent 
+                + "\ntaskWithBadParent = " + taskWithBadParent 
+                + "\ntaskMissing = " + taskMissing 
+                + "\ntaskDoubled = " + taskDoubled 
+                + "\ntaskOnWrongMachine = " + taskOnWrongMachine 
+                + "\ntaskInWrongOrder = " + taskInWrongOrder 
+                + "\ntaskWithBadTime = " + taskWithBadTime 
+                + "\nmakespan = " + makespan + '\n';
     }
 
     @Override

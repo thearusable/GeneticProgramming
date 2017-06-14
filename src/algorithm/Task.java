@@ -50,16 +50,7 @@ public class Task extends ERC{
         
         TreeData data = ((TreeData)input); 
         
-        int parentID = -1;
-        if(parent == null){
-            parentID = -1;
-        }else if(parent.getClass() == Dummy.class){
-            parentID = -1;
-        }else if(parent.getClass() == Machine.class){
-            parentID = ((Machine)parent).ID;
-        }
-        
-        data.taskOccur(task.ID, parentID);
+        data.taskOccur(task.ID, parent);
         
     }
     
