@@ -176,7 +176,10 @@ public class GraphViz
                 return img_stream;
             }
             return null;
-        } catch (java.io.IOException ioe) { return null; }
+        } catch (java.io.IOException ioe) { 
+            System.out.println("getGraph fails!");
+            return null;
+        }
     }
 
     /**
@@ -207,7 +210,10 @@ public class GraphViz
             fos.write(img);
             fos.close();           
             System.out.println("PNG saved.");
-        } catch (java.io.IOException ioe) { return -1; }
+        } catch (java.io.IOException ioe) { 
+            System.out.print("Cannot Write to file!");
+            return -1; 
+        }
         return 0;
     }
 

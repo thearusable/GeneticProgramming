@@ -2,11 +2,11 @@
 parent.0 = base.params
 
 #max generations number
-generations = 200000
+generations = 500
 pop.subpop.0.size = 5000
 
 #size of a tournament
-select.tournament.size = 7
+select.tournament.size = 10
 
 #definition of problem to solve
 eval.problem = algorithm.JobsSchedulingProblem

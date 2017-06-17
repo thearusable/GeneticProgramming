@@ -13,7 +13,6 @@ import static ec.gp.GPProblem.P_DATA;
 import ec.util.Parameter;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
-import java.util.Random;
 import window.MainWindow;
 
 /**
@@ -22,17 +21,17 @@ import window.MainWindow;
  */
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
     
-    final private double fitnessWeight = 0.1;
-    final private double machinesWithoutTaskChildsErrorWeight = 1.0;
-    final private double wrongMachineErrorWeight = 20.0;
-    final private double toManyChildsErrorWeight = 5.0;
-    final private double doublingTaskWeight = 1.2;
-    final private double missingTaskWeight = 5.0;
-    final private double scheduleErrorWeight = 1.0;
-    final private double wrongChildOfDummyErrorWeight = 1.0;
+    final static private double makespanWeight = 1.0 / METADATA.TASKS_COUNT;
+    final static private double taskWithBadParentErrorWeight = 1.0 * METADATA.TASKS_COUNT;
+    final static private double taskOnWrongMachineErrorWeight = 2.0 * METADATA.TASKS_COUNT;
+    final static private double machineWithBadParentErrorWeight = 5.0 * METADATA.TASKS_COUNT;
+    final static private double doublingTaskWeight = 1.2 * METADATA.TASKS_COUNT;
+    final static private double missingTaskWeight = 5.0 * METADATA.TASKS_COUNT;
+    final static private double taskInWrongOrderErrorWeight = 1.0 * METADATA.TASKS_COUNT;
+    final static private double taskWithBadTimeErrorWeight = 0.4 * METADATA.TASKS_COUNT;
     
     //ending calculations before max generations number will occur
-    static private int BestFitnessOccursToEndCalculations = 1000;
+    private static final int BestFitnessOccursToEndCalculations = 1;
     static private double lowestFitness = Integer.MAX_VALUE;
     static private int BestFitnessOccurCount;
     
@@ -62,70 +61,34 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //collect data
             root.eval(state, threadnum, data, stack, GPInd, this);
-            //System.out.print(".");
+            
+            //System.out.println(data.toString());
+            
             //penality for number of each task
-            /*
-            for(int i = 0; i < data.howManyTimesOccurs.length; ++i){
-                if(data.howManyTimesOccurs[i] > 1){
-                    fitness += (data.howManyTimesOccurs[i] - 1) * doublingTaskWeight * METADATA.MAX_TASK_DURATION;
-                }else if(data.howManyTimesOccurs[i] < 1){
-                    fitness += missingTaskWeight * METADATA.MAX_TASK_DURATION;
+            for(int i = 0; i < data.OccursCounterPerTask.length; ++i){
+                if(data.OccursCounterPerTask[i] > 1){
+                    fitness += (data.OccursCounterPerTask[i] - 1) * doublingTaskWeight;
+                }else if(data.OccursCounterPerTask[i] < 1){
+                    fitness += missingTaskWeight;
                 }
-            }*/
+            }
             
-            System.out.println(data.toString());
+            fitness += data.machineWithBadParent * machineWithBadParentErrorWeight;
             
-            Stats stats = data.getStats();
+            fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
-            fitness += stats.machineWithBadParent;
+            fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
             
-            fitness += stats.taskInWrongOrder;
+            fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
             
-            fitness += stats.taskOnWrongMachine;
-            
-            fitness += stats.taskWithBadParent;
-            
-            fitness += stats.taskWithBadTime;
+            fitness += data.taskWithBadTime * taskWithBadTimeErrorWeight;
             
             
             //adding makespan to fitness
             double onlyTreeFitness = fitness;
-            int onlyMakespan = stats.makespan;
+            int onlyMakespan = data.getMakespan();
             
-            fitness += onlyMakespan;
-            
-            //penality for tasks on wrong machines
-            //fitness += data.numberOfTasksOnWrongMachine * wrongMachineErrorWeight;
-            
-            //penality for too many tasks on machine
-            //fitness += data.toManyChilds * toManyChildsErrorWeight;
-            
-            //penality for machines without task
-            //fitness += data.machinesWithoutChilds * machinesWithoutTaskChildsErrorWeight;
-            
-            //fitness += data.wrongChildOfDummy * wrongChildOfDummyErrorWeight;
-            
-            //penality for order of tasks in job
-            /*
-            for( int i = 0; i < data.timesPerJob.length; ++i){
-                int lastEndTime = 0;
-                for(int j = 0; j < data.timesPerJob[i].length; ++j){
-                    if(data.timesPerJob[i][j].startTime < lastEndTime){
-                        fitness += 1.0 * scheduleErrorWeight;
-                    }
-                    lastEndTime = data.timesPerJob[i][j].endTime;
-                }
-            }*/
-            
-            //penality for overlapping tasks on machine
-            
-            
-            //Add makespan to fitness
-            //fitness += onlyMakespan * fitnessWeight;
-            
-            //System.out.println(data.toString());
-            
-            
+            fitness += onlyMakespan * makespanWeight;
             
             //countin lowest makespan
             boolean ended = false;
@@ -162,6 +125,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         EvolutionState state = new EvolutionState();
         root.eval(state, 0, data, stack, ind, this);
         
-        return data.getStats().makespan;
+        return data.getMakespan();
     }
 }

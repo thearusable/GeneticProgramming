@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 public class MyStatistics extends SimpleStatistics {
     
-    /** log best file parameter */
+    
     public static final String P_PNG_FILE = "png";
     
     public File bestPNGFile;
@@ -43,24 +43,19 @@ public class MyStatistics extends SimpleStatistics {
             GPIndividual BestSoFarInd = (GPIndividual)best_of_run[0];
             String dotTree = BestSoFarInd.trees[0].child.makeGraphvizTree();
             
-            //set makespan
-            JobsSchedulingProblem problem = new JobsSchedulingProblem();
-            int makespan = problem.getMakespan(BestSoFarInd);
-            
-            
             //init grapviz and pass tree data
             GraphViz gv = new GraphViz(false);
             gv.add(dotTree);
             
             //create png file
-            gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), "png" ), bestPNGFile );
+            gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), P_PNG_FILE ), bestPNGFile );
             
-            //update value in window
-            //MainWindow.updateMinimumMakespan(makespan);
+            //unlock show png button
             MainWindow.updateBestPath(bestPNGFile.getCanonicalPath());
             
         } catch (IOException e) {
             // do something
+            System.out.println("Final Statistics Fails!");
         }
     }
     

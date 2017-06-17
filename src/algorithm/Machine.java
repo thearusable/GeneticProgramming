@@ -60,12 +60,8 @@ public class Machine extends ERC {
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = (TreeData)gpdata;
-
-        if(parent != null){
-            data.machineOccur(parent.getClass() == Machine.class);
-        }else{
-            data.machineOccur(true);
-        }
+        
+        data.machineOccur(parent);
         
         for(int x = 0; x < children.length; ++x){
             children[x].eval(es, i, data, adfs, gpi, prblm);
