@@ -64,6 +64,7 @@ public class Machine extends ERC {
         data.machineOccur(parent);
         
         for(int x = 0; x < children.length; ++x){
+            data.checkMachineChild(children[x]);
             children[x].eval(es, i, data, adfs, gpi, prblm);
         }
     }

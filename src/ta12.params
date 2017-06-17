@@ -6,7 +6,7 @@ generations = 1000
 pop.subpop.0.size = 4000
 
 #size of a tournament
-select.tournament.size = 10
+select.tournament.size = 6
 
 #definition of problem to solve
 eval.problem = algorithm.JobsSchedulingProblem
@@ -49,3 +49,9 @@ gp.fs.0.func.12 = algorithm.Dummy
 gp.fs.0.func.12.nc = nc12
 gp.fs.0.func.13 = algorithm.Dummy
 gp.fs.0.func.13.nc = nc13
+gp.fs.0.func.14 = algorithm.Dummy
+gp.fs.0.func.14.nc = nc14
+gp.fs.0.func.15 = algorithm.Dummy
+gp.fs.0.func.15.nc = nc15
+gp.fs.0.func.16 = algorithm.Dummy
+gp.fs.0.func.16.nc = nc16

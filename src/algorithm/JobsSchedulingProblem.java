@@ -21,14 +21,15 @@ import window.MainWindow;
  */
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
     
-    final static private double makespanWeight = 1.0 / METADATA.TASKS_COUNT;
-    final static private double taskWithBadParentErrorWeight = 1.0 * METADATA.TASKS_COUNT;
-    final static private double taskOnWrongMachineErrorWeight = 2.0 * METADATA.TASKS_COUNT;
-    final static private double machineWithBadParentErrorWeight = 5.0 * METADATA.TASKS_COUNT;
-    final static private double doublingTaskWeight = 1.2 * METADATA.TASKS_COUNT;
-    final static private double missingTaskWeight = 5.0 * METADATA.TASKS_COUNT;
-    final static private double taskInWrongOrderErrorWeight = 1.0 * METADATA.TASKS_COUNT;
-    final static private double taskWithBadTimeErrorWeight = 0.4 * METADATA.TASKS_COUNT;
+    final static private double makespanWeight = 1.2 / METADATA.TASKS_COUNT;
+    final static private double taskWithBadParentErrorWeight = 20.0;
+    final static private double taskOnWrongMachineErrorWeight = 12.0;
+    final static private double machineWithBadParentErrorWeight = 5.0;
+    final static private double doublingTaskWeight = 1.2;
+    final static private double missingTaskWeight = 15.0;
+    final static private double taskInWrongOrderErrorWeight = 1.0;
+    final static private double taskWithBadTimeErrorWeight = 0.4;
+    final static private double machineWithBadChildErrorWeight = 5.0;
     
     //ending calculations before max generations number will occur
     private static final int BestFitnessOccursToEndCalculations = 1;
@@ -73,34 +74,35 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 }
             }
             
-            fitness += data.machineWithBadParent * machineWithBadParentErrorWeight;
+            //fitness += data.machineWithBadParent * machineWithBadParentErrorWeight;
             
-            fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
+            //fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
-            fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
+            //fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
             
-            fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
+            //fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
             
-            fitness += data.taskWithBadTime * taskWithBadTimeErrorWeight;
+            //fitness += data.taskWithBadTime * taskWithBadTimeErrorWeight;
             
+            //fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
             
             //adding makespan to fitness
             double onlyTreeFitness = fitness;
             int onlyMakespan = data.getMakespan();
             
-            fitness += onlyMakespan * makespanWeight;
+            //fitness += onlyMakespan * makespanWeight;
             
             //countin lowest makespan
             boolean ended = false;
-            if(onlyMakespan < lowestFitness && onlyTreeFitness == 0.0){
-                lowestFitness = onlyMakespan;
+            if(fitness < lowestFitness && onlyTreeFitness == 0.0){
+                lowestFitness = fitness;
                 BestFitnessOccurCount = 0;
                 MainWindow.updateMinimumMakespan(onlyMakespan);
                 MainWindow.hitsReset();
-            }else if(lowestFitness == onlyMakespan && onlyTreeFitness == 0.0){
+            }else if(lowestFitness == fitness && onlyTreeFitness == 0.0){
                 BestFitnessOccurCount += 1;
                 MainWindow.hit();
-            }else if(onlyMakespan < lowestFitness){
+            }else if(fitness < lowestFitness){
                 MainWindow.updateTreeFitness(onlyTreeFitness);
             }
             

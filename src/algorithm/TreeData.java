@@ -6,6 +6,7 @@
 package algorithm;
 
 import ec.gp.GPData;
+import ec.gp.GPNode;
 import ec.gp.GPNodeParent;
 import java.util.Arrays;
 
@@ -21,6 +22,7 @@ public final class TreeData extends GPData {
     public int[] OccursCounterPerTask; //index = taskID
     
     public int machineWithBadParent; //+dummy and machine
+    public int machineWithBadChild;
     public int taskWithBadParent; //+dummy
     public int taskOnWrongMachine; //+when machine id != parentID
     public int taskInWrongOrder; //+when task occurs in wrong order in job
@@ -75,6 +77,12 @@ public final class TreeData extends GPData {
         }
     }
     
+    public void checkMachineChild(final GPNode child){
+        if(child != null && child.getClass() != Task.class){
+            machineWithBadChild += 1;
+        }
+    }
+    
     public int getMakespan(){
         int makespan = StartupTimesPerJob[0];
         for(int i = 1; i < StartupTimesPerJob.length; ++i){
@@ -100,6 +108,7 @@ public final class TreeData extends GPData {
         taskOnWrongMachine = 0;
         taskInWrongOrder = 0;
         taskWithBadTime = 0;
+        machineWithBadChild = 0;
     }
     
     @Override
@@ -113,6 +122,7 @@ public final class TreeData extends GPData {
         str += "\ntaskOnWrongMachine: " + taskOnWrongMachine;
         str += "\ntaskInWrongOrder: " + taskInWrongOrder;
         str += "\ntaskWithBadTime: " + taskWithBadTime;
+        str += "\nmachineWithBadChild: " + machineWithBadChild;
         
         return str;
     }
@@ -128,6 +138,7 @@ public final class TreeData extends GPData {
         other.taskOnWrongMachine = taskOnWrongMachine;
         other.taskWithBadParent = taskWithBadParent;
         other.taskWithBadTime = taskWithBadTime;
+        other.machineWithBadChild = machineWithBadChild;
         return other;
     }
 
@@ -142,5 +153,6 @@ public final class TreeData extends GPData {
         other.taskOnWrongMachine = taskOnWrongMachine;
         other.taskWithBadParent = taskWithBadParent;
         other.taskWithBadTime = taskWithBadTime;
+        other.machineWithBadChild = machineWithBadChild;
     }
 }

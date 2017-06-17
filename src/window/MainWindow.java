@@ -76,6 +76,7 @@ public class MainWindow {
     static JTextField treeField = new JTextField(8);
     static int hitsCounter = 0;
     static int makespan = Integer.MAX_VALUE;
+    static double minTree = Double.MAX_VALUE;
     //styles
     static StandardChartTheme theme = (StandardChartTheme)org.jfree.chart.StandardChartTheme.createJFreeTheme();
     static String fontName = "Lucida Sans";
@@ -352,7 +353,10 @@ public class MainWindow {
     }
     
     public static void updateTreeFitness(double number){
-        treeField.setText(Double.toString(number));
+        if(number < minTree) {
+            minTree = number;
+            treeField.setText(Double.toString(number));
+        }
     }
     
 }
