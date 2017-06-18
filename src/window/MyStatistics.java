@@ -53,6 +53,9 @@ public class MyStatistics extends SimpleStatistics {
             //unlock show png button
             MainWindow.updateBestPath(bestPNGFile.getCanonicalPath());
             
+            JobsSchedulingProblem prob = new JobsSchedulingProblem();
+            prob.printData(BestSoFarInd);
+            
         } catch (IOException e) {
             // do something
             System.out.println("Final Statistics Fails!");

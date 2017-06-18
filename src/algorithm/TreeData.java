@@ -112,14 +112,27 @@ public final class TreeData extends GPData {
     @Override
     public String toString() {
         String str = "------------------------\n";        
-        str += "PreviousExecuteTaskPerJob: " + Arrays.toString(PreviousExecuteTaskPerJob);
-        str += "\nStartupTimesPerJob: " + Arrays.toString(StartupTimesPerJob);
-        str += "\nOccursCounterPerTask: " + Arrays.toString(OccursCounterPerTask);
+        str += "PreviousExecuteTaskPerJob: \n" + Arrays.toString(PreviousExecuteTaskPerJob);
+        str += "\nStartupTimesPerJob: \n" + Arrays.toString(StartupTimesPerJob);
+        str += "\nOccursCounterPerTask: \n" + Arrays.toString(OccursCounterPerTask);
         str += "\nmachineWithBadParent: " + machineWithBadParent;
         str += "\ntaskWithBadParent: " + taskWithBadParent;
         str += "\ntaskOnWrongMachine: " + taskOnWrongMachine;
         str += "\ntaskInWrongOrder: " + taskInWrongOrder;
         str += "\nmachineWithBadChild: " + machineWithBadChild;
+        
+        
+        int missing = 0, doubled = 0;
+        for(int i = 0; i < OccursCounterPerTask.length; ++i){
+                if(OccursCounterPerTask[i] > 1){
+                    doubled += (OccursCounterPerTask[i] - 1);
+                }else if(OccursCounterPerTask[i] < 1){
+                    missing += 1;
+                }
+            }
+        
+        str += "\nDoubled: " + doubled;
+        str += "\nMissing: " + missing;
         
         return str;
     }

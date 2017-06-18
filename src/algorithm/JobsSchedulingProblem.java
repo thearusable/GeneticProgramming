@@ -23,14 +23,14 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     
     final static private double makespanWeight = 0.5 / METADATA.TASKS_COUNT;
     
-    final static private double doublingTaskWeight = 0.5;
-    final static private double missingTaskWeight = 4.0;
-    final static private double taskWithBadParentErrorWeight = 1.0;
-    final static private double machineWithBadParentErrorWeight = 1.0;
+    final static private double doublingTaskWeight = 2.0;
+    final static private double missingTaskWeight = 7.0;
+    final static private double taskWithBadParentErrorWeight = 3.5;
+    final static private double machineWithBadParentErrorWeight = 0.1;
     final static private double machineWithBadChildErrorWeight = 0.5;
     
-    final static private double taskOnWrongMachineErrorWeight = 1.7;
-    final static private double taskInWrongOrderErrorWeight = 1.3;
+    final static private double taskOnWrongMachineErrorWeight = 1.0;
+    final static private double taskInWrongOrderErrorWeight = 3.0;
     
     
     //ending calculations before max generations number will occur
@@ -74,15 +74,15 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 }
             }
             
-            fitness += data.machineWithBadParent * machineWithBadParentErrorWeight;
+            //fitness += data.machineWithBadParent * machineWithBadParentErrorWeight;
             
             fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
-            fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
+            //fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
             
-            fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
+            //fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
             
-            fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
+            //fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
             
             //adding makespan to fitness
             double onlyTreeFitness = fitness;
@@ -118,13 +118,13 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         }
     
     //get makespan of individual
-    public int getMakespan(GPIndividual ind){
+    public void printData(GPIndividual ind){
         TreeData data = new TreeData();
         
         GPNode root = ind.trees[0].child;
         EvolutionState state = new EvolutionState();
         root.eval(state, 0, data, stack, ind, this);
         
-        return data.getMakespan();
+        System.out.println(data.toString());
     }
 }
