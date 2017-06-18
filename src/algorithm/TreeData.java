@@ -26,7 +26,6 @@ public final class TreeData extends GPData {
     public int taskWithBadParent; //+dummy
     public int taskOnWrongMachine; //+when machine id != parentID
     public int taskInWrongOrder; //+when task occurs in wrong order in job
-    public int taskWithBadTime; //TODO when task occurs in bad time, like overlap
     
     public TreeData() {
         StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
@@ -107,7 +106,6 @@ public final class TreeData extends GPData {
         taskWithBadParent = 0;
         taskOnWrongMachine = 0;
         taskInWrongOrder = 0;
-        taskWithBadTime = 0;
         machineWithBadChild = 0;
     }
     
@@ -121,7 +119,6 @@ public final class TreeData extends GPData {
         str += "\ntaskWithBadParent: " + taskWithBadParent;
         str += "\ntaskOnWrongMachine: " + taskOnWrongMachine;
         str += "\ntaskInWrongOrder: " + taskInWrongOrder;
-        str += "\ntaskWithBadTime: " + taskWithBadTime;
         str += "\nmachineWithBadChild: " + machineWithBadChild;
         
         return str;
@@ -137,7 +134,6 @@ public final class TreeData extends GPData {
         other.taskInWrongOrder = taskInWrongOrder;
         other.taskOnWrongMachine = taskOnWrongMachine;
         other.taskWithBadParent = taskWithBadParent;
-        other.taskWithBadTime = taskWithBadTime;
         other.machineWithBadChild = machineWithBadChild;
         return other;
     }
@@ -152,7 +148,6 @@ public final class TreeData extends GPData {
         other.taskInWrongOrder = taskInWrongOrder;
         other.taskOnWrongMachine = taskOnWrongMachine;
         other.taskWithBadParent = taskWithBadParent;
-        other.taskWithBadTime = taskWithBadTime;
         other.machineWithBadChild = machineWithBadChild;
     }
 }

@@ -21,15 +21,17 @@ import window.MainWindow;
  */
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
     
-    final static private double makespanWeight = 1.2 / METADATA.TASKS_COUNT;
-    final static private double taskWithBadParentErrorWeight = 20.0;
-    final static private double taskOnWrongMachineErrorWeight = 12.0;
-    final static private double machineWithBadParentErrorWeight = 5.0;
-    final static private double doublingTaskWeight = 1.2;
-    final static private double missingTaskWeight = 15.0;
-    final static private double taskInWrongOrderErrorWeight = 1.0;
-    final static private double taskWithBadTimeErrorWeight = 0.4;
-    final static private double machineWithBadChildErrorWeight = 5.0;
+    final static private double makespanWeight = 0.5 / METADATA.TASKS_COUNT;
+    
+    final static private double doublingTaskWeight = 0.5;
+    final static private double missingTaskWeight = 4.0;
+    final static private double taskWithBadParentErrorWeight = 1.0;
+    final static private double machineWithBadParentErrorWeight = 1.0;
+    final static private double machineWithBadChildErrorWeight = 0.5;
+    
+    final static private double taskOnWrongMachineErrorWeight = 1.7;
+    final static private double taskInWrongOrderErrorWeight = 1.3;
+    
     
     //ending calculations before max generations number will occur
     private static final int BestFitnessOccursToEndCalculations = 1;
@@ -63,8 +65,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             //collect data
             root.eval(state, threadnum, data, stack, GPInd, this);
             
-            //System.out.println(data.toString());
-            
             //penality for number of each task
             for(int i = 0; i < data.OccursCounterPerTask.length; ++i){
                 if(data.OccursCounterPerTask[i] > 1){
@@ -74,23 +74,21 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 }
             }
             
-            //fitness += data.machineWithBadParent * machineWithBadParentErrorWeight;
+            fitness += data.machineWithBadParent * machineWithBadParentErrorWeight;
             
-            //fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
+            fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
-            //fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
+            fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
             
-            //fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
+            fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
             
-            //fitness += data.taskWithBadTime * taskWithBadTimeErrorWeight;
-            
-            //fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
+            fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
             
             //adding makespan to fitness
             double onlyTreeFitness = fitness;
             int onlyMakespan = data.getMakespan();
             
-            //fitness += onlyMakespan * makespanWeight;
+            fitness += onlyMakespan * makespanWeight;
             
             //countin lowest makespan
             boolean ended = false;

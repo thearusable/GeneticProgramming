@@ -2,11 +2,11 @@
 parent.0 = base.params
 
 #max generations number
-generations = 2000
-pop.subpop.0.size = 4000
+generations = 1000
+pop.subpop.0.size = 5000
 
 #size of a tournament
-select.tournament.size = 6
+select.tournament.size = 5
 
 #definition of problem to solve
 eval.problem = algorithm.JobsSchedulingProblem
@@ -14,11 +14,11 @@ eval.problem = algorithm.JobsSchedulingProblem
 eval.problem.data = algorithm.TreeData
 
 #output
-stat.file = $ta12.stat
-stat.png = $ta12.png
+stat.file = $ta_15_15.stat
+stat.png = $ta_15_15.png
 
 #nodes
-gp.fs.0.size = 6
+gp.fs.0.size = 3
 gp.fs.0.func.0 = algorithm.Task
 gp.fs.0.func.0.nc = nc0
 gp.fs.0.func.1 = algorithm.Machine
