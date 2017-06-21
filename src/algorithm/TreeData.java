@@ -9,6 +9,10 @@ import ec.gp.GPData;
 import ec.gp.GPNode;
 import ec.gp.GPNodeParent;
 import java.util.Arrays;
+import nodes.Connector;
+import nodes.ERCnode;
+import nodes.Machine;
+import nodes.Task;
 
 /**
  *
@@ -35,6 +39,47 @@ public final class TreeData extends GPData {
         reset();
     }
     
+    public void machine(int machineID, GPNode child){  
+        
+        int childID = -1;
+        if(child != null){
+            childID = ((ERCnode)child).getID();
+        }
+        
+        if(machineID != childID){
+            machineWithBadChild += 1;
+        }
+    }
+    
+    public void task(int taskID, GPNodeParent parent){
+        int parentID = -1;
+        if(parent != null){
+            if(parent.getClass().getName().equals(Machine.class.getName())){
+                parentID = ((Machine)parent).getID();
+            }
+        }
+        
+        if(parentID != taskID){
+            taskWithBadParent += 1;
+        }
+        
+        TaskData task = METADATA.getTask(taskID);
+        //add task occurennce
+        OccursCounterPerTask[taskID] += 1;
+        
+        //fill startupTime
+        StartupTimesPerJob[task.jobID] += task.duration;
+        
+        //checking execute order
+        if(PreviousExecuteTaskPerJob[task.jobID] >= 0 
+                && task.whichTaskInJob != PreviousExecuteTaskPerJob[task.jobID] - 1){
+            
+            taskInWrongOrder += 1;
+        }
+        //assing last executed task
+        PreviousExecuteTaskPerJob[task.jobID] = task.whichTaskInJob;
+    }
+    
     public void taskOccur(int taskID, GPNodeParent parent){
         //get TaskData for taskID
         TaskData task = METADATA.getTask(taskID);
@@ -42,10 +87,10 @@ public final class TreeData extends GPData {
         int parentID = -1;
         if(parent == null){
             parentID = -1;
-        }else if(parent.getClass() == Dummy.class){
+        }else if(parent.getClass() == Connector.class){
             parentID = -1;
         }else if(parent.getClass() == Machine.class){
-            parentID = ((Machine)parent).ID;
+            parentID = ((Machine)parent).getID();
         }
         //add task occurennce
         OccursCounterPerTask[taskID] += 1;
@@ -71,7 +116,7 @@ public final class TreeData extends GPData {
     }
     
     public void machineOccur(final GPNodeParent parent){
-        if(parent != null && parent.getClass() != Dummy.class){
+        if(parent != null && parent.getClass() != Connector.class){
             machineWithBadParent += 1;
         }
     }

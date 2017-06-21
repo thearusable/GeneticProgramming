@@ -5,6 +5,7 @@
  */
 package algorithm;
 
+import ec.util.Code;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,6 +26,89 @@ public class METADATA {
     
     private static TaskData [] tasks;
     
+    private static int lastTask = -1;
+    private static int lastMachine = -1;
+    
+    static public int getNextTask(){
+        lastTask += 1;
+        
+        if(lastTask >= tasks.length) lastTask = 0;
+        
+        return lastTask;
+    }
+    
+    static public int getNextMachine(){
+        lastMachine += 1;
+        
+        if(lastMachine >= MACHINES_COUNT) lastMachine = 0;
+        
+        return lastMachine;
+    }
+    
+    static public String getCodeForTask(int taskID){
+        return Code.encode("T") + Code.encode(tasks[taskID].jobID) + Code.encode(tasks[taskID].requiredMachineID) 
+                + Code.encode(tasks[taskID].whichTaskInJob) + Code.encode(tasks[taskID].duration);
+    }
+    
+    static public String getStringForTask(int taskID){
+        return "j" + tasks[taskID].jobID + " t" + tasks[taskID].whichTaskInJob + " m" + tasks[taskID].requiredMachineID + " D" + tasks[taskID].duration;
+    }
+    
+    static public int getTaskSiblingID(int taskID){
+        double rand = Math.random();
+        boolean getGreater;
+        getGreater = rand > 0.5;
+        
+        if(getGreater == true && (taskID + 1) >= tasks.length ){
+            getGreater = false;
+        }else if (getGreater == false && (taskID - 1) < 0){
+            getGreater = true;
+        }
+        
+        if(getGreater == true){
+            return taskID + 1;
+        }else {
+            return taskID - 1;
+        }
+    }
+    
+    static public int getMachineSiblingID(int machineID){
+        double rand = Math.random();
+        boolean getGreater;
+        getGreater = rand > 0.5;
+        
+        if(getGreater == true && (machineID + 1) >= MACHINES_COUNT ){
+            getGreater = false;
+        }else if (getGreater == false && (machineID - 1) < 0){
+            getGreater = true;
+        }
+        
+        if(getGreater == true){
+            return machineID + 1;
+        }else {
+            return machineID - 1;
+        }
+    }
+    
+    static public int getRandomMachineID(){
+        return (int) (Math.random() * MACHINES_COUNT);
+    }
+    
+    static public int getRandomTaskID(){      
+        Random rand = new Random();
+        return rand.nextInt(tasks.length);
+    }
+    
+    static public TaskData getTask(int whichOne){
+        if(whichOne > tasks.length){
+            System.out.println("That tasks doeas not exist");
+            throw new ArrayIndexOutOfBoundsException();
+        }else{
+            return tasks[whichOne];
+        }
+    }
+    
+    /*
     static public int getJobID(int taskID){
         return tasks[taskID].jobID;
     }
@@ -32,7 +116,7 @@ public class METADATA {
     static public int getTaskDuration(int taskID){
         return tasks[taskID].duration;
     }
-    
+    */
     static public void load(String dataFile, boolean debug) throws IOException {
         int[][] times = new int[0][0];
         int[][] machines = new int[0][0];
@@ -98,67 +182,6 @@ public class METADATA {
         }
     }
     
-    static public TaskData getRandomTask(){      
-        Random rand = new Random();
-        return tasks[ rand.nextInt(tasks.length) ];
-    }
-    
-    static public TaskData getCloseTaskWithinJob(int taskID){
-        double rand = Math.random();
-        boolean getGreater;
-        if(rand > 0.5){
-            getGreater = true;
-        }else{
-            getGreater = false;
-        }
-        
-        if(getGreater == true && (taskID + 1) >= tasks.length ){
-            getGreater = false;
-        }else if (getGreater == false && (taskID - 1) < 0){
-            getGreater = true;
-        }
-        
-        if(getGreater == true){
-            return tasks[taskID + 1];
-        }else {
-            return tasks[taskID - 1];
-        }
-    }
-    
-    static public int getSimilarMachine(int machineID){
-        double rand = Math.random();
-        boolean getGreater;
-        if(rand > 0.5){
-            getGreater = true;
-        }else{
-            getGreater = false;
-        }
-        
-        if(getGreater == true && (machineID + 1) >= MACHINES_COUNT ){
-            getGreater = false;
-        }else if (getGreater == false && (machineID - 1) < 0){
-            getGreater = true;
-        }
-        
-        if(getGreater == true){
-            return machineID + 1;
-        }else {
-            return machineID - 1;
-        }
-    }
-    
-    static public int getRandomMachineID(){
-        return (int) (Math.random() * MACHINES_COUNT);
-    }
-    
-    static public TaskData getTask(int whichOne){
-        if(whichOne > tasks.length){
-            System.out.println("That tasks doeas not exist");
-            throw new ArrayIndexOutOfBoundsException();
-        }else{
-            return tasks[whichOne];
-        }
-    }
     
     static private void print(){
         System.out.println("TASKS:");

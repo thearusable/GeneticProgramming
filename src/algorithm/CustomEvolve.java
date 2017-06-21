@@ -19,6 +19,8 @@ public class CustomEvolve extends Evolve{
     
     /** Top-level evolutionary loop.  */
     
+    public static final String DATA = "data";
+    
     public static void main(String[] args)
         {
         EvolutionState state;
@@ -61,6 +63,10 @@ public class CustomEvolve extends Evolve{
         // Now we're going to load the parameter database to see if there are any more jobs.
         // We could have done this using the previous parameter database, but it's no big deal.
         parameters = loadParameterDatabase(args);
+        
+        String tmp_s = parameters.getString(new Parameter(DATA),null);
+        System.out.println("test: " + tmp_s);
+        
         if (currentJob == 0)  // no current job number yet
             currentJob = parameters.getIntWithDefault(new Parameter("current-job"), null, 0);
         if (currentJob < 0)

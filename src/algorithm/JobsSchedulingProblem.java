@@ -27,7 +27,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     final static private double missingTaskWeight = 7.0;
     final static private double taskWithBadParentErrorWeight = 3.5;
     final static private double machineWithBadParentErrorWeight = 0.1;
-    final static private double machineWithBadChildErrorWeight = 0.5;
+    final static private double machineWithBadChildErrorWeight = 4.5;
     
     final static private double taskOnWrongMachineErrorWeight = 1.0;
     final static private double taskInWrongOrderErrorWeight = 3.0;
@@ -76,11 +76,11 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //fitness += data.machineWithBadParent * machineWithBadParentErrorWeight;
             
-            fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
+            //fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
             //fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
             
-            //fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
+            fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
             
             //fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
             
