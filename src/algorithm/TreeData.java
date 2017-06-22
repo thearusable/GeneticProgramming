@@ -29,6 +29,8 @@ public final class TreeData extends GPData {
     public int taskInWrongOrder; //when task occurs in wrong order in job
     public int ConnectorWithBadChild; //when connector have task child
     
+    public int taskOnBadMachine;
+    
     public TreeData() {
         StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
         PreviousExecuteTaskPerJob = new int[METADATA.JOBS_COUNT];
@@ -46,8 +48,21 @@ public final class TreeData extends GPData {
     
     //task is bad when - missing, doubled, inWrongOrder 
     public void task(int taskID, GPNodeParent parent){
-        
         TaskData task = METADATA.getTask(taskID);
+        
+        int parentID = -1;
+        if(parent != null){
+            try{
+                parentID = ((ERCnode)parent).getID();
+            }catch (Exception e){
+                
+            }
+        }
+        
+        if(parentID != task.requiredMachineID){
+            taskOnBadMachine += 1;
+        }
+        
         //add task occurennce
         OccursCounterPerTask[taskID] += 1;
         
@@ -105,6 +120,7 @@ public final class TreeData extends GPData {
         taskInWrongOrder = 0;
         machineWithBadChild = 0;
         ConnectorWithBadChild = 0;
+        taskOnBadMachine = 0;
     }
     
     @Override
@@ -116,6 +132,7 @@ public final class TreeData extends GPData {
         str += "\ntaskInWrongOrder: " + taskInWrongOrder;
         str += "\nmachineWithBadChild: " + machineWithBadChild;
         str += "\nConnectorWithBadChild: " + ConnectorWithBadChild;
+        str += "\ntaskOnBadMachine: " + taskOnBadMachine;
         
         
         int missing = 0, doubled = 0;
@@ -142,6 +159,7 @@ public final class TreeData extends GPData {
         other.taskInWrongOrder = taskInWrongOrder;
         other.machineWithBadChild = machineWithBadChild;
         other.ConnectorWithBadChild = ConnectorWithBadChild;
+        other.taskOnBadMachine = taskOnBadMachine;
         return other;
     }
 
@@ -154,5 +172,6 @@ public final class TreeData extends GPData {
         other.taskInWrongOrder = taskInWrongOrder;
         other.machineWithBadChild = machineWithBadChild;
         other.ConnectorWithBadChild = ConnectorWithBadChild;
+        other.taskOnBadMachine = taskOnBadMachine;
     }
 }

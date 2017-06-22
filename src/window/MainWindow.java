@@ -64,11 +64,11 @@ public class MainWindow {
     //stats
     static JPanel stats = new JPanel();
     static JLabel generationsNumberLabel = new JLabel("Current Generation: ");
-    static JTextField generationsNumberField = new JTextField(4);
+    static JTextField generationsNumberField = new JTextField(6);
     static JLabel minimumFitnessLabel = new JLabel("       Minimum Fitness: ");
-    static JTextField minimumFitnessField = new JTextField(6);
+    static JTextField minimumFitnessField = new JTextField(10);
     static JLabel minimumMakepsanLabel = new JLabel("       Makespan: ");
-    static JTextField minimumMakepsanField = new JTextField(4);
+    static JTextField minimumMakepsanField = new JTextField(6);
     static int hitsCounter = 0;
     static int makespan = Integer.MAX_VALUE;
     static double minTree = Double.MAX_VALUE;

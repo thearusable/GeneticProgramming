@@ -28,8 +28,9 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     
     final static private double machineWithBadChildErrorWeight = 0.2 * METADATA.TASKS_COUNT;
     final static private double taskInWrongOrderErrorWeight = 0.2 * METADATA.TASKS_COUNT;
-    final static private double ConnectorWithBadChildErrorWeight = 0.1 * METADATA.TASKS_COUNT;
+    final static private double ConnectorWithBadChildErrorWeight = 0.2 * METADATA.TASKS_COUNT;
     
+    final static private double taskOnBadMachineErrorWeight = 0.2 * METADATA.TASKS_COUNT;
     
     //ending calculations before max generations number will occur
     private static final int BestFitnessOccursToEndCalculations = 1;
@@ -43,6 +44,9 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         if (!(input instanceof TreeData)){
             state.output.fatal("GPData class must subclass from " + TreeData.class, base.push(P_DATA), null);      
         }
+        
+        //print weights
+        printErrorsWeights();
     }
         
     @Override
@@ -72,11 +76,13 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 }
             }
             
-            fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
+            fitness += data.taskOnBadMachine * taskOnBadMachineErrorWeight;
             
-            fitness += data.ConnectorWithBadChild * ConnectorWithBadChildErrorWeight;
+            //fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
-            fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
+            //fitness += data.ConnectorWithBadChild * ConnectorWithBadChildErrorWeight;
+            
+            //fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
             
             //adding makespan to fitness
             double onlyTreeFitness = fitness;
@@ -116,5 +122,18 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         root.eval(state, 0, data, stack, ind, this);
         
         System.out.println(data.toString());
+    }
+    
+    private void printErrorsWeights(){
+        String str = "\nWeights:";
+        str += "\nmakespanWeight: " + makespanWeight;
+        str += "\ndoublingTaskWeight: " + doublingTaskWeight;
+        str += "\nmissingTaskWeight: " + missingTaskWeight;
+        str += "\nmachineWithBadChildErrorWeight: " + machineWithBadChildErrorWeight; 
+        str += "\ntaskInWrongOrderErrorWeight: " + taskInWrongOrderErrorWeight;
+        str += "\nConnectorWithBadChildErrorWeight: " + ConnectorWithBadChildErrorWeight;
+        str += "\n";
+        
+        System.out.println(str);
     }
 }

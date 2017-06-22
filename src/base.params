@@ -172,12 +172,12 @@ eval.problem = algorithm.JobsSchedulingProblem
 eval.problem.data = algorithm.TreeData
 
 #ERC nodes
-gp.fs.0.size = 4
+gp.fs.0.size = 3
 gp.fs.0.func.0 = nodes.Task
 gp.fs.0.func.0.nc = nc0
 gp.fs.0.func.1 = nodes.Machine1
 gp.fs.0.func.1.nc = nc1
 gp.fs.0.func.2 = nodes.Machine2
 gp.fs.0.func.2.nc = nc2
-gp.fs.0.func.3 = nodes.Connector
-gp.fs.0.func.3.nc = nc2
+#gp.fs.0.func.1 = nodes.Connector
+#gp.fs.0.func.1.nc = nc2
