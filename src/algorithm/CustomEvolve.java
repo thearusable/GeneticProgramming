@@ -10,6 +10,10 @@ import ec.Evolve;
 import ec.util.Output;
 import ec.util.Parameter;
 import ec.util.ParameterDatabase;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  *
@@ -64,9 +68,6 @@ public class CustomEvolve extends Evolve{
         // We could have done this using the previous parameter database, but it's no big deal.
         parameters = loadParameterDatabase(args);
         
-        String tmp_s = parameters.getString(new Parameter(DATA),null);
-        System.out.println("test: " + tmp_s);
-        
         if (currentJob == 0)  // no current job number yet
             currentJob = parameters.getIntWithDefault(new Parameter("current-job"), null, 0);
         if (currentJob < 0)
@@ -76,6 +77,33 @@ public class CustomEvolve extends Evolve{
         if (numJobs < 1)
             Output.initialError("The 'jobs' parameter must be >= 1 (or not exist, which defaults to 1)");
                 
+        System.out.println("args in evolve " + Arrays.toString(args));
+        //Load files and create a window
+        //read data filename from params file        
+        String dataFileName = parameters.getString(new Parameter(DATA),null);
+        
+        //check if is not empty
+        if(dataFileName == null){
+            System.err.println("#ERROR# Data file name not found in params file!");
+            return;
+        }
+        
+        //remove $ sign on beggining
+        if(dataFileName.startsWith("$")){
+            dataFileName = dataFileName.substring(1);
+        }
+        
+        //build path to data file
+        String path = args[1].substring(0, args[1].lastIndexOf("\\") + 1) + dataFileName;
+        
+        System.out.println("Path to data file: \t" + path);
+        
+        try{
+            METADATA.load(path, true);
+        }catch(IOException e){
+            System.err.println("#ERROR# Cant load datafile!");
+            return;
+        }
                 
         // Now we know how many jobs remain.  Let's loop for that many jobs.  Each time we'll
         // load the parameter database scratch (except the first time where we reuse the one we

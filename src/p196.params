@@ -9,6 +9,7 @@ pop.subpop.0.size = 5000
 select.tournament.size = 10
 
 #files
-stat.file = $p300.stat
-stat.png = $p300.png
-data = $p300.txt
+stat.file = $p196.stat
+stat.png = $p196.png
+data = $p196.txt
+

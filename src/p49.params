@@ -16,7 +16,6 @@ eval.problem.data = algorithm.TreeData
 #files
 stat.file = $p49.stat
 stat.png = $p49.png
-
 data = $p49.txt
 
 #nodes

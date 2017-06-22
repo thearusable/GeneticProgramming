@@ -117,6 +117,7 @@ public class METADATA {
         return tasks[taskID].duration;
     }
     */
+    
     static public void load(String dataFile, boolean debug) throws IOException {
         int[][] times = new int[0][0];
         int[][] machines = new int[0][0];
@@ -184,13 +185,17 @@ public class METADATA {
     
     
     static private void print(){
-        System.out.println("TASKS:");
+        System.out.println("\nTASKS:");
         
         for(int i = 0; i < tasks.length; ++i){
             System.out.println(tasks[i].toString());
         }
         
-        System.out.println("MAX_TASK_DURATION: " + MAX_TASK_DURATION);
+        System.out.println("JOBS_COUNT: \t\t" + JOBS_COUNT);
+        System.out.println("MACHINES_COUNT: \t" + MACHINES_COUNT);
+        System.out.println("TASKS_PER_JOB: \t" + TASKS_PER_JOB);
+        System.out.println("TASKS_COUNT: \t" + TASKS_COUNT);
+        System.out.println("MAX_TASK_DURATION: \t" + MAX_TASK_DURATION);
     }
     
     /////////////////////////////////////////////

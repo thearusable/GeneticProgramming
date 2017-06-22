@@ -143,6 +143,7 @@ public class MainWindow {
                 //choose file
                 final JFileChooser fc = new JFileChooser();
                 //setting up filter
+                fc.setAcceptAllFileFilterUsed(false);
                 ExtensionFileFilter pFilter = new ExtensionFileFilter(SAVE_AS_IMAGE);
                 fc.setFileFilter(pFilter);
                 //get status from window

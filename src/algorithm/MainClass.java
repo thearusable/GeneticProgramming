@@ -7,9 +7,14 @@ package algorithm;
  */
 
 
+import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import window.MainWindow;
 
 /**
@@ -17,48 +22,60 @@ import window.MainWindow;
  * @author arus2
  */
 public class MainClass {
+    
      /**
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    
-    public static boolean showWindows = true;
-    
-    //args[0] - problem name
     public static void main(String[] args) throws IOException {       
-        if(showWindows){
-            MainWindow window = new MainWindow();
-        }
+        //create window
+        MainWindow window = new MainWindow();
         
-        String problemName;
+        //print startup params
+        System.out.println("Startup params: \t" + Arrays.toString(args));
         
-        if(args.length < 1) {
-            problemName = "test";
-        }else{
-            //someday remowing extension here
-            problemName = args[0];
-        }
-        
+        //get path to current folder
         String path = Paths.get("").toAbsolutePath().toString() + File.separator;
+        String problemName = "";
         
-        try{ 
-            //load tasks data
-            METADATA.load(path + problemName + ".txt", true); 
-            
-        }catch(IOException e){
-            
-            path += "src" + File.separator;
-            
-            try{ 
-            //load tasks data
-            METADATA.load(path + problemName + ".txt", true); 
-            }catch(IOException e2){
-                System.exit(0);
+        for(int i = 0; i < args.length; ++i){
+            //check if its run from IDE
+            if(args[i].equals("-IDE")){
+                path += "src" + File.separator;
+            }else if (args[i].contains("-problem=")){ //check for problem name
+                problemName = args[i].substring(args[i].lastIndexOf("=") + 1);
             }
         }
+        
+        //check if found a paramsFile name
+        if(problemName.isEmpty()){
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            }catch(Exception ex) {
+                ex.printStackTrace();
+            }
+            //create file chooser window
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new File(path));
+            //set filter
+            chooser.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PARAMS FILES", "params");
+            chooser.setFileFilter(filter);
+            //read choosed file
+            int result = chooser.showOpenDialog(chooser);
+            if(result == JFileChooser.APPROVE_OPTION){
+                path = chooser.getSelectedFile().getAbsolutePath();
+            }        
+        }else{
+            //add file extension
+            path += problemName + ".params";
+        }
+        
+        //print path
+        System.out.println("Path to params file: \t" + path);
 
         //run gp
-        String[] Params = {"-file", path + problemName + ".params"};            
+        String[] Params = {"-file", path};            
         CustomEvolve.main(Params);
     }
 }

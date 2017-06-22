@@ -13,10 +13,20 @@
 	
 	<target name="-post-jar"> 
 		<copy file="src/base.params" flatten="true" todir="${dist.dir}"/>
-        <copy file="src/test.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/test.params" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/ta12.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/ta12.params" flatten="true" todir="${dist.dir}"/>
+        <copy file="src/p9.txt" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/p9.params" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/p49.txt" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/p49.params" flatten="true" todir="${dist.dir}"/>
+		<copy file="src/p100.txt" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/p100.params" flatten="true" todir="${dist.dir}"/>
+		<copy file="src/p169.txt" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/p169.params" flatten="true" todir="${dist.dir}"/>
+		<copy file="src/p196.txt" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/p196.params" flatten="true" todir="${dist.dir}"/>
+		<copy file="src/p225.txt" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/p225.params" flatten="true" todir="${dist.dir}"/>
+		<copy file="src/p300.txt" flatten="true" todir="${dist.dir}"/> 
+		<copy file="src/p300.params" flatten="true" todir="${dist.dir}"/>
 		
 		<delete file="${dist.dir}/README.TXT"/> 
 		<copy file="src/README.TXT" flatten="true" todir="${dist.dir}"/> 		
