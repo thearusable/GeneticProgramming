@@ -14,6 +14,7 @@ import ec.simple.SimpleStatistics;
 import ec.util.Parameter;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -21,9 +22,10 @@ import java.io.IOException;
  */
 public class MyStatistics extends SimpleStatistics {
     
-    
+    //extension of a output file
     public static final String P_PNG_FILE = "png";
     
+    //path for file
     public File bestPNGFile;
     
     @Override
@@ -60,12 +62,23 @@ public class MyStatistics extends SimpleStatistics {
             // do something
             System.out.println("Final Statistics Fails!");
         }
+        
+        //set ending time
+        MainWindow.endTime = System.nanoTime();
+        long time = MainWindow.endTime - MainWindow.startTime;
+        
+        System.out.println("-------------------------\nLearning process takes: ");
+        System.out.println(
+                String.format("%dm %ds %dms", 
+                        TimeUnit.NANOSECONDS.toMinutes(time),
+                        TimeUnit.NANOSECONDS.toSeconds(time) - TimeUnit.NANOSECONDS.toMinutes(time) * 60,
+                        TimeUnit.NANOSECONDS.toMillis(time) - TimeUnit.NANOSECONDS.toSeconds(time) * 1000));
+        
     }
     
     boolean warned = false;
     @Override
     public void postEvaluationStatistics(final EvolutionState state){
-        //super.postEvaluationStatistics(state);
         
         //set generation number
         MainWindow.updateGenerationNumber(state.generation);

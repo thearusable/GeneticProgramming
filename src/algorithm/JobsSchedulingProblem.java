@@ -21,18 +21,14 @@ import window.MainWindow;
  */
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
     
-    final static private double makespanWeight = 0.5 / METADATA.TASKS_COUNT;
+    final static private double makespanWeight = 0.1 / METADATA.TASKS_COUNT;
     
-    final static private double doublingTaskWeight = 2.0;
-    final static private double missingTaskWeight = 2.0;
-    final static private double taskWithBadParentErrorWeight = 2.5;
-    final static private double machineWithBadParentErrorWeight = 0.1;
-    final static private double machineWithBadChildErrorWeight = 2.0;
+    final static private double doublingTaskWeight = 0.2 * METADATA.TASKS_COUNT;
+    final static private double missingTaskWeight = 0.4 * METADATA.TASKS_COUNT;
     
-    final static private double taskOnWrongMachineErrorWeight = 1.0;
-    final static private double taskInWrongOrderErrorWeight = 3.0;
-    
-    final static private double ConnectorWithBadChildErrorWeight = 3.0;
+    final static private double machineWithBadChildErrorWeight = 0.2 * METADATA.TASKS_COUNT;
+    final static private double taskInWrongOrderErrorWeight = 0.2 * METADATA.TASKS_COUNT;
+    final static private double ConnectorWithBadChildErrorWeight = 0.1 * METADATA.TASKS_COUNT;
     
     
     //ending calculations before max generations number will occur
@@ -76,16 +72,9 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 }
             }
             
-            //fitness += data.machineWithBadParent * machineWithBadParentErrorWeight;
-            
-            //fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
+            fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
             fitness += data.ConnectorWithBadChild * ConnectorWithBadChildErrorWeight;
-            
-            ///???
-            //fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
-
-            //fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
             
             fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
             
@@ -101,12 +90,8 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 lowestFitness = fitness;
                 BestFitnessOccurCount = 0;
                 MainWindow.updateMinimumMakespan(onlyMakespan);
-                MainWindow.hitsReset();
             }else if(lowestFitness == fitness && onlyTreeFitness == 0.0){
                 BestFitnessOccurCount += 1;
-                MainWindow.hit();
-            }else if(fitness < lowestFitness){
-                MainWindow.updateTreeFitness(onlyTreeFitness);
             }
             
             if(BestFitnessOccurCount >= BestFitnessOccursToEndCalculations){

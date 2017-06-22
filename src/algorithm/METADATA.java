@@ -91,12 +91,13 @@ public class METADATA {
     }
     
     static public int getRandomMachineID(){
-        return (int) (Math.random() * MACHINES_COUNT);
+        Random rand = new Random();
+        return rand.nextInt(MACHINES_COUNT);
     }
     
     static public int getRandomTaskID(){      
         Random rand = new Random();
-        return rand.nextInt(tasks.length);
+        return rand.nextInt(TASKS_COUNT);
     }
     
     static public TaskData getTask(int whichOne){
@@ -107,16 +108,6 @@ public class METADATA {
             return tasks[whichOne];
         }
     }
-    
-    /*
-    static public int getJobID(int taskID){
-        return tasks[taskID].jobID;
-    }
-    
-    static public int getTaskDuration(int taskID){
-        return tasks[taskID].duration;
-    }
-    */
     
     static public void load(String dataFile, boolean debug) throws IOException {
         int[][] times = new int[0][0];

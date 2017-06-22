@@ -25,13 +25,9 @@ public final class TreeData extends GPData {
     
     public int[] OccursCounterPerTask; //index = taskID
     
-    public int machineWithBadParent; //+dummy and machine
-    public int machineWithBadChild;
-    public int taskWithBadParent; //+dummy
-    public int taskOnWrongMachine; //+when machine id != parentID
-    public int taskInWrongOrder; //+when task occurs in wrong order in job
-    
-    public int ConnectorWithBadChild;
+    public int machineWithBadChild; //when machine have child with difrent id 
+    public int taskInWrongOrder; //when task occurs in wrong order in job
+    public int ConnectorWithBadChild; //when connector have task child
     
     public TreeData() {
         StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
@@ -39,41 +35,6 @@ public final class TreeData extends GPData {
         OccursCounterPerTask = new int[METADATA.TASKS_COUNT];
         
         reset();
-    }
-    
-    public void taskOccur(int taskID, GPNodeParent parent){
-        //get TaskData for taskID
-        TaskData task = METADATA.getTask(taskID);
-        //get parenID
-        int parentID = -1;
-        if(parent == null){
-            parentID = -1;
-        }else if(parent.getClass() == Connector.class){
-            parentID = -1;
-        }else if(parent.getClass() == Machine.class){
-            parentID = ((Machine)parent).getID();
-        }
-        //add task occurennce
-        OccursCounterPerTask[taskID] += 1;
-        
-        //fill startupTime and record task occurrence
-        StartupTimesPerJob[task.jobID] += task.duration;
-        
-        //checking task parent and machine id
-        if(parentID >= 0 && task.requiredMachineID != parentID){
-            taskOnWrongMachine += 1;
-        }else if (parentID == -1){
-            taskWithBadParent += 1;
-        }
-        //checking execute order
-        if(PreviousExecuteTaskPerJob[task.jobID] >= 0 
-                && task.whichTaskInJob != PreviousExecuteTaskPerJob[task.jobID] - 1){
-            
-            taskInWrongOrder += 1;
-        }
-        //assing last executed task
-        PreviousExecuteTaskPerJob[task.jobID] = task.whichTaskInJob;
-        
     }
     
     //bad when connector have task childs
@@ -121,18 +82,6 @@ public final class TreeData extends GPData {
         }
     }
     
-    public void machineOccur(final GPNodeParent parent){
-        if(parent != null && parent.getClass() != Connector.class){
-            machineWithBadParent += 1;
-        }
-    }
-    
-    public void checkMachineChild(final GPNode child){
-        if(child != null && child.getClass() != Task.class){
-            machineWithBadChild += 1;
-        }
-    }
-    
     public int getMakespan(){
         int makespan = StartupTimesPerJob[0];
         for(int i = 1; i < StartupTimesPerJob.length; ++i){
@@ -153,9 +102,6 @@ public final class TreeData extends GPData {
             OccursCounterPerTask[i] = 0;
         }
         
-        machineWithBadParent = 0; 
-        taskWithBadParent = 0;
-        taskOnWrongMachine = 0;
         taskInWrongOrder = 0;
         machineWithBadChild = 0;
         ConnectorWithBadChild = 0;
@@ -167,9 +113,6 @@ public final class TreeData extends GPData {
         str += "PreviousExecuteTaskPerJob: \n" + Arrays.toString(PreviousExecuteTaskPerJob);
         str += "\nStartupTimesPerJob: \n" + Arrays.toString(StartupTimesPerJob);
         str += "\nOccursCounterPerTask: \n" + Arrays.toString(OccursCounterPerTask);
-        str += "\nmachineWithBadParent: " + machineWithBadParent;
-        str += "\ntaskWithBadParent: " + taskWithBadParent;
-        str += "\ntaskOnWrongMachine: " + taskOnWrongMachine;
         str += "\ntaskInWrongOrder: " + taskInWrongOrder;
         str += "\nmachineWithBadChild: " + machineWithBadChild;
         str += "\nConnectorWithBadChild: " + ConnectorWithBadChild;
@@ -196,10 +139,7 @@ public final class TreeData extends GPData {
         other.StartupTimesPerJob = (int[])StartupTimesPerJob.clone();
         other.PreviousExecuteTaskPerJob = (int[])PreviousExecuteTaskPerJob.clone();
         other.OccursCounterPerTask = (int[])OccursCounterPerTask.clone();
-        other.machineWithBadParent = machineWithBadParent;
         other.taskInWrongOrder = taskInWrongOrder;
-        other.taskOnWrongMachine = taskOnWrongMachine;
-        other.taskWithBadParent = taskWithBadParent;
         other.machineWithBadChild = machineWithBadChild;
         other.ConnectorWithBadChild = ConnectorWithBadChild;
         return other;
@@ -211,10 +151,7 @@ public final class TreeData extends GPData {
         System.arraycopy(StartupTimesPerJob, 0, other.StartupTimesPerJob, 0, StartupTimesPerJob.length);
         System.arraycopy(PreviousExecuteTaskPerJob, 0, other.PreviousExecuteTaskPerJob, 0, PreviousExecuteTaskPerJob.length);
         System.arraycopy(OccursCounterPerTask, 0, other.OccursCounterPerTask, 0, OccursCounterPerTask.length);
-        other.machineWithBadParent = machineWithBadParent;
         other.taskInWrongOrder = taskInWrongOrder;
-        other.taskOnWrongMachine = taskOnWrongMachine;
-        other.taskWithBadParent = taskWithBadParent;
         other.machineWithBadChild = machineWithBadChild;
         other.ConnectorWithBadChild = ConnectorWithBadChild;
     }

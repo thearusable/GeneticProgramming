@@ -7,13 +7,13 @@ package algorithm;
  */
 
 
-import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import window.MainWindow;
 
@@ -51,8 +51,7 @@ public class MainClass {
         if(problemName.isEmpty()){
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            }catch(Exception ex) {
-                ex.printStackTrace();
+            }catch(ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException ex) {
             }
             //create file chooser window
             JFileChooser chooser = new JFileChooser();

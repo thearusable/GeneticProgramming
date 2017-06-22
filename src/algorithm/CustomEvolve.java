@@ -10,10 +10,9 @@ import ec.Evolve;
 import ec.util.Output;
 import ec.util.Parameter;
 import ec.util.ParameterDatabase;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Arrays;
+import window.MainWindow;
 
 /**
  *
@@ -104,6 +103,9 @@ public class CustomEvolve extends Evolve{
             System.err.println("#ERROR# Cant load datafile!");
             return;
         }
+        
+        //setup startup time;
+        MainWindow.startTime = System.nanoTime();
                 
         // Now we know how many jobs remain.  Let's loop for that many jobs.  Each time we'll
         // load the parameter database scratch (except the first time where we reuse the one we

@@ -5,7 +5,6 @@
  */
 package nodes;
 
-import algorithm.METADATA;
 import ec.EvolutionState;
 import ec.gp.ERC;
 import ec.gp.GPNode;

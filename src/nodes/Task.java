@@ -48,7 +48,6 @@ public class Task extends ERCnode{
         
         TreeData data = ((TreeData)input); 
         
-        //data.taskOccur(getID(), parent);
         data.task(getID(), parent);
 
     }

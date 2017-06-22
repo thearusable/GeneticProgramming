@@ -26,24 +26,10 @@ public abstract class Machine extends ERCnode{
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        /*
+
         TreeData data = (TreeData)gpdata;
-        
-        for(int x = 0; x < children.length; ++x){
-            children[x].eval(es, i , data, adfs, gpi, prblm);
-        }
-        
-        for(int x = 0; x < children.length; ++x){
-           // data.machine(getID(), children[x]);
-        }*/
-        
-        TreeData data = (TreeData)gpdata;
-        
-        //data.machineOccur(parent);
-        
-        for(int x = 0; x < children.length; ++x){
-            //data.checkMachineChild(children[x]);
-            
+
+        for(int x = 0; x < children.length; ++x){          
             children[x].eval(es, i, data, adfs, gpi, prblm);
             
             data.machine(getID(), children[x]);
