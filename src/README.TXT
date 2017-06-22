@@ -1,7 +1,1 @@
-Uruchamianie:     
-
-java -jar GP.jar PROBLEM_NAME
-
-     Przykładowo:     
-
-java -jar GP.jar ta12
+Uruchamianie z parametrem : java -jar TaskScheduler.jar -problem=PROBLEM_NAME

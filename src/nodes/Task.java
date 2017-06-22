@@ -20,6 +20,10 @@ import ec.gp.GPIndividual;
  */
 public class Task extends ERCnode{
     
+    public int getRequiredMachineID(){
+        return METADATA.getTask(getID()).requiredMachineID;
+    }
+    
     @Override
     public int expectedChildren() {
         return 0;

@@ -24,18 +24,20 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     final static private double makespanWeight = 0.5 / METADATA.TASKS_COUNT;
     
     final static private double doublingTaskWeight = 2.0;
-    final static private double missingTaskWeight = 7.0;
-    final static private double taskWithBadParentErrorWeight = 3.5;
+    final static private double missingTaskWeight = 2.0;
+    final static private double taskWithBadParentErrorWeight = 2.5;
     final static private double machineWithBadParentErrorWeight = 0.1;
-    final static private double machineWithBadChildErrorWeight = 4.5;
+    final static private double machineWithBadChildErrorWeight = 2.0;
     
     final static private double taskOnWrongMachineErrorWeight = 1.0;
     final static private double taskInWrongOrderErrorWeight = 3.0;
     
+    final static private double ConnectorWithBadChildErrorWeight = 3.0;
+    
     
     //ending calculations before max generations number will occur
     private static final int BestFitnessOccursToEndCalculations = 1;
-    static private double lowestFitness = Integer.MAX_VALUE;
+    private static double lowestFitness = Integer.MAX_VALUE;
     static private int BestFitnessOccurCount;
     
     @Override
@@ -78,11 +80,14 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
+            fitness += data.ConnectorWithBadChild * ConnectorWithBadChildErrorWeight;
+            
+            ///???
             //fitness += data.taskOnWrongMachine * taskOnWrongMachineErrorWeight;
+
+            //fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
             
-            fitness += data.taskWithBadParent * taskWithBadParentErrorWeight;
-            
-            //fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
+            fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
             
             //adding makespan to fitness
             double onlyTreeFitness = fitness;

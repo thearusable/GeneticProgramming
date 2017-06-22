@@ -5,6 +5,7 @@
  */
 package nodes;
 
+import algorithm.TreeData;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -38,8 +39,12 @@ public class Connector extends ERCnode{
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
+        TreeData data = (TreeData)gpdata;
+        
         for(int x = 0; x < children.length; ++x){
             children[x].eval(es, i , gpdata, adfs, gpi, prblm);
+            
+            data.connector(children[x]);
         }
     }
 

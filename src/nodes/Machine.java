@@ -43,8 +43,10 @@ public abstract class Machine extends ERCnode{
         
         for(int x = 0; x < children.length; ++x){
             //data.checkMachineChild(children[x]);
-            data.machine(getID(), children[x]);
+            
             children[x].eval(es, i, data, adfs, gpi, prblm);
+            
+            data.machine(getID(), children[x]);
         }
         
     }
