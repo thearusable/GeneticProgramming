@@ -26,9 +26,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     final static private double doublingTaskWeight = 0.2 * METADATA.TASKS_COUNT;
     final static private double missingTaskWeight = 0.4 * METADATA.TASKS_COUNT;
     
-    final static private double machineWithBadChildErrorWeight = 0.2 * METADATA.TASKS_COUNT;
     final static private double taskInWrongOrderErrorWeight = 0.2 * METADATA.TASKS_COUNT;
-    final static private double ConnectorWithBadChildErrorWeight = 0.2 * METADATA.TASKS_COUNT;
     
     final static private double taskOnBadMachineErrorWeight = 0.2 * METADATA.TASKS_COUNT;
     
@@ -78,11 +76,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             fitness += data.taskOnBadMachine * taskOnBadMachineErrorWeight;
             
-            //fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
-            
-            //fitness += data.ConnectorWithBadChild * ConnectorWithBadChildErrorWeight;
-            
-            //fitness += data.machineWithBadChild * machineWithBadChildErrorWeight;
+            fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
             //adding makespan to fitness
             double onlyTreeFitness = fitness;
@@ -129,9 +123,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         str += "\nmakespanWeight: " + makespanWeight;
         str += "\ndoublingTaskWeight: " + doublingTaskWeight;
         str += "\nmissingTaskWeight: " + missingTaskWeight;
-        str += "\nmachineWithBadChildErrorWeight: " + machineWithBadChildErrorWeight; 
         str += "\ntaskInWrongOrderErrorWeight: " + taskInWrongOrderErrorWeight;
-        str += "\nConnectorWithBadChildErrorWeight: " + ConnectorWithBadChildErrorWeight;
         str += "\n";
         
         System.out.println(str);

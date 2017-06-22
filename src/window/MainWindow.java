@@ -32,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultCaret;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -81,8 +82,8 @@ public class MainWindow {
     static JButton openBestPNG = new JButton("Show best graph.");
     //saving dialog
     protected static final String EXTENSION = ".png";
-    protected static final String FORMAT_NAME = "png";
-    protected static final LayoutFileFilter SAVE_AS_IMAGE = new LayoutFileFilter("PNG Image Format", EXTENSION, true);
+    protected static final String EXTENSION_NAME = "png";
+    protected static final String FILTER_NAME = ".png files";
     //graph window
     static String bestPath = "";
     
@@ -142,8 +143,8 @@ public class MainWindow {
                 final JFileChooser fc = new JFileChooser();
                 //setting up filter
                 fc.setAcceptAllFileFilterUsed(false);
-                ExtensionFileFilter pFilter = new ExtensionFileFilter(SAVE_AS_IMAGE);
-                fc.setFileFilter(pFilter);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(FILTER_NAME, EXTENSION_NAME);
+                fc.setFileFilter(filter);
                 //get status from window
                 int status = fc.showSaveDialog(guiFrame);
              

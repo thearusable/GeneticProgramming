@@ -6,13 +6,9 @@
 package algorithm;
 
 import ec.gp.GPData;
-import ec.gp.GPNode;
 import ec.gp.GPNodeParent;
 import java.util.Arrays;
-import nodes.Connector;
 import nodes.ERCnode;
-import nodes.Machine;
-import nodes.Task;
 
 /**
  *
@@ -25,11 +21,8 @@ public final class TreeData extends GPData {
     
     public int[] OccursCounterPerTask; //index = taskID
     
-    public int machineWithBadChild; //when machine have child with difrent id 
     public int taskInWrongOrder; //when task occurs in wrong order in job
-    public int ConnectorWithBadChild; //when connector have task child
-    
-    public int taskOnBadMachine;
+    public int taskOnBadMachine; //when task have bad parent
     
     public TreeData() {
         StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
@@ -37,13 +30,6 @@ public final class TreeData extends GPData {
         OccursCounterPerTask = new int[METADATA.TASKS_COUNT];
         
         reset();
-    }
-    
-    //bad when connector have task childs
-    public void connector(GPNode child){
-        if(child.getClass().getName().equals(Task.class.getName())){
-            ConnectorWithBadChild += 1;
-        }
     }
     
     //task is bad when - missing, doubled, inWrongOrder 
@@ -79,24 +65,6 @@ public final class TreeData extends GPData {
         PreviousExecuteTaskPerJob[task.jobID] = task.whichTaskInJob;
     }
     
-    //bad when machine have child with difrent id
-    public void machine(int machineID, GPNode child){  
-        int childID = -1;
-        if(child != null){
-            //if child is task
-            if(child.getClass().getName().equals(Task.class.getName())){
-                childID = ((Task)child).getRequiredMachineID();
-            }else{
-                //if not task
-                childID = ((ERCnode)child).getID();
-            }
-        }
-        
-        if(machineID != childID){
-            machineWithBadChild += 1;
-        }
-    }
-    
     public int getMakespan(){
         int makespan = StartupTimesPerJob[0];
         for(int i = 1; i < StartupTimesPerJob.length; ++i){
@@ -118,8 +86,6 @@ public final class TreeData extends GPData {
         }
         
         taskInWrongOrder = 0;
-        machineWithBadChild = 0;
-        ConnectorWithBadChild = 0;
         taskOnBadMachine = 0;
     }
     
@@ -130,8 +96,6 @@ public final class TreeData extends GPData {
         str += "\nStartupTimesPerJob: \n" + Arrays.toString(StartupTimesPerJob);
         str += "\nOccursCounterPerTask: \n" + Arrays.toString(OccursCounterPerTask);
         str += "\ntaskInWrongOrder: " + taskInWrongOrder;
-        str += "\nmachineWithBadChild: " + machineWithBadChild;
-        str += "\nConnectorWithBadChild: " + ConnectorWithBadChild;
         str += "\ntaskOnBadMachine: " + taskOnBadMachine;
         
         
@@ -157,8 +121,6 @@ public final class TreeData extends GPData {
         other.PreviousExecuteTaskPerJob = (int[])PreviousExecuteTaskPerJob.clone();
         other.OccursCounterPerTask = (int[])OccursCounterPerTask.clone();
         other.taskInWrongOrder = taskInWrongOrder;
-        other.machineWithBadChild = machineWithBadChild;
-        other.ConnectorWithBadChild = ConnectorWithBadChild;
         other.taskOnBadMachine = taskOnBadMachine;
         return other;
     }
@@ -170,8 +132,6 @@ public final class TreeData extends GPData {
         System.arraycopy(PreviousExecuteTaskPerJob, 0, other.PreviousExecuteTaskPerJob, 0, PreviousExecuteTaskPerJob.length);
         System.arraycopy(OccursCounterPerTask, 0, other.OccursCounterPerTask, 0, OccursCounterPerTask.length);
         other.taskInWrongOrder = taskInWrongOrder;
-        other.machineWithBadChild = machineWithBadChild;
-        other.ConnectorWithBadChild = ConnectorWithBadChild;
         other.taskOnBadMachine = taskOnBadMachine;
     }
 }
