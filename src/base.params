@@ -101,24 +101,17 @@ gp.tc.0.returns = nil
 
 gp.tc.0.init = ec.gp.koza.FullBuilder
 gp.tc.0.init.min-depth = 2
-gp.tc.0.init.max-depth = 4
+gp.tc.0.init.max-depth = 5
 
 breedthreads = auto
 evalthreads = auto
-seed.0 = -2041175239
-seed.1 = 2041175239
-seed.2 = -1041175238
-seed.3 = 1041175239
-seed.4 = -3041175210
-seed.5 = 3041175211
-seed.6 = -4041175212
-seed.7 = 4041175214
+seed.0 = time
 
 checkpoint = false
 checkpoint-modulo = 1
 checkpoint-prefix = ec
 
-gp.nc.size = 6
+gp.nc.size = 7
 
 gp.nc.0 = ec.gp.GPNodeConstraints
 gp.nc.0.name = nc0
@@ -165,19 +158,13 @@ gp.nc.5.child.2 = nil
 gp.nc.5.child.3 = nil
 gp.nc.5.child.4 = nil
 
-
-#definition of problem to solve
-eval.problem = algorithm.JobsSchedulingProblem
-#problem data
-eval.problem.data = algorithm.TreeData
-
-#ERC nodes
-gp.fs.0.size = 3
-gp.fs.0.func.0 = nodes.Task
-gp.fs.0.func.0.nc = nc0
-gp.fs.0.func.1 = nodes.Machine1
-gp.fs.0.func.1.nc = nc1
-gp.fs.0.func.2 = nodes.Machine2
-gp.fs.0.func.2.nc = nc2
-#gp.fs.0.func.1 = nodes.Connector
-#gp.fs.0.func.1.nc = nc2
+gp.nc.6 = ec.gp.GPNodeConstraints
+gp.nc.6.name = nc6
+gp.nc.6.returns = nil
+gp.nc.6.size = 6
+gp.nc.6.child.0 = nil
+gp.nc.6.child.1 = nil
+gp.nc.6.child.2 = nil
+gp.nc.6.child.3 = nil
+gp.nc.6.child.4 = nil
+gp.nc.6.child.5 = nil

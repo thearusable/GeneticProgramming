@@ -56,8 +56,7 @@ public final class TreeData extends GPData {
         StartupTimesPerJob[task.jobID] += task.duration;
         
         //checking execute order
-        if(PreviousExecuteTaskPerJob[task.jobID] >= 0 
-                && task.whichTaskInJob != PreviousExecuteTaskPerJob[task.jobID] - 1){
+        if(task.whichTaskInJob != PreviousExecuteTaskPerJob[task.jobID] + 1){
             
             taskInWrongOrder += 1;
         }

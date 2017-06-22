@@ -6,10 +6,39 @@ generations = 500
 pop.subpop.0.size = 5000
 
 #size of a tournament
-select.tournament.size = 10
+select.tournament.size = 5
 
+#definition of problem to solve
+eval.problem = algorithm.JobsSchedulingProblem
+#problem data
+eval.problem.data = algorithm.TreeData
+
+#weights
+makespan = 0.1
+doubling = 2
+missing = 3
+badOrder = 2
+badMachine = 2
 
 #files
 stat.file = $p9.stat
 stat.png = $p9.png
 data = $p9.txt
+
+
+#ERC nodes
+gp.fs.0.size = 3
+gp.fs.0.func.0 = nodes.Task
+gp.fs.0.func.0.nc = nc0
+gp.fs.0.func.1 = nodes.Machine
+gp.fs.0.func.1.nc = nc1
+gp.fs.0.func.2 = nodes.Machine
+gp.fs.0.func.2.nc = nc2
+gp.fs.0.func.3 = nodes.Machine
+gp.fs.0.func.3.nc = nc3
+gp.fs.0.func.4 = nodes.Machine
+gp.fs.0.func.4.nc = nc4
+gp.fs.0.func.5 = nodes.Machine
+gp.fs.0.func.5.nc = nc5
+gp.fs.0.func.6 = nodes.Machine
+gp.fs.0.func.6.nc = nc6

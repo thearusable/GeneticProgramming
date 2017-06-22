@@ -21,14 +21,17 @@ import window.MainWindow;
  */
 public class JobsSchedulingProblem extends GPProblem implements SimpleProblemForm {
     
-    final static private double makespanWeight = 0.1 / METADATA.TASKS_COUNT;
+    public static final String P_MAKESPAN = "makespan";
+    public static final String P_DOUBLING = "doubling";
+    public static final String P_MISSING = "missing";
+    public static final String P_BADORDER = "badOrder";
+    public static final String P_BADMACHINE = "badMachine";
     
-    final static private double doublingTaskWeight = 0.2 * METADATA.TASKS_COUNT;
-    final static private double missingTaskWeight = 0.4 * METADATA.TASKS_COUNT;
-    
-    final static private double taskInWrongOrderErrorWeight = 0.2 * METADATA.TASKS_COUNT;
-    
-    final static private double taskOnBadMachineErrorWeight = 0.2 * METADATA.TASKS_COUNT;
+    static private double makespanWeight;
+    static private double doublingTaskWeight;
+    static private double missingTaskWeight;
+    static private double taskInWrongOrderErrorWeight;
+    static private double taskOnBadMachineErrorWeight;
     
     //ending calculations before max generations number will occur
     private static final int BestFitnessOccursToEndCalculations = 1;
@@ -42,6 +45,13 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         if (!(input instanceof TreeData)){
             state.output.fatal("GPData class must subclass from " + TreeData.class, base.push(P_DATA), null);      
         }
+        
+        //read weights from params file
+        makespanWeight = state.parameters.getDouble(new Parameter(P_MAKESPAN), null);
+        doublingTaskWeight = state.parameters.getDouble(new Parameter(P_DOUBLING), null);
+        missingTaskWeight = state.parameters.getDouble(new Parameter(P_MISSING), null);
+        taskInWrongOrderErrorWeight = state.parameters.getDouble(new Parameter(P_BADORDER), null);
+        taskOnBadMachineErrorWeight = state.parameters.getDouble(new Parameter(P_BADMACHINE), null);
         
         //print weights
         printErrorsWeights();
@@ -73,9 +83,10 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                     fitness += missingTaskWeight;
                 }
             }
-            
+            //tasks on bad machine
             fitness += data.taskOnBadMachine * taskOnBadMachineErrorWeight;
             
+            //tasks in wrong order
             fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
             //adding makespan to fitness

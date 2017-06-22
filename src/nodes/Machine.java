@@ -6,7 +6,6 @@
 package nodes;
 
 import algorithm.METADATA;
-import algorithm.TreeData;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -17,7 +16,7 @@ import ec.gp.GPIndividual;
  *
  * @author arsc
  */
-public abstract class Machine extends ERCnode{
+public class Machine extends ERCnode{
 
     boolean hideName = true;
     
@@ -57,6 +56,11 @@ public abstract class Machine extends ERCnode{
     @Override
     public void reset() {
         setID(METADATA.getRandomMachineID());
+    }
+
+    @Override
+    public int expectedChildren() {
+        return CHILDREN_UNKNOWN;
     }
 
 }
