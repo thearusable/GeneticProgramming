@@ -20,6 +20,11 @@ import ec.gp.GPIndividual;
  */
 public class Task extends ERCnode{
     
+    public Task(){
+        setID(METADATA.getRandomTaskID());
+        //System.out.println("Task constructor: " + getID());
+    }
+    
     public int getRequiredMachineID(){
         return METADATA.getTask(getID()).requiredMachineID;
     }
@@ -33,10 +38,6 @@ public class Task extends ERCnode{
     public String name() {
         return "T";
     }
-    
-    public Task(){
-        setID(METADATA.getRandomTaskID());
-    }
 
     @Override
     public String toString() {
@@ -49,19 +50,13 @@ public class Task extends ERCnode{
         TreeData data = ((TreeData)input); 
         
         data.task(getID(), parent);
-
     }
 
     @Override
     public String encode() {
         return METADATA.getCodeForTask(getID());
     }
-
-    @Override
-    public void mutate() {
-        setID(METADATA.getTaskSiblingID(getID()));
-    }
-
+    
     @Override
     public Object clone() {
         Task task = (Task)super.clone();
@@ -70,8 +65,10 @@ public class Task extends ERCnode{
     }
 
     @Override
-    public void reset() {
-        setID(METADATA.getRandomTaskID());
+    public void resetNode(EvolutionState es, int i) {
+        setID(METADATA.getNextTask());
+        //setID(METADATA.getRandomTaskID());
+        //System.out.println("task: " + getID());
     }
     
 }

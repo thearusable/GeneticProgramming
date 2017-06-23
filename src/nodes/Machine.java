@@ -20,6 +20,11 @@ public class Machine extends ERCnode{
 
     boolean hideName = true;
     
+    public Machine() {
+        setID(METADATA.getRandomMachineID());
+        //System.out.println("Machine constructor: " + getID());
+    }
+    
     @Override
     public String toString() {
         if(hideName == true){
@@ -49,18 +54,15 @@ public class Machine extends ERCnode{
     }
 
     @Override
-    public void mutate() {
-        setID(METADATA.getMachineSiblingID(getID()));
-    }
-    
-    @Override
-    public void reset() {
-        setID(METADATA.getRandomMachineID());
+    public int expectedChildren() {
+        return CHILDREN_UNKNOWN;
     }
 
     @Override
-    public int expectedChildren() {
-        return CHILDREN_UNKNOWN;
+    public void resetNode(EvolutionState es, int i) {
+        setID(METADATA.getNextMachine());
+        //setID(METADATA.getRandomMachineID());
+        //System.out.println("Machine constructor: " + getID());
     }
 
 }

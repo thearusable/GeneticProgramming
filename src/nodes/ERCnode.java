@@ -5,7 +5,6 @@
  */
 package nodes;
 
-import ec.EvolutionState;
 import ec.gp.ERC;
 import ec.gp.GPNode;
 import ec.util.Code;
@@ -23,20 +22,6 @@ public abstract class ERCnode extends ERC{
     
     @Override
     public abstract int expectedChildren();
-    
-    public abstract void mutate();
-    
-    public abstract void reset();
-    
-    @Override
-    public void mutateERC(EvolutionState es, int i){
-        mutate();
-    }
-    
-    @Override
-    public void resetNode(EvolutionState es, int i){
-        reset();
-    }
     
     public int getID(){
         return ID;
@@ -64,7 +49,7 @@ public abstract class ERCnode extends ERC{
         return Code.encode(name()) + Code.encode(getID()) + Code.encode(expectedChildren()) + Code.encode(children.length);
     }
     
-    
+    //FOR DEBUG
     //why this happen, maybe due to not seted childrens number in machine ?
     @Override
     public boolean rootedTreeEquals(final GPNode node){
@@ -86,6 +71,13 @@ public abstract class ERCnode extends ERC{
             System.out.println("this.class: " + this.getClass().getName() + " node.classs: " + node.getClass().getName());
         }
         return true;
+    }
+    
+    @Override
+    public Object clone() {
+        ERCnode m = (ERCnode)super.clone();
+        m.setID(getID());
+        return m;
     }
     
 }
