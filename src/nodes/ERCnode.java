@@ -53,13 +53,15 @@ public abstract class ERCnode extends ERC{
 
     @Override
     public boolean nodeEquals(GPNode gpnode) {
-        return this.getClass().equals(gpnode.getClass()) && this.getID() == ((ERCnode)gpnode).getID() 
-                && this.expectedChildren() == gpnode.expectedChildren();
+        return this.getClass().equals(gpnode.getClass()) 
+                && this.getID() == ((ERCnode)gpnode).getID() 
+                && this.expectedChildren() == gpnode.expectedChildren()
+                && this.children.length == gpnode.children.length;
     }
     
     @Override
     public String encode() {
-        return Code.encode(name()) + Code.encode(getID()) + Code.encode(expectedChildren());
+        return Code.encode(name()) + Code.encode(getID()) + Code.encode(expectedChildren()) + Code.encode(children.length);
     }
     
     
@@ -67,15 +69,22 @@ public abstract class ERCnode extends ERC{
     @Override
     public boolean rootedTreeEquals(final GPNode node){
         if (!nodeEquals(node)) return false;
-        System.out.println("x: " + children.length);
-        for (int x=0;x<children.length;x++)
-            //try{
-                if (!(children[x].rootedTreeEquals(node.children[x])))
-                    return false;
-            //}
-            //catch(Exception e){
-            //    return false;
-           // }
+        
+        try{
+            
+            for (int x=0;x<children.length;x++)
+                //try{
+                    if (!(children[x].rootedTreeEquals(node.children[x])))
+                        return false;
+                //}
+                //catch(Exception e){
+                //    return false;
+                // }
+        }catch (Exception e){
+            
+            System.out.println("Catch!! this.x: " + children.length + "  node.x: " + node.children.length);
+            System.out.println("this.class: " + this.getClass().getName() + " node.classs: " + node.getClass().getName());
+        }
         return true;
     }
     
