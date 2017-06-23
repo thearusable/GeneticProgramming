@@ -8,6 +8,7 @@ package algorithm;
 import ec.gp.GPData;
 import ec.gp.GPNodeParent;
 import java.util.Arrays;
+import java.util.Vector;
 import nodes.ERCnode;
 
 /**
@@ -23,11 +24,24 @@ public final class TreeData extends GPData {
     
     public int taskInWrongOrder; //when task occurs in wrong order in job
     public int taskOnBadMachine; //when task have bad parent
+    public int singleMachineWithBadChild;
     
+    private int[] IndexOfExecutedTaskPerJob;
+    private String[][] ExecutionOrder;
+    
+    
+    private Vector<Vector<TimeNode>> order; //on machines
+    private int[] StartupTimesPerMachine; //index == machineID
+     
     public TreeData() {
         StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
         PreviousExecuteTaskPerJob = new int[METADATA.JOBS_COUNT];
         OccursCounterPerTask = new int[METADATA.TASKS_COUNT];
+        IndexOfExecutedTaskPerJob = new int[METADATA.JOBS_COUNT];
+        ExecutionOrder = new String[METADATA.JOBS_COUNT][METADATA.TASKS_PER_JOB];
+        StartupTimesPerMachine = new int[METADATA.MACHINES_COUNT];
+        
+        order = new Vector<>();
         
         reset();
     }
@@ -52,6 +66,9 @@ public final class TreeData extends GPData {
         //add task occurennce
         OccursCounterPerTask[taskID] += 1;
         
+        order.get(task.requiredMachineID).add(new TimeNode(task
+                , Integer.max(StartupTimesPerMachine[task.requiredMachineID], StartupTimesPerJob[task.jobID])));
+        
         //fill startupTime
         StartupTimesPerJob[task.jobID] += task.duration;
         
@@ -62,6 +79,17 @@ public final class TreeData extends GPData {
         }
         //assing last executed task
         PreviousExecuteTaskPerJob[task.jobID] = task.whichTaskInJob;
+     
+        
+        StartupTimesPerMachine[task.requiredMachineID] += task.duration;
+        
+        //ExecutionOrder[task.jobID][IndexOfExecutedTaskPerJob[task.jobID]] = task.toString();
+        
+        //IndexOfExecutedTaskPerJob[task.jobID] += 1;
+    }
+    
+    public void postEval(){
+        
     }
     
     public int getMakespan(){
@@ -78,14 +106,30 @@ public final class TreeData extends GPData {
         for(int i = 0; i < METADATA.JOBS_COUNT; ++i){
             StartupTimesPerJob[i] = 0;
             PreviousExecuteTaskPerJob[i] = -1;
+            IndexOfExecutedTaskPerJob[i] = 0;
+        }
+        
+        for(int x = 0; x < METADATA.JOBS_COUNT; ++x){
+            for(int y = 0; y < METADATA.TASKS_PER_JOB; ++y){
+                ExecutionOrder[x][y] = new String();
+            }
         }
         
         for(int i = 0; i < METADATA.TASKS_COUNT; ++i){
             OccursCounterPerTask[i] = 0;
         }
         
+        for(int i = 0; i < METADATA.MACHINES_COUNT; ++ i){
+            StartupTimesPerMachine[i] = 0;
+        }
+        
         taskInWrongOrder = 0;
         taskOnBadMachine = 0;
+        singleMachineWithBadChild = 0;
+        
+        for(int i = 0; i < METADATA.MACHINES_COUNT; ++i){
+            order.add(new Vector<TimeNode>());
+        }
     }
     
     @Override
@@ -94,9 +138,21 @@ public final class TreeData extends GPData {
         str += "PreviousExecuteTaskPerJob: \n" + Arrays.toString(PreviousExecuteTaskPerJob);
         str += "\nStartupTimesPerJob: \n" + Arrays.toString(StartupTimesPerJob);
         str += "\nOccursCounterPerTask: \n" + Arrays.toString(OccursCounterPerTask);
+        str += "\nIndexOfExecutedTaskPerJob: \n" + Arrays.toString(IndexOfExecutedTaskPerJob);
+        str += "\nExecutionOrder: \n" + Arrays.toString(ExecutionOrder);
         str += "\ntaskInWrongOrder: " + taskInWrongOrder;
         str += "\ntaskOnBadMachine: " + taskOnBadMachine;
+        str += "\nsingleMachineWithBadChild: " + singleMachineWithBadChild;
+        str += "\nStartupTimesPerMachine: " + Arrays.toString(StartupTimesPerMachine);
         
+        str += "\norder: \n";
+        for(int i =0; i < order.size(); ++i){
+            str += "M" + i + ": ";
+            for(int j = 0; j < order.get(i).size(); ++j){
+                str += order.get(i).get(j).getShortString() + "\t";
+            }
+            str += "\n";
+        }
         
         int missing = 0, doubled = 0;
         for(int i = 0; i < OccursCounterPerTask.length; ++i){
@@ -119,8 +175,13 @@ public final class TreeData extends GPData {
         other.StartupTimesPerJob = (int[])StartupTimesPerJob.clone();
         other.PreviousExecuteTaskPerJob = (int[])PreviousExecuteTaskPerJob.clone();
         other.OccursCounterPerTask = (int[])OccursCounterPerTask.clone();
+        other.IndexOfExecutedTaskPerJob = (int[])IndexOfExecutedTaskPerJob.clone();
+        other.ExecutionOrder = (String[][])ExecutionOrder.clone();
+        other.order = (Vector<Vector<TimeNode>>)order.clone();
         other.taskInWrongOrder = taskInWrongOrder;
         other.taskOnBadMachine = taskOnBadMachine;
+        other.singleMachineWithBadChild = singleMachineWithBadChild;
+        other.StartupTimesPerMachine = StartupTimesPerMachine;
         return other;
     }
 
@@ -130,7 +191,12 @@ public final class TreeData extends GPData {
         System.arraycopy(StartupTimesPerJob, 0, other.StartupTimesPerJob, 0, StartupTimesPerJob.length);
         System.arraycopy(PreviousExecuteTaskPerJob, 0, other.PreviousExecuteTaskPerJob, 0, PreviousExecuteTaskPerJob.length);
         System.arraycopy(OccursCounterPerTask, 0, other.OccursCounterPerTask, 0, OccursCounterPerTask.length);
+        System.arraycopy(IndexOfExecutedTaskPerJob, 0, other.IndexOfExecutedTaskPerJob, 0, IndexOfExecutedTaskPerJob.length);
+        System.arraycopy(ExecutionOrder,0, other.ExecutionOrder, 0, ExecutionOrder.length);
+        System.arraycopy(StartupTimesPerMachine, 0, other.StartupTimesPerMachine, 0, StartupTimesPerMachine.length);
+        other.order = (Vector<Vector<TimeNode>>)order.clone();
         other.taskInWrongOrder = taskInWrongOrder;
         other.taskOnBadMachine = taskOnBadMachine;
+        other.singleMachineWithBadChild = singleMachineWithBadChild;
     }
 }

@@ -21,8 +21,7 @@ import ec.gp.GPIndividual;
 public class Task extends ERCnode{
     
     public Task(){
-        setID(METADATA.getRandomTaskID());
-        //System.out.println("Task constructor: " + getID());
+        setID(METADATA.getNextTask());
     }
     
     public int getRequiredMachineID(){
@@ -67,8 +66,6 @@ public class Task extends ERCnode{
     @Override
     public void resetNode(EvolutionState es, int i) {
         setID(METADATA.getNextTask());
-        //setID(METADATA.getRandomTaskID());
-        //System.out.println("task: " + getID());
     }
     
 }

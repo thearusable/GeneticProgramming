@@ -26,17 +26,20 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     public static final String P_MISSING = "missing";
     public static final String P_BADORDER = "badOrder";
     public static final String P_BADMACHINE = "badMachine";
+    public static final String P_SINGLEMBAD = "singleMBad";
+    public static final String P_BESTOCCURSTOEND = "bestToEnd";
     
     static private double makespanWeight;
     static private double doublingTaskWeight;
     static private double missingTaskWeight;
     static private double taskInWrongOrderErrorWeight;
     static private double taskOnBadMachineErrorWeight;
+    static private double singleMachineWithBadChildErrorWeight;
     
     //ending calculations before max generations number will occur
-    private static final int BestFitnessOccursToEndCalculations = 1;
+    private static int BestFitnessOccursToEndCalculations;
     private static double lowestFitness = Integer.MAX_VALUE;
-    static private int BestFitnessOccurCount;
+    private static int BestFitnessOccurCount;
     
     @Override
     public void setup(final EvolutionState state, final Parameter base){
@@ -52,6 +55,8 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         missingTaskWeight = state.parameters.getDouble(new Parameter(P_MISSING), null);
         taskInWrongOrderErrorWeight = state.parameters.getDouble(new Parameter(P_BADORDER), null);
         taskOnBadMachineErrorWeight = state.parameters.getDouble(new Parameter(P_BADMACHINE), null);
+        singleMachineWithBadChildErrorWeight = state.parameters.getDouble(new Parameter(P_SINGLEMBAD), null);
+        BestFitnessOccursToEndCalculations = state.parameters.getInt(new Parameter(P_BESTOCCURSTOEND), null);
         
         //print weights
         printErrorsWeights();
@@ -74,6 +79,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //collect data
             root.eval(state, threadnum, data, stack, GPInd, this);
+            data.postEval();
             
             //penality for number of each task
             for(int i = 0; i < data.OccursCounterPerTask.length; ++i){
@@ -88,6 +94,9 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //tasks in wrong order
             fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
+            
+            //single machines with machine child
+            fitness += data.singleMachineWithBadChild * singleMachineWithBadChildErrorWeight;
             
             //adding makespan to fitness
             double onlyTreeFitness = fitness;
@@ -135,6 +144,9 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         str += "\ndoublingTaskWeight: " + doublingTaskWeight;
         str += "\nmissingTaskWeight: " + missingTaskWeight;
         str += "\ntaskInWrongOrderErrorWeight: " + taskInWrongOrderErrorWeight;
+        str += "\ntaskOnBadMachineErrorWeight: " + taskOnBadMachineErrorWeight;
+        str += "\nsingleMachineWithBadChildErrorWeight: " + singleMachineWithBadChildErrorWeight;
+
         str += "\n";
         
         System.out.println(str);

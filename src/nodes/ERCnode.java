@@ -49,30 +49,6 @@ public abstract class ERCnode extends ERC{
         return Code.encode(name()) + Code.encode(getID()) + Code.encode(expectedChildren()) + Code.encode(children.length);
     }
     
-    //FOR DEBUG
-    //why this happen, maybe due to not seted childrens number in machine ?
-    @Override
-    public boolean rootedTreeEquals(final GPNode node){
-        if (!nodeEquals(node)) return false;
-        
-        try{
-            
-            for (int x=0;x<children.length;x++)
-                //try{
-                    if (!(children[x].rootedTreeEquals(node.children[x])))
-                        return false;
-                //}
-                //catch(Exception e){
-                //    return false;
-                // }
-        }catch (Exception e){
-            
-            System.out.println("Catch!! this.x: " + children.length + "  node.x: " + node.children.length);
-            System.out.println("this.class: " + this.getClass().getName() + " node.classs: " + node.getClass().getName());
-        }
-        return true;
-    }
-    
     @Override
     public Object clone() {
         ERCnode m = (ERCnode)super.clone();

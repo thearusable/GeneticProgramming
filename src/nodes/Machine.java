@@ -6,6 +6,7 @@
 package nodes;
 
 import algorithm.METADATA;
+import algorithm.TreeData;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -21,8 +22,7 @@ public class Machine extends ERCnode{
     boolean hideName = true;
     
     public Machine() {
-        setID(METADATA.getRandomMachineID());
-        //System.out.println("Machine constructor: " + getID());
+        setID(METADATA.getNextMachine());
     }
     
     @Override
@@ -51,6 +51,12 @@ public class Machine extends ERCnode{
             }
         }
         
+        //clean single machines with machine child
+        if(children.length == 1 && children[0].getClass().getName().contains("Machine")){
+            TreeData data = (TreeData)gpdata;
+            data.singleMachineWithBadChild += 1;
+        }
+        
     }
 
     @Override
@@ -61,8 +67,6 @@ public class Machine extends ERCnode{
     @Override
     public void resetNode(EvolutionState es, int i) {
         setID(METADATA.getNextMachine());
-        //setID(METADATA.getRandomMachineID());
-        //System.out.println("Machine constructor: " + getID());
     }
 
 }

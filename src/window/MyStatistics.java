@@ -36,12 +36,8 @@ public class MyStatistics extends SimpleStatistics {
         bestPNGFile = state.parameters.getFile(base.push(P_PNG_FILE),null);
     }
     
-    @Override
-    public void finalStatistics(final EvolutionState state, final int result){
-        super.finalStatistics(state,result);
-        
-        try{
-            //get dot tree
+    public void saveBestSoFar() throws IOException{
+        //get dot tree
             GPIndividual BestSoFarInd = (GPIndividual)best_of_run[0];
             String dotTree = BestSoFarInd.trees[0].child.makeGraphvizTree();
             
@@ -57,7 +53,14 @@ public class MyStatistics extends SimpleStatistics {
             
             JobsSchedulingProblem prob = new JobsSchedulingProblem();
             prob.printData(BestSoFarInd);
-            
+    }
+    
+    @Override
+    public void finalStatistics(final EvolutionState state, final int result){
+        super.finalStatistics(state,result);
+        
+        try{
+            saveBestSoFar();
         } catch (IOException e) {
             // do something
             System.out.println("Final Statistics Fails!");

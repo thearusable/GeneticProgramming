@@ -168,3 +168,9 @@ gp.nc.6.child.2 = nil
 gp.nc.6.child.3 = nil
 gp.nc.6.child.4 = nil
 gp.nc.6.child.5 = nil
+
+
+#definition of problem to solve
+eval.problem = algorithm.JobsSchedulingProblem
+#problem data
+eval.problem.data = algorithm.TreeData

@@ -51,7 +51,7 @@ public class METADATA {
     }
     
     static public String getStringForTask(int taskID){
-        return "j" + tasks[taskID].jobID + " t" + tasks[taskID].whichTaskInJob + " m" + tasks[taskID].requiredMachineID + " D" + tasks[taskID].duration;
+        return "j" + tasks[taskID].jobID + " t" + tasks[taskID].whichTaskInJob + " m" + tasks[taskID].requiredMachineID + " D" + tasks[taskID].duration + " w" + tasks[taskID].whichTaskInJob;
     }
     
     static public int getTaskSiblingID(int taskID){
