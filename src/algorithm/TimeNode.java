@@ -21,7 +21,7 @@ public class TimeNode {
     
     public String getShortString(){
         //return task.jobID + "_" + task.whichTaskInJob;
-        return startTime + "_(" + task.jobID + ")_" + task.duration;
+        return startTime + "_(" + task.jobID + "," + task.whichTaskInJob + ")_" + task.duration;
     }
     
 }

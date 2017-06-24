@@ -23,8 +23,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ValueAxis;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -42,16 +40,13 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.StandardBarPainter;
-import org.jfree.chart.renderer.xy.ClusteredXYBarRenderer;
-import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
+import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -98,6 +93,13 @@ public class MainWindow {
     
     static public long startTime;
     static public long endTime;
+    
+    //order graph
+    final static String austria = "Austria";
+    final static String brazil = "Brazil";
+    final static String france = "France";
+    final static String italy = "Italy";
+    final static String usa = "USA";
 
     
     private void setGraphStyle(){
@@ -188,12 +190,24 @@ public class MainWindow {
         openOrderButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
+                /*
                 JFrame orderFrame = new JFrame();
                 orderFrame.setMinimumSize(new Dimension(1500, 900));
                 orderFrame.setExtendedState(orderFrame.getExtendedState() | JFrame.MAXIMIZED_VERT | JFrame.MAXIMIZED_HORIZ);
                 orderFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 orderFrame.setTitle("Order graph");
                 orderFrame.setLocationRelativeTo(null);
+                */
+                
+                OrderChartWindow demo = new OrderChartWindow("Stacked Bar Chart");
+                demo.pack();
+                RefineryUtilities.centerFrameOnScreen(demo);
+                
+                demo.setVisible(true);
+  
+                
+                
+        //ChartPanel cp = new ChartPanel(sbc);
                 
                 //NumberAxis domainAxis = new NumberAxis(categoryAxisLabel);
                 //domainAxis.setAutoRangeIncludesZero(false);
@@ -206,8 +220,8 @@ public class MainWindow {
                 //plot.setOrientation(PlotOrientation.VERTICAL);
 
                 //JFreeChart chart = new JFreeChart("asdasds", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
-                
-                orderFrame.setVisible(true);
+                //orderFrame.add(sbc);
+                //orderFrame.setVisible(true);
             }
         });
         

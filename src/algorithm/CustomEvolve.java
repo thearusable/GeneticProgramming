@@ -10,6 +10,7 @@ import ec.Evolve;
 import ec.util.Output;
 import ec.util.Parameter;
 import ec.util.ParameterDatabase;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import window.MainWindow;
@@ -93,7 +94,7 @@ public class CustomEvolve extends Evolve{
         }
         
         //build path to data file
-        String path = args[1].substring(0, args[1].lastIndexOf("\\") + 1) + dataFileName;
+        String path = args[1].substring(0, args[1].lastIndexOf( File.separator ) + 1) + dataFileName;
         
         System.out.println("Path to data file: \t" + path);
         

@@ -66,9 +66,16 @@ public final class TreeData extends GPData {
         //add task occurennce
         OccursCounterPerTask[taskID] += 1;
         
+        //////////////////////////////////////////////////
         order.get(task.requiredMachineID).add(new TimeNode(task
                 , Integer.max(StartupTimesPerMachine[task.requiredMachineID], StartupTimesPerJob[task.jobID])));
+     
         
+        StartupTimesPerMachine[task.requiredMachineID] += task.duration;
+        
+        
+        
+        //////////////////////////////////////////////
         //fill startupTime
         StartupTimesPerJob[task.jobID] += task.duration;
         
@@ -79,17 +86,15 @@ public final class TreeData extends GPData {
         }
         //assing last executed task
         PreviousExecuteTaskPerJob[task.jobID] = task.whichTaskInJob;
-     
         
-        StartupTimesPerMachine[task.requiredMachineID] += task.duration;
-        
-        //ExecutionOrder[task.jobID][IndexOfExecutedTaskPerJob[task.jobID]] = task.toString();
-        
-        //IndexOfExecutedTaskPerJob[task.jobID] += 1;
     }
     
     public void postEval(){
-        
+        for(int i = 0; i < METADATA.MACHINES_COUNT; ++i){
+            for(int m = 0; m < order.size(); ++m){
+                
+            }
+        }
     }
     
     public int getMakespan(){
