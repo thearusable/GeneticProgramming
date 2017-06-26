@@ -1,9 +1,9 @@
 #Nb of jobs, Nb of Machines
         3        3
 Times
- 18 12 4
- 29 33 9
- 8 3 12
+ 18 12 14
+ 21 23 19
+ 18 15 12
 Machines
  0 2 1
  1 2 0

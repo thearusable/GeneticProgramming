@@ -43,7 +43,7 @@ public class OrderChart {
         colors.add(Color.LIGHT_GRAY);
     }
     
-    public static void buildDataset(Vector<Vector<TimeNode>> order){
+    public static void buildDataset(ArrayList<ArrayList<TimeNode>> order){
         int lastStartTime = 0;
         int whichOneOnMachine = 0;
         for(int m = 0; m < order.size(); ++m){
@@ -72,7 +72,7 @@ public class OrderChart {
     
     public JFreeChart buildChart(){
         
-        final JFreeChart chart = ChartFactory.createStackedBarChart("Tasks Order", "Machine", "Time", dataset, PlotOrientation.HORIZONTAL, true, true, false);
+        final JFreeChart chart = ChartFactory.createStackedBarChart("Tasks Order", "", "Time", dataset, PlotOrientation.HORIZONTAL, true, true, false);
         
         SubCategoryAxis domainAxis = new SubCategoryAxis("Machine");
         domainAxis.setCategoryMargin(0.05);

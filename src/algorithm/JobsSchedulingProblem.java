@@ -111,7 +111,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                 lowestFitness = fitness;
                 BestFitnessOccurCount = 0;
                 MainWindow.updateMinimumMakespan(onlyMakespan);
-                
+                //System.out.println(data.toString());
             }else if(lowestFitness == fitness && onlyTreeFitness == 0.0){
                 BestFitnessOccurCount += 1;
             }
@@ -136,6 +136,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         GPNode root = ind.trees[0].child;
         EvolutionState state = new EvolutionState();
         root.eval(state, 0, data, stack, ind, this);
+        //data.postEval();
         
         OrderChart.buildDataset(data.order);
         
