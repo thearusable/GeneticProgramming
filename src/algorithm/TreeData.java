@@ -30,7 +30,7 @@ public final class TreeData extends GPData {
     private String[][] ExecutionOrder;
     
     
-    private Vector<Vector<TimeNode>> order; //on machines
+    public Vector<Vector<TimeNode>> order; //on machines
     private int[] StartupTimesPerMachine; //index == machineID
      
     public TreeData() {

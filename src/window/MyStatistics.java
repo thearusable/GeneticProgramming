@@ -53,6 +53,8 @@ public class MyStatistics extends SimpleStatistics {
             
             JobsSchedulingProblem prob = new JobsSchedulingProblem();
             prob.printData(BestSoFarInd);
+            
+            MainWindow.unlockOrderButton();
     }
     
     @Override

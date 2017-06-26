@@ -46,7 +46,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -102,8 +101,7 @@ public class MainWindow {
     final static String usa = "USA";
 
     
-    private void setGraphStyle(){
-        
+    private void setGraphStyle(){ 
         theme.setTitlePaint( Color.decode( "#4572a7" ) );
         theme.setExtraLargeFont( new Font(fontName,Font.PLAIN, 16) ); //title
         theme.setLargeFont( new Font(fontName,Font.BOLD, 15)); //axis-title
@@ -190,38 +188,18 @@ public class MainWindow {
         openOrderButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                /*
+                
                 JFrame orderFrame = new JFrame();
-                orderFrame.setMinimumSize(new Dimension(1500, 900));
+                orderFrame.setMinimumSize(new Dimension(800, 600));
                 orderFrame.setExtendedState(orderFrame.getExtendedState() | JFrame.MAXIMIZED_VERT | JFrame.MAXIMIZED_HORIZ);
                 orderFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 orderFrame.setTitle("Order graph");
                 orderFrame.setLocationRelativeTo(null);
-                */
                 
-                OrderChartWindow demo = new OrderChartWindow("Stacked Bar Chart");
-                demo.pack();
-                RefineryUtilities.centerFrameOnScreen(demo);
-                
-                demo.setVisible(true);
-  
-                
-                
-        //ChartPanel cp = new ChartPanel(sbc);
-                
-                //NumberAxis domainAxis = new NumberAxis(categoryAxisLabel);
-                //domainAxis.setAutoRangeIncludesZero(false);
-
-                //ValueAxis valueAxis = new NumberAxis(valueAxisLabel);
-
-                //XYBarRenderer renderer = new ClusteredXYBarRenderer();
-
-                //XYPlot plot = new XYPlot(dataset, domainAxis, valueAxis, renderer);
-                //plot.setOrientation(PlotOrientation.VERTICAL);
-
-                //JFreeChart chart = new JFreeChart("asdasds", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
-                //orderFrame.add(sbc);
-                //orderFrame.setVisible(true);
+                OrderChart orderChart = new OrderChart();
+                ChartPanel orderPanel = new ChartPanel(orderChart.buildChart());
+                orderFrame.add(orderPanel);
+                orderFrame.setVisible(true);
             }
         });
         
@@ -273,6 +251,7 @@ public class MainWindow {
         
         //disable button
         openBestPNG.setEnabled(false);
+        openOrderButton.setEnabled(false);
         
         save.add(saveButton, gbc0);
         save.add(openBestPNG, gbc0);
@@ -419,6 +398,10 @@ public class MainWindow {
     public static void updateBestPath(String path){
         bestPath = path;
         openBestPNG.setEnabled(true);
+    }
+    
+    public static void unlockOrderButton(){
+        openOrderButton.setEnabled(true);
     }
     
 }
