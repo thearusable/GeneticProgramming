@@ -115,7 +115,11 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         EvolutionState state = new EvolutionState();
         root.eval(state, 0, data, stack, ind, this);
 
-        MainWindow.updateMinimumMakespan(data.getMakespan());
+        if(data.isValidtree()){
+            MainWindow.updateMinimumMakespan(Integer.toString(data.getMakespan()));
+        }else{
+            MainWindow.updateMinimumMakespan("Not Founded");
+        }
         
         OrderChart.buildDataset(data.order);
         

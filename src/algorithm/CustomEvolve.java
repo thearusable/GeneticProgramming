@@ -77,7 +77,6 @@ public class CustomEvolve extends Evolve{
         if (numJobs < 1)
             Output.initialError("The 'jobs' parameter must be >= 1 (or not exist, which defaults to 1)");
                 
-        System.out.println("args in evolve " + Arrays.toString(args));
         //Load files and create a window
         //read data filename from params file        
         String dataFileName = parameters.getString(new Parameter(DATA),null);

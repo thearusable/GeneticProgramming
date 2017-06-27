@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Vector;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -35,7 +34,6 @@ public class OrderChart {
         colors.add(Color.PINK);
         colors.add(Color.YELLOW);
         colors.add(Color.RED);
-        colors.add(Color.WHITE);
         colors.add(Color.CYAN);
         colors.add(Color.GRAY);
         colors.add(Color.MAGENTA);

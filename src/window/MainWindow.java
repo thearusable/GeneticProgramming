@@ -70,8 +70,8 @@ public class MainWindow {
     static JTextField generationsNumberField = new JTextField(6);
     static JLabel minimumFitnessLabel = new JLabel("       Minimum Fitness: ");
     static JTextField minimumFitnessField = new JTextField(14);
-    static JLabel minimumMakepsanLabel = new JLabel("       Best Makespan: ");
-    static JTextField minimumMakepsanField = new JTextField(6);
+    static JLabel minimumMakepsanLabel = new JLabel("       Minimum Makespan: ");
+    static JTextField minimumMakepsanField = new JTextField(8);
     static int hitsCounter = 0;
     static double minTree = Double.MAX_VALUE;
     //styles
@@ -352,8 +352,8 @@ public class MainWindow {
         minimumFitnessField.setText(Double.toString(fitness));
     }
     
-    public static void updateMinimumMakespan(int span){
-        minimumMakepsanField.setText(Integer.toString(span));
+    public static void updateMinimumMakespan(String text){
+        minimumMakepsanField.setText(text);
     }
     
     public static void updateBestPath(String path){

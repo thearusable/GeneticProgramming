@@ -54,52 +54,6 @@ public class METADATA {
         return "j" + tasks[taskID].jobID + " t" + tasks[taskID].whichTaskInJob + " m" + tasks[taskID].requiredMachineID + " D" + tasks[taskID].duration + " w" + tasks[taskID].whichTaskInJob;
     }
     
-    static public int getTaskSiblingID(int taskID){
-        double rand = Math.random();
-        boolean getGreater;
-        getGreater = rand > 0.5;
-        
-        if(getGreater == true && (taskID + 1) >= tasks.length ){
-            getGreater = false;
-        }else if (getGreater == false && (taskID - 1) < 0){
-            getGreater = true;
-        }
-        
-        if(getGreater == true){
-            return taskID + 1;
-        }else {
-            return taskID - 1;
-        }
-    }
-    
-    static public int getMachineSiblingID(int machineID){
-        double rand = Math.random();
-        boolean getGreater;
-        getGreater = rand > 0.5;
-        
-        if(getGreater == true && (machineID + 1) >= MACHINES_COUNT ){
-            getGreater = false;
-        }else if (getGreater == false && (machineID - 1) < 0){
-            getGreater = true;
-        }
-        
-        if(getGreater == true){
-            return machineID + 1;
-        }else {
-            return machineID - 1;
-        }
-    }
-    
-    static public int getRandomMachineID(){
-        Random rand = new Random();
-        return rand.nextInt(MACHINES_COUNT);
-    }
-    
-    static public int getRandomTaskID(){      
-        Random rand = new Random();
-        return rand.nextInt(TASKS_COUNT);
-    }
-    
     static public TaskData getTask(int whichOne){
         if(whichOne > tasks.length){
             System.out.println("That tasks doeas not exist");
