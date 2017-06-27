@@ -38,7 +38,7 @@ public class MyStatistics extends SimpleStatistics {
     
     public void saveBestSoFar() throws IOException{
         //get dot tree
-            GPIndividual BestSoFarInd = (GPIndividual)best_of_run[0];
+            GPIndividual BestSoFarInd = (GPIndividual)getBestSoFar()[0];
             String dotTree = BestSoFarInd.trees[0].child.makeGraphvizTree();
             
             //init grapviz and pass tree data
@@ -66,8 +66,8 @@ public class MyStatistics extends SimpleStatistics {
         } catch (IOException e) {
             // do something
             System.out.println("Final Statistics Fails!");
-        }
         
+            
         //set ending time
         MainWindow.endTime = System.nanoTime();
         long time = MainWindow.endTime - MainWindow.startTime;
@@ -79,14 +79,12 @@ public class MyStatistics extends SimpleStatistics {
                         TimeUnit.NANOSECONDS.toSeconds(time) - TimeUnit.NANOSECONDS.toMinutes(time) * 60,
                         TimeUnit.NANOSECONDS.toMillis(time) - TimeUnit.NANOSECONDS.toSeconds(time) * 1000));
         
+        }
     }
     
     boolean warned = false;
     @Override
     public void postEvaluationStatistics(final EvolutionState state){
-        
-        //set generation number
-        MainWindow.updateGenerationNumber(state.generation);
         
         // for now we just print the best fitness per subpopulation.
         Individual[] best_i = new Individual[state.population.subpops.length];  // quiets compiler complaints
@@ -133,9 +131,7 @@ public class MyStatistics extends SimpleStatistics {
             avgF /= state.population.subpops[x].individuals.length;
             
             //add data to graph
-            if(state.generation > 0){
-                MainWindow.addEntryToGraph(state.generation, best_i[x].fitness.fitness(), avgF);
-            }
+            MainWindow.addEntryToGraph(state.generation, best_i[x].fitness.fitness(), avgF);
             
             if (doGeneration) state.output.println("Subpopulation " + x + ":",statisticslog);
             if (doGeneration) best_i[x].printIndividualForHumans(state,statisticslog);
@@ -150,12 +146,11 @@ public class MyStatistics extends SimpleStatistics {
                     ((SimpleProblemForm)(state.evaluator.p_problem.clone())).describe(state, best_i[x], x, 0, statisticslog);   
                 }   
             }
-
         
         //set minimum fitness
-        double minF = getBestSoFar()[0].fitness.fitness();
-        
-        MainWindow.updateMinimumFitness(minF);
+        MainWindow.updateMinimumFitness(getBestSoFar()[0].fitness.fitness());
+        //set generation number
+        MainWindow.updateGenerationNumber(state.generation);
     }
     
 }

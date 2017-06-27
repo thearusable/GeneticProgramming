@@ -77,7 +77,7 @@ public final class TreeData extends GPData {
         
         //set EarliestTime per Machine and Job        
         StartupTimesPerMachine[task.requiredMachineID] = StartupTimesPerJob[task.jobID] = earliestTime + task.duration;
-        
+        //ending time per job?
         
         //checking execute order - to correct
         
@@ -96,9 +96,9 @@ public final class TreeData extends GPData {
         
         int lastStartTime = 0;
         
-        //for(int m = 0; m < order.size(); ++m){
-        //    for(int i = 0; i < order.get(m).size(); ++i){
-                //TimeNode tm = order.get(m).get(i);
+        for(int m = 0; m < order.size(); ++m){
+            for(int i = 0; i < order.get(m).size(); ++i){
+                TimeNode tm = order.get(m).get(i);
                 
                 
                 //wrong order by starting time
@@ -109,8 +109,8 @@ public final class TreeData extends GPData {
                 //
                 //lastStartTime = tm.startTime + tm.task.duration;
                 
-        //    }
-        //}
+            }
+        }
     }
     
     public int getMakespan(){

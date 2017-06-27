@@ -28,7 +28,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     public static final String P_BADORDER = "badOrder";
     public static final String P_BADMACHINE = "badMachine";
     public static final String P_SINGLEMBAD = "singleMBad";
-    public static final String P_BESTOCCURSTOEND = "bestToEnd";
     
     static private double makespanWeight;
     static private double doublingTaskWeight;
@@ -36,11 +35,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     static private double taskInWrongOrderErrorWeight;
     static private double taskOnBadMachineErrorWeight;
     static private double singleMachineWithBadChildErrorWeight;
-    
-    //ending calculations before max generations number will occur
-    private static int BestFitnessOccursToEndCalculations;
-    private static double lowestFitness = Integer.MAX_VALUE;
-    private static int BestFitnessOccurCount;
     
     @Override
     public void setup(final EvolutionState state, final Parameter base){
@@ -57,7 +51,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         taskInWrongOrderErrorWeight = state.parameters.getDouble(new Parameter(P_BADORDER), null);
         taskOnBadMachineErrorWeight = state.parameters.getDouble(new Parameter(P_BADMACHINE), null);
         singleMachineWithBadChildErrorWeight = state.parameters.getDouble(new Parameter(P_SINGLEMBAD), null);
-        BestFitnessOccursToEndCalculations = state.parameters.getInt(new Parameter(P_BESTOCCURSTOEND), null);
         
         //print weights
         printErrorsWeights();
@@ -80,7 +73,6 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             
             //collect data
             root.eval(state, threadnum, data, stack, GPInd, this);
-            data.postEval();
             
             //penality for number of each task
             for(int i = 0; i < data.OccursCounterPerTask.length; ++i){
@@ -90,38 +82,24 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
                     fitness += missingTaskWeight;
                 }
             }
+            
             //tasks on bad machine
             fitness += data.taskOnBadMachine * taskOnBadMachineErrorWeight;
             
             //tasks in wrong order
             fitness += data.taskInWrongOrder * taskInWrongOrderErrorWeight;
             
-            //single machines with machine child
+            //small clean of tree
             fitness += data.singleMachineWithBadChild * singleMachineWithBadChildErrorWeight;
             
             //adding makespan to fitness
-            double onlyTreeFitness = fitness;
             int onlyMakespan = data.getMakespan();
             
+            //add makespan to fitness
             fitness += onlyMakespan * makespanWeight;
-            
-            //countin lowest makespan
-            boolean ended = false;
-            if(fitness < lowestFitness && onlyTreeFitness == 0.0){
-                lowestFitness = fitness;
-                BestFitnessOccurCount = 0;
-                MainWindow.updateMinimumMakespan(onlyMakespan);
-                //System.out.println(data.toString());
-            }else if(lowestFitness == fitness && onlyTreeFitness == 0.0){
-                BestFitnessOccurCount += 1;
-            }
-            
-            if(BestFitnessOccurCount >= BestFitnessOccursToEndCalculations){
-                ended = true;
-            }
-            
+
             //Assing calculated fitness
-            ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, ended);
+            ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
             //mark individual as evaluated
             ind.evaluated = true;
             //reset collect data in TreeData 
@@ -136,7 +114,8 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
         GPNode root = ind.trees[0].child;
         EvolutionState state = new EvolutionState();
         root.eval(state, 0, data, stack, ind, this);
-        //data.postEval();
+
+        MainWindow.updateMinimumMakespan(data.getMakespan());
         
         OrderChart.buildDataset(data.order);
         
