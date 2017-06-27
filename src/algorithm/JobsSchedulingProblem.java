@@ -119,11 +119,10 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
             MainWindow.updateMinimumMakespan(Integer.toString(data.getMakespan()));
         }else{
             MainWindow.updateMinimumMakespan("Not Founded");
+            System.out.println(data.toString());
         }
         
         OrderChart.buildDataset(data.order);
-        
-        System.out.println(data.toString());
     }
     
     private void printErrorsWeights(){

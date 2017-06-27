@@ -9,6 +9,8 @@ import ec.gp.GPData;
 import ec.gp.GPNodeParent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nodes.ERCnode;
 
 /**
@@ -30,14 +32,17 @@ public final class TreeData extends GPData {
     public ArrayList<ArrayList<TimeNode>> order; //on machines
     
     public TreeData() {
+        allocateMemory();
+        reset();
+    }
+    
+    private void allocateMemory(){
         StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
         PreviousExecuteTaskPerJob = new int[METADATA.JOBS_COUNT];
         OccursCounterPerTask = new int[METADATA.TASKS_COUNT];
         StartupTimesPerMachine = new int[METADATA.MACHINES_COUNT];
         
         order = new ArrayList<>();
-        
-        reset();
     }
     
     public boolean isValidtree(){
@@ -167,19 +172,29 @@ public final class TreeData extends GPData {
     @Override
     public Object clone() {
         TreeData other = (TreeData)super.clone();
+            
         other.StartupTimesPerJob = (int[])StartupTimesPerJob.clone();
         other.PreviousExecuteTaskPerJob = (int[])PreviousExecuteTaskPerJob.clone();
         other.OccursCounterPerTask = (int[])OccursCounterPerTask.clone();
-        other.order = (ArrayList<ArrayList<TimeNode>>) order.clone();
+        //other.order = (ArrayList<ArrayList<TimeNode>>) order.clone();
+        //other.order.clear();
+        other.order = new ArrayList<>(order);
+        for(int i = 0; i < METADATA.MACHINES_COUNT; ++i){
+            other.order.add(new ArrayList<>(order.get(i)));
+        }
+        //other.order = order;
+           
         other.taskInWrongOrder = taskInWrongOrder;
         other.taskOnBadMachine = taskOnBadMachine;
         other.singleMachineWithBadChild = singleMachineWithBadChild;
         other.StartupTimesPerMachine = StartupTimesPerMachine;
+            
         return other;
     }
 
     @Override
     public void copyTo(final GPData o) {
+        System.out.println("copyTo()");
         TreeData other = (TreeData)o;
         System.arraycopy(StartupTimesPerJob, 0, other.StartupTimesPerJob, 0, StartupTimesPerJob.length);
         System.arraycopy(PreviousExecuteTaskPerJob, 0, other.PreviousExecuteTaskPerJob, 0, PreviousExecuteTaskPerJob.length);
