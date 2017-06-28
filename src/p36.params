@@ -3,10 +3,10 @@ parent.0 = base.params
 
 #max generations number
 generations = 1000
-pop.subpop.0.size = 4000
+pop.subpop.0.size = 5000
 
 #size of a tournament
-select.tournament.size = 4
+select.tournament.size = 3
 
 #weights
 makespan = 0.1
@@ -17,10 +17,9 @@ badMachine = 6.5
 singleMBad = 0.5
 
 #files
-stat.file = $p49.stat
-stat.png = $p49.png
-data = $p49.txt
-
+stat.file = $p36.stat
+stat.png = $p36.png
+data = $p36.txt
 
 #ERC nodes
 gp.fs.0.size = 3
@@ -30,11 +29,3 @@ gp.fs.0.func.1 = nodes.Machine
 gp.fs.0.func.1.nc = nc1
 gp.fs.0.func.2 = nodes.Machine
 gp.fs.0.func.2.nc = nc2
-gp.fs.0.func.3 = nodes.Machine
-gp.fs.0.func.3.nc = nc3
-gp.fs.0.func.4 = nodes.Machine
-gp.fs.0.func.4.nc = nc4
-gp.fs.0.func.5 = nodes.Machine
-gp.fs.0.func.5.nc = nc5
-gp.fs.0.func.6 = nodes.Machine
-gp.fs.0.func.6.nc = nc6

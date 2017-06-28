@@ -2,18 +2,18 @@
 parent.0 = base.params
 
 #max generations number
-generations = 600
+generations = 1000
 pop.subpop.0.size = 5000
 
 #size of a tournament
-select.tournament.size = 20
+select.tournament.size = 3
 
 #weights
-makespan = 0.15
+makespan = 0.1
 doubling = 2
-missing = 6
-badOrder = 3
-badMachine = 2
+missing = 9
+badOrder = 7
+badMachine = 6.5
 singleMBad = 0.5
 
 #files

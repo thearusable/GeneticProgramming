@@ -9,8 +9,6 @@ import ec.gp.GPData;
 import ec.gp.GPNodeParent;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import nodes.ERCnode;
 
 /**

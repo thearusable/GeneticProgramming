@@ -30,7 +30,6 @@ public class OrderChart {
     public OrderChart() {
         colors.add(Color.BLUE);
         colors.add(Color.GREEN);
-        colors.add(Color.ORANGE);
         colors.add(Color.PINK);
         colors.add(Color.YELLOW);
         colors.add(Color.RED);
