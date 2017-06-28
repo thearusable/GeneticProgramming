@@ -62,6 +62,10 @@ public class METADATA {
         }
     }
     
+    static public String getTaskString(int startTime, int taskID){
+        return startTime + "_(" + tasks[taskID].jobID + "," + tasks[taskID].whichTaskInJob + ")_" + (startTime +  tasks[taskID].duration);
+    }
+    
     static public void load(String dataFile, boolean debug) throws IOException {
         int[][] times = new int[0][0];
         int[][] machines = new int[0][0];

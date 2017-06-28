@@ -11,16 +11,16 @@ package algorithm;
  */
 public class TimeNode {
 
-    public TimeNode(TaskData task, int startTime) {
-        this.task = task;
+    public TimeNode(int taskId, int startTime) {
+        taskID = taskId;
         this.startTime = startTime;
     }
     
-    public TaskData task;
+    public int taskID;
     public int startTime;
     
     public String getString(){
-        return startTime + "_(" + task.jobID + "," + task.whichTaskInJob + ")_" + (startTime +  task.duration);
+        return METADATA.getTaskString(startTime, taskID);
     }
     
 }

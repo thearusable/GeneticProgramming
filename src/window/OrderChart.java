@@ -53,10 +53,10 @@ public class OrderChart {
                     whichOneOnMachine += 1;
                 }
                 //add task
-                addDatasetEntry(tm.task.duration, tm.task.jobID, whichOneOnMachine, m);
+                addDatasetEntry(METADATA.getTask(tm.taskID).duration, METADATA.getTask(tm.taskID).jobID, whichOneOnMachine, m);
                     
                 whichOneOnMachine += 1;
-                lastStartTime = tm.startTime + tm.task.duration;
+                lastStartTime = tm.startTime + METADATA.getTask(tm.taskID).duration;
             }
             whichOneOnMachine = 0;
             lastStartTime = 0;
