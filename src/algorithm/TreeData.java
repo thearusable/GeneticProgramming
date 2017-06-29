@@ -174,14 +174,10 @@ public final class TreeData extends GPData {
         other.PreviousExecuteTaskPerJob = (int[])PreviousExecuteTaskPerJob.clone();
         other.OccursCounterPerTask = (int[])OccursCounterPerTask.clone();
         
-        System.out.println("before: " + other.order.toString());
-        
-        other.order = new ArrayList<>(order);
+        other.order = new ArrayList<>();
         for(int i = 0; i < METADATA.MACHINES_COUNT; ++i){
-            other.order.add(new ArrayList<>(order.get(i)));
+            other.order.add(new ArrayList<>());
         }
-           
-        System.out.println("after: " + other.order.toString());
         
         other.taskInWrongOrder = taskInWrongOrder;
         other.taskOnBadMachine = taskOnBadMachine;

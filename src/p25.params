@@ -2,7 +2,7 @@
 parent.0 = base.params
 
 #max generations number
-generations = 1000
+generations = 10000
 pop.subpop.0.size = 5000
 
 #size of a tournament

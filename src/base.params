@@ -65,12 +65,6 @@ gp.koza.xover.ns.1 = same
 gp.koza.xover.maxdepth = 17
 gp.koza.xover.tries = 1
 
-gp.koza.mutate.source.0 = ec.select.TournamentSelection
-gp.koza.mutate.ns.0 = ec.gp.koza.KozaNodeSelector
-gp.koza.mutate.build.0 = ec.gp.koza.GrowBuilder
-gp.koza.mutate.maxdepth = 17
-gp.koza.mutate.tries = 1
-
 gp.breed.mutate-erc.tries = 1
 gp.breed.mutate-erc.tree.0
 

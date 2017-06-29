@@ -2,24 +2,24 @@
 parent.0 = base.params
 
 #max generations number
-generations = 2000
+generations = 10000
 pop.subpop.0.size = 5000
 
 #size of a tournament
-select.tournament.size = 20
+select.tournament.size = 3
 
 #weights
-makespan = 0.15
+makespan = 0.05
 doubling = 2
-missing = 4
-badOrder = 3
-badMachine = 2
+missing = 16
+badOrder = 7
+badMachine = 6.5
 singleMBad = 0.5
 
 #files
-stat.file = $p9.stat
-stat.png = $p9.png
-data = $p9.txt
+stat.file = $p100.stat
+stat.png = $p100.png
+data = $p100.txt
 
 #ERC nodes
 gp.fs.0.size = 3
