@@ -3,17 +3,17 @@ parent.0 = base.params
 
 #max generations number
 generations = 10000
-pop.subpop.0.size = 5000
+pop.subpop.0.size = 10000
 
 #size of a tournament
-select.tournament.size = 3
+select.tournament.size = 10
 
 #weights
-makespan = 0.1
-doubling = 2
-missing = 10
+makespan = 0.06
+doubling = 3
+missing = 12
 badOrder = 7.5
-badMachine = 6.5
+badMachine = 7.5
 singleMBad = 0.5
 
 #files
@@ -22,10 +22,12 @@ stat.png = $p25.png
 data = $p25.txt
 
 #ERC nodes
-gp.fs.0.size = 3
+gp.fs.0.size = 4
 gp.fs.0.func.0 = nodes.Task
 gp.fs.0.func.0.nc = nc0
 gp.fs.0.func.1 = nodes.Machine
 gp.fs.0.func.1.nc = nc1
 gp.fs.0.func.2 = nodes.Machine
 gp.fs.0.func.2.nc = nc2
+gp.fs.0.func.3 = nodes.Machine
+gp.fs.0.func.3.nc = nc3
