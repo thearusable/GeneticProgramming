@@ -36,6 +36,36 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     static private double taskOnBadMachineErrorWeight;
     static private double singleMachineWithBadChildErrorWeight;
     
+    //PROBLEMODAJKA:
+    // - wszystkie problemy wczytane
+    // - dla kazdego taska wyznaczony czas wejscia po ktorym moze zostac wykonany
+    // - taski moga byc brane w losowej kolejnosci
+
+    //DRZEWO:
+    // - "funkcja" ktora jest w stanie wyliczyc priorytet
+    //      - czas rozpoczecia
+    //      - czas trwania taska
+    //      - ilosc pozostalych taskow dla danej maszyny
+    //      -   gettery dla wyzej wymienionych
+    //      - podstawowe operacje arytmetyczne
+    //      - if wartosc jest wieksza
+    //      - if wartosc jest mniejsza
+    //      - if wartosc jest rowna
+    //      - operator wiekszy, rowny, mniejszy ?
+    //      - zamiana double na boolean by wiedziec czy dany task teraz wchodzi czy nie 
+    
+    // metoda ktora zwroci bool - czy task jest brany czy nie 
+    
+    //OCENA ROZWIAZANIA:
+    //  - czy z danym priorytetem wszystkie taski zostana ukoncozne
+    //  - dlugosc czasu jaki zajmie cale zadanie 
+    //  - rozwiazanie wzglednie dobre dla wszystkich przypadkow
+    
+    //OBLICZENIA:
+    // - checkpointy
+    // - 16 watkow
+    // - 16 GB RAM
+    
     @Override
     public void setup(final EvolutionState state, final Parameter base){
         super.setup(state, base);
