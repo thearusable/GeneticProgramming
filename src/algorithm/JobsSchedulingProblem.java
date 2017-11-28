@@ -39,30 +39,28 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     //PROBLEMODAJKA:
     // - wszystkie problemy wczytane
     // - dla kazdego taska wyznaczony czas wejscia po ktorym moze zostac wykonany
-    // - taski moga byc brane w losowej kolejnosci
+    // - taski moga byc brane w losowej kolejnosci (??)
 
     //DRZEWO:
     // - "funkcja" ktora jest w stanie wyliczyc priorytet
-    //      - czas rozpoczecia
-    //      - czas trwania taska
-    //      - ilosc pozostalych taskow dla danej maszyny
-    //      -   gettery dla wyzej wymienionych
-    //      - podstawowe operacje arytmetyczne
-    //      - if wartosc jest wieksza
-    //      - if wartosc jest mniejsza
-    //      - if wartosc jest rowna
-    //      - operator wiekszy, rowny, mniejszy ?
-    //      - zamiana double na boolean by wiedziec czy dany task teraz wchodzi czy nie 
-    
-    // metoda ktora zwroci bool - czy task jest brany czy nie 
+    //      - get czasu rozpoczecia
+    //      - get czasu trwania taska
+    //      # a + b 
+    //      # a - b
+    //      # a / b
+    //      # a * b
+    //      # if a < b 
+    //      # if a > b 
+    //      # constant
+    // - jedna "funkcja" na wszystkie przypadki (wzglednie dobre dla wszystkich)
     
     //OCENA ROZWIAZANIA:
-    //  - czy z danym priorytetem wszystkie taski zostana ukoncozne
     //  - dlugosc czasu jaki zajmie cale zadanie 
-    //  - rozwiazanie wzglednie dobre dla wszystkich przypadkow
+    //  - przypisanie dla kazdego taska wyliczonej wartosci(w jednym przebiegu) nastepnie wykonywanie od tego z najwyzsza wartoscia
     
     //OBLICZENIA:
     // - checkpointy
+    // - jeden plik params
     // - 16 watkow
     // - 16 GB RAM
     
