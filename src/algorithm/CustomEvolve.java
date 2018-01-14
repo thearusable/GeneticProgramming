@@ -96,13 +96,13 @@ public class CustomEvolve extends Evolve{
         String path = args[1].substring(0, args[1].lastIndexOf( File.separator ) + 1) + dataFileName;
         
         System.out.println("Path to data file: \t" + path);
-        
+        /*
         try{
             METADATA.load(path, true);
         }catch(IOException e){
             System.err.println("#ERROR# Cant load datafile!");
             return;
-        }
+        }*/
         
         //setup startup time;
         MainWindow.startTime = System.nanoTime();

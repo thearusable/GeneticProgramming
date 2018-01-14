@@ -25,4 +25,8 @@ public class DataNode extends GPData {
         ((DataNode)other).value = value;
     }
     
+    public void reset(){
+        value = 0.0;
+    }
+    
 }

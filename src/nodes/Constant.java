@@ -27,7 +27,7 @@ public class Constant extends GPNode {
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        ((DataNode)gpdata).value = C;
+        ((DataNode)gpdata).value += C;
     }
     
 }

@@ -21,11 +21,12 @@ import ec.gp.GPIndividual;
 public class Task extends ERCnode{
     
     public Task(){
-        setID(METADATA.getNextTask());
+        //setID(METADATA.getNextTask());
     }
     
     public int getRequiredMachineID(){
-        return METADATA.getTask(getID()).requiredMachineID;
+        //return METADATA.getTask(getID()).requiredMachineID;
+        return 0;
     }
     
     @Override
@@ -40,7 +41,8 @@ public class Task extends ERCnode{
 
     @Override
     public String toString() {
-        return METADATA.getStringForTask(getID());
+        //return METADATA.getStringForTask(getID());
+        return "";
     }
         
     @Override
@@ -53,7 +55,8 @@ public class Task extends ERCnode{
 
     @Override
     public String encode() {
-        return METADATA.getCodeForTask(getID());
+        //return METADATA.getCodeForTask(getID());
+        return "";
     }
     
     @Override
@@ -65,7 +68,7 @@ public class Task extends ERCnode{
 
     @Override
     public void resetNode(EvolutionState es, int i) {
-        setID(METADATA.getNextTask());
+        //setID(METADATA.getNextTask());
     }
     
 }

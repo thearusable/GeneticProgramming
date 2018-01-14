@@ -29,6 +29,7 @@ public class MainClass {
      */
     public static void main(String[] args) throws IOException {       
         //create window
+        /*
         MainWindow window = new MainWindow();
         
         //print startup params
@@ -73,8 +74,14 @@ public class MainClass {
         //print path
         System.out.println("Path to params file: \t" + path);
 
+        */
+        
+        SingleProblemData data = new SingleProblemData();
+        
+        data.load("src/data/p9.txt", true);
+        
         //run gp
-        String[] Params = {"-file", path};            
-        CustomEvolve.main(Params);
+        //String[] Params = {"-file", "src/problem.params"};            
+        //CustomEvolve.main(Params);
     }
 }

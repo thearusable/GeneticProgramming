@@ -35,10 +35,10 @@ public final class TreeData extends GPData {
     }
     
     private void allocateMemory(){
-        StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
-        PreviousExecuteTaskPerJob = new int[METADATA.JOBS_COUNT];
-        OccursCounterPerTask = new int[METADATA.TASKS_COUNT];
-        StartupTimesPerMachine = new int[METADATA.MACHINES_COUNT];
+        //StartupTimesPerJob = new int[METADATA.JOBS_COUNT];
+        //PreviousExecuteTaskPerJob = new int[METADATA.JOBS_COUNT];
+        //OccursCounterPerTask = new int[METADATA.TASKS_COUNT];
+        //StartupTimesPerMachine = new int[METADATA.MACHINES_COUNT];
         
         order = new ArrayList<>();
     }
@@ -63,6 +63,7 @@ public final class TreeData extends GPData {
     
     //task is bad when - missing, doubled, inWrongOrder 
     public void task(int taskID, GPNodeParent parent){
+        /*
         TaskData task = METADATA.getTask(taskID);
         
         int parentID = -1;
@@ -96,7 +97,7 @@ public final class TreeData extends GPData {
         }
         //assing last executed task
         PreviousExecuteTaskPerJob[task.jobID] = task.whichTaskInJob;
-        
+        */
     }
     
     public int getMakespan(){
@@ -109,7 +110,7 @@ public final class TreeData extends GPData {
     }
     
     public void reset(){
-
+        /*
         for(int i = 0; i < METADATA.JOBS_COUNT; ++i){
             StartupTimesPerJob[i] = 0;
             PreviousExecuteTaskPerJob[i] = -1;
@@ -129,7 +130,7 @@ public final class TreeData extends GPData {
         
         for(int i = 0; i < METADATA.MACHINES_COUNT; ++i){
             order.add(new ArrayList<>());
-        }
+        }*/
     }
     
     @Override
@@ -169,15 +170,16 @@ public final class TreeData extends GPData {
     
     @Override
     public Object clone() {
+       
         TreeData other = (TreeData)super.clone();
         other.StartupTimesPerJob = (int[])StartupTimesPerJob.clone();
         other.PreviousExecuteTaskPerJob = (int[])PreviousExecuteTaskPerJob.clone();
         other.OccursCounterPerTask = (int[])OccursCounterPerTask.clone();
         
         other.order = new ArrayList<>();
-        for(int i = 0; i < METADATA.MACHINES_COUNT; ++i){
-            other.order.add(new ArrayList<>());
-        }
+        //for(int i = 0; i < METADATA.MACHINES_COUNT; ++i){
+        //   other.order.add(new ArrayList<>());
+        //}
         
         other.taskInWrongOrder = taskInWrongOrder;
         other.taskOnBadMachine = taskOnBadMachine;

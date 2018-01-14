@@ -41,6 +41,7 @@ public class OrderChart {
     }
     
     public static void buildDataset(ArrayList<ArrayList<TimeNode>> order){
+        /*
         int lastStartTime = 0;
         int whichOneOnMachine = 0;
         for(int m = 0; m < order.size(); ++m){
@@ -60,7 +61,7 @@ public class OrderChart {
             }
             whichOneOnMachine = 0;
             lastStartTime = 0;
-        }
+        }*/
     }
     
     private static void addDatasetEntry(int duration, int jobID, int whichOneOnMachine, int machineID){
@@ -94,11 +95,12 @@ public class OrderChart {
     }
   
     private CustomBarRenderer buildRenderer(){
+        
         render.setSeriesPaint(BREAK_ID, new Color(0,0,0,0));
         
-        for(int i = 0; i < METADATA.JOBS_COUNT; ++i){
-            render.setSeriesPaint(i, getPaint(i));
-        }
+        //for(int i = 0; i < METADATA.JOBS_COUNT; ++i){
+        //    render.setSeriesPaint(i, getPaint(i));
+       // }
 
         render.setItemMargin(0.0);
 
@@ -110,9 +112,9 @@ public class OrderChart {
     private LegendItemCollection createLegendItems() {
         LegendItemCollection result = new LegendItemCollection();
         
-        for(int i = 0; i < METADATA.JOBS_COUNT; ++ i){
-            result.add(new LegendItem("Job " + i, render.getSeriesPaint(i)));
-        }
+        //for(int i = 0; i < METADATA.JOBS_COUNT; ++ i){
+        //    result.add(new LegendItem("Job " + i, render.getSeriesPaint(i)));
+        //}
 
         return result;
     }

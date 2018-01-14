@@ -5,9 +5,10 @@
  */
 package window;
 
-import algorithm.JobsSchedulingProblem;
+import algorithm.Problem;
 import ec.EvolutionState;
 import ec.Individual;
+
 import ec.gp.GPIndividual;
 import ec.simple.SimpleProblemForm;
 import ec.simple.SimpleStatistics;
@@ -46,13 +47,13 @@ public class MyStatistics extends SimpleStatistics {
             gv.add(dotTree);
             
             //create png file
-            gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), P_PNG_FILE ), bestPNGFile );
+            //gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), P_PNG_FILE ), bestPNGFile );
             
             //unlock show png button
             MainWindow.updateBestPath(bestPNGFile.getCanonicalPath());
             
-            JobsSchedulingProblem prob = new JobsSchedulingProblem();
-            prob.printData(BestSoFarInd);
+            //Problem prob = new Problem();
+            //prob.printData(BestSoFarInd);
             
             MainWindow.unlockOrderButton();
     }

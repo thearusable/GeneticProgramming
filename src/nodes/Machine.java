@@ -22,7 +22,7 @@ public class Machine extends ERCnode{
     boolean hideName = true;
     
     public Machine() {
-        setID(METADATA.getNextMachine());
+        //setID(METADATA.getNextMachine());
     }
     
     @Override
@@ -66,7 +66,7 @@ public class Machine extends ERCnode{
 
     @Override
     public void resetNode(EvolutionState es, int i) {
-        setID(METADATA.getNextMachine());
+       // setID(METADATA.getNextMachine());
     }
 
 }

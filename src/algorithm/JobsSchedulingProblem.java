@@ -41,7 +41,7 @@ public class JobsSchedulingProblem extends GPProblem implements SimpleProblemFor
     // - dla kazdego taska wyznaczony czas wejscia po ktorym moze zostac wykonany
     // - taski moga byc brane w losowej kolejnosci (??)
 
-    //DRZEWO:
+    //DRZEWO:(osobnik)
     // - "funkcja" ktora jest w stanie wyliczyc priorytet
     //      - get czasu rozpoczecia
     //      - get czasu trwania taska

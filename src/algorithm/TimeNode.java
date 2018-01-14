@@ -20,7 +20,8 @@ public class TimeNode {
     public int startTime;
     
     public String getString(){
-        return METADATA.getTaskString(startTime, taskID);
+        //return METADATA.getTaskString(startTime, taskID);
+        return "";
     }
     
 }
