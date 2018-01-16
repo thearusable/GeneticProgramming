@@ -76,12 +76,15 @@ public class MainClass {
 
         */
         
-        SingleProblemData data = new SingleProblemData();
+        //SingleProblemData data = new SingleProblemData();
         
-        data.load("src/data/p9.txt", true);
+        //data.load("src/data/p9.txt", true);
+        
+        //load data
+        Database.loadAllProblems(true);
         
         //run gp
-        //String[] Params = {"-file", "src/problem.params"};            
-        //CustomEvolve.main(Params);
+        String[] Params = {"-file", "src/problem.params"};            
+        CustomEvolve.main(Params);
     }
 }

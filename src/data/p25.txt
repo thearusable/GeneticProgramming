@@ -1,5 +1,5 @@
 #Nb of jobs, Nb of Machines
-        5        5
+        5        5      4233
 Times
  91 17 47 45 23
  77 77 49 23 75

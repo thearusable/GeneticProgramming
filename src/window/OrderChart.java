@@ -1,6 +1,5 @@
 package window;
 
-import algorithm.METADATA;
 import algorithm.TimeNode;
 import java.awt.Color;
 import java.awt.Paint;
@@ -9,7 +8,6 @@ import java.util.Random;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.SubCategoryAxis;
 import org.jfree.chart.plot.CategoryPlot;

@@ -1,5 +1,5 @@
 #Nb of jobs, Nb of Machines
-        3        3
+        3        3      100
 Times
  18 12 14
  21 23 19

@@ -8,6 +8,7 @@ package algorithm;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.StringTokenizer;
 
 /**
@@ -144,5 +145,10 @@ public class SingleProblemData {
         System.out.println("LONGEST_TASK_DURATION: \t" + LONGEST_TASK_DURATION);
         System.out.println("AVERAGE_TASK_DURATION: \t" + AVERAGE_TASK_DURATION);
         System.out.println("BEST_RESULT_FROM_WEB: \t" + BEST_RESULT_FROM_WEB);
+    }
+
+    void load(Path path, boolean b) {
+        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

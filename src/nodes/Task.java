@@ -6,7 +6,6 @@
 package nodes;
 
 
-import algorithm.METADATA;
 import algorithm.TreeData;
 import ec.EvolutionState;
 import ec.Problem;

@@ -11,6 +11,7 @@ import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 import ec.gp.GPProblem;
 import ec.simple.SimpleProblemForm;
+import ec.util.Parameter;
 import nodes.DataNode;
 import window.MainWindow;
 import window.OrderChart;
@@ -20,32 +21,26 @@ import window.OrderChart;
  * @author areks
  */
 public class Problem extends GPProblem implements SimpleProblemForm {
-
+    
+    @Override
+    public void setup(final EvolutionState state, final Parameter base){
+        super.setup(state, base);
+        
+        // verify our input is the right class (or subclasses from it)
+        if (!(input instanceof DataNode)){
+            state.output.fatal("GPData class must subclass from " + DataNode.class, base.push(P_DATA), null);      
+        }
+    }
+    
     @Override
     public void evaluate(EvolutionState state, Individual ind, int i, int threadnum) {
         
-        double fitness = 0.0;
+        if(ind.evaluated == true) return;
         
-        DataNode data = (DataNode)(this.input);
-        
-        GPIndividual GPInd = (GPIndividual)ind;
-        GPNode root = GPInd.trees[0].child;
+        double fitness = calculateFitness(((GPIndividual)ind).trees[0].child);
             
-        //collect data
-        root.eval(state, threadnum, data, stack, GPInd, this);
-        
-        boolean isGood = false;
-        if(data.value > 100)
-        {
-            isGood = true;
-        }
-        
-        //Assing calculated fitness
-        ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, isGood);
-        //mark individual as evaluated
+        ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
         ind.evaluated = true;
-        //reset collect data in TreeData 
-        data.reset();
     }   
     
     //get makespan of individual
@@ -68,5 +63,12 @@ public class Problem extends GPProblem implements SimpleProblemForm {
     
     private void printErrorsWeights(){
         System.out.println("NOT IMPLEMENTED");
+    }
+    
+    // GPNode przekzac do funkcji, tam uzupelnic o brakuje dane dotyczace taska.
+    // wykonac obliczenia dla wszystkich problemow, wyciagnac srednia.
+    private double calculateFitness(GPNode root){
+        
+        return 0.0;
     }
 }

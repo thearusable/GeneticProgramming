@@ -1,5 +1,5 @@
 #Nb of jobs, Nb of Machines
-        8        8
+        8        8          23
 Times
  91 17 4 12 3 55 30 12
  77 77 9 3 29 22 63 45
