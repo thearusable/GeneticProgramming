@@ -22,17 +22,33 @@ public class SingleProblemData {
     // przygotowanie danych z kazdego rozmiaru po jednej (conajmniej)
     // zmiana metody przechowywania danych ???
     
-    public static int JOBS_COUNT = 0;
-    public static int MACHINES_COUNT = 0;
-    public static int TASKS_PER_JOB = 0;
-    public static int TASKS_COUNT = 0;
-    public static int LOWEST_TASK_DURATION = Integer.MAX_VALUE;
-    public static int LONGEST_TASK_DURATION = Integer.MIN_VALUE;
-    public static double AVERAGE_TASK_DURATION = 0.0;
+    public int JOBS_COUNT = 0;
+    public int MACHINES_COUNT = 0;
+    public int TASKS_PER_JOB = 0;
+    public int TASKS_COUNT = 0;
+    public int LOWEST_TASK_DURATION = Integer.MAX_VALUE;
+    public int LONGEST_TASK_DURATION = Integer.MIN_VALUE;
+    public double AVERAGE_TASK_DURATION = 0.0;
     
-    private static TaskData [] tasks;
+    private TaskData [] tasks;
     
-    public static int BEST_RESULT_FROM_WEB = 0;
+    public int BEST_RESULT_FROM_WEB = 0;
+    
+    //iterate trought task list
+    //save priority in task
+    //create custom eval method in treeData
+    public TaskData getTask(int jobId, int taskInJob){
+        int index = jobId * TASKS_PER_JOB + taskInJob;
+        
+        if(index < TASKS_COUNT)
+        {
+            return tasks[index];
+        }
+        else
+        {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+    }
     
     public void load(String dataFile, boolean debug) throws IOException {
         int[][] times = new int[0][0];
@@ -106,7 +122,7 @@ public class SingleProblemData {
         }
     }
     
-        private static boolean isComment(String line){
+    private static boolean isComment(String line){
         return line.length() > 0 && line.charAt(0) == '#';
     }
     
@@ -130,11 +146,17 @@ public class SingleProblemData {
         return intData;
     }
     
-    static private void print(){
+    private void print(){
         System.out.println("\nTASKS:");
         
-        for(int i = 0; i < tasks.length; ++i){
-            System.out.println(tasks[i].toString());
+        for(int job = 0; job < JOBS_COUNT; job++)
+        {
+            System.out.print("JOB " + job + ": ");
+            for(int task = 0; task < TASKS_PER_JOB; task++)
+            {
+                System.out.print(getTask(job, task).toString() + " ");
+            }
+            System.out.println();
         }
         
         System.out.println("JOBS_COUNT: \t\t" + JOBS_COUNT);
@@ -145,10 +167,5 @@ public class SingleProblemData {
         System.out.println("LONGEST_TASK_DURATION: \t" + LONGEST_TASK_DURATION);
         System.out.println("AVERAGE_TASK_DURATION: \t" + AVERAGE_TASK_DURATION);
         System.out.println("BEST_RESULT_FROM_WEB: \t" + BEST_RESULT_FROM_WEB);
-    }
-
-    void load(Path path, boolean b) {
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }  
 }

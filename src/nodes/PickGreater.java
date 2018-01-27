@@ -17,25 +17,31 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class Add extends GPNode {
+public class PickGreater extends GPNode{
     @Override
     public String toString() {
-        return "A";
+        return "G";
     }
-
+    
     @Override
     public int expectedChildren(){
         return 2;
     }
-    
+
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = (TreeData) gpdata;
-        //a
+
         children[0].eval(es, i, data, adfs, gpi, prblm);
-        double temp = data.value;
-        //b
+        double a = data.value;
         children[1].eval(es, i, data, adfs, gpi, prblm);
-        data.value = temp + data.value;
+        double b = data.value;
+        
+        if(a > b){
+            data.value = a;
+        }
+        else{
+            data.value = b;
+        }
     }
 }

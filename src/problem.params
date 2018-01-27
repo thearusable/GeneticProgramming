@@ -127,9 +127,9 @@ gp.nc.2.child.0 = nil
 gp.nc.2.child.1 = nil
 
 #definition of problem to solve
-eval.problem = algorithm.Problem
+eval.problem = algorithm.SchedulingProblem
 #problem data
-eval.problem.data = nodes.DataNode
+eval.problem.data = algorithm.TreeData
 
 #max generations number
 generations = 5
@@ -138,21 +138,12 @@ pop.subpop.0.size = 100
 #size of a tournament
 select.tournament.size = 20
 
-#weights
-makespan = 0.15
-doubling = 3
-missing = 5
-badOrder = 3
-badMachine = 2
-singleMBad = 0.5
-
 #files
 stat.file = $problem.stat
 stat.png = $problem.png
-data = $src/data/p9.txt
 
 #ERC nodes
-gp.fs.0.size = 7
+gp.fs.0.size = 5
 gp.fs.0.func.0 = nodes.Constant
 gp.fs.0.func.0.nc = nc0
 gp.fs.0.func.1 = nodes.Add
@@ -163,8 +154,8 @@ gp.fs.0.func.3 = nodes.Sub
 gp.fs.0.func.3.nc = nc2
 gp.fs.0.func.4 = nodes.Div
 gp.fs.0.func.4.nc = nc2
-gp.fs.0.func.5 = nodes.IfG
-gp.fs.0.func.5.nc = nc2
-gp.fs.0.func.6 = nodes.IfL
-gp.fs.0.func.6.nc = nc2
+#gp.fs.0.func.5 = nodes.PickGreater
+#gp.fs.0.func.5.nc = nc2
+#gp.fs.0.func.6 = nodes.PickLower
+#gp.fs.0.func.6.nc = nc2
 

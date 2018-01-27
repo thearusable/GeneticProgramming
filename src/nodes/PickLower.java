@@ -5,6 +5,7 @@
  */
 package nodes;
 
+import algorithm.TreeData;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -16,22 +17,27 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class IfG extends GPNode{
+public class PickLower extends GPNode {
     @Override
     public String toString() {
-        return "G";
+        return "L";
+    }
+    
+    @Override
+    public int expectedChildren(){
+        return 2;
     }
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        DataNode data = (DataNode) gpdata;
+        TreeData data = (TreeData) gpdata;
 
         children[0].eval(es, i, data, adfs, gpi, prblm);
         double a = data.value;
         children[1].eval(es, i, data, adfs, gpi, prblm);
         double b = data.value;
         
-        if(a > b){
+        if(a < b){
             data.value = a;
         }
         else{

@@ -5,6 +5,7 @@
  */
 package nodes;
 
+import algorithm.TreeData;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -24,10 +25,15 @@ public class Constant extends GPNode {
     public String toString() {
         return "C:" + C;
     }
+    
+    @Override
+    public int expectedChildren(){
+        return 0;
+    }
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        ((DataNode)gpdata).value += C;
+        ((TreeData)gpdata).value += C;
     }
     
 }

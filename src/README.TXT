@@ -1,1 +1,0 @@
-Uruchamianie z parametrem : java -jar TaskScheduler.jar -problem=PROBLEM_NAME

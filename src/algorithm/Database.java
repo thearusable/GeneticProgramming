@@ -28,7 +28,7 @@ public class Database {
                 try {
                     spd.load(file.getPath().toString(), debug);
                 } catch (IOException ex) {
-                    Logger.getLogger(Problem.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
                     return false;
                 }
                 problems.add(spd);

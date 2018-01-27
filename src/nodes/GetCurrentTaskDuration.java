@@ -16,26 +16,21 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class IfL extends GPNode {
+public class GetCurrentTaskDuration extends GPNode {
+
     @Override
     public String toString() {
-        return "L";
+        return "CD";
+    }
+    
+    @Override
+    public int expectedChildren(){
+        return 0;
     }
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        DataNode data = (DataNode) gpdata;
-
-        children[0].eval(es, i, data, adfs, gpi, prblm);
-        double a = data.value;
-        children[1].eval(es, i, data, adfs, gpi, prblm);
-        double b = data.value;
-        
-        if(a < b){
-            data.value = a;
-        }
-        else{
-            data.value = b;
-        }
+        //TODO
     }
+    
 }

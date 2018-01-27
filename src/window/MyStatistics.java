@@ -5,7 +5,7 @@
  */
 package window;
 
-import algorithm.Problem;
+import algorithm.SchedulingProblem;
 import ec.EvolutionState;
 import ec.Individual;
 
@@ -52,7 +52,7 @@ public class MyStatistics extends SimpleStatistics {
             //unlock show png button
             MainWindow.updateBestPath(bestPNGFile.getCanonicalPath());
             
-            //Problem prob = new Problem();
+            //Problem prob = new SchedulingProblem();
             //prob.printData(BestSoFarInd);
             
             MainWindow.unlockOrderButton();
