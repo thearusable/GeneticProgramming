@@ -5,6 +5,7 @@
  */
 package nodes;
 
+import algorithm.TreeData;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -18,9 +19,11 @@ import ec.gp.GPNode;
  */
 public class GetCurrentTaskDuration extends GPNode {
 
+    public double value;
+    
     @Override
     public String toString() {
-        return "CD";
+        return "CD: " + value;
     }
     
     @Override
@@ -30,7 +33,10 @@ public class GetCurrentTaskDuration extends GPNode {
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        //TODO
+        TreeData data = ((TreeData)gpdata);
+        value = data.task.duration;
+        
+        data.value = value;
     }
     
 }

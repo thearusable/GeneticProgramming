@@ -17,13 +17,13 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class Constant extends GPNode {
-    // random on start or what ?
-    public double C;
+public class GetShortestTaskDuration extends GPNode{
+    
+    public double value;
     
     @Override
     public String toString() {
-        return "C:" + C;
+        return "SD: " + value;
     }
     
     @Override
@@ -33,7 +33,9 @@ public class Constant extends GPNode {
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        ((TreeData)gpdata).value = C;
+        TreeData data = ((TreeData)gpdata);
+        value = data.data.LOWEST_TASK_DURATION;
+        
+        data.value = value;
     }
-    
 }

@@ -80,23 +80,19 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                 {
                     TreeData treeData = new TreeData();
                     treeData.task = data.getTask(job, task);
+                    treeData.data = data;
                     
                     root.eval(state, i, treeData, stack, GPInd, this);
                     
                     data.getTask(job, task).calculatedPriority = treeData.value;
                     
-                    System.out.println("Calculated priority: " + data.getTask(job, task).calculatedPriority);
+                    //System.out.println("Calculated priority: " + data.getTask(job, task).calculatedPriority);
                 }
             }
             
             //construct scheme of task execution
             //add time to fitness
         }
-        
-        
-        
-        //collect data
-        //root.eval(state, threadnum, data, stack, GPInd, this);
         
         fitness = fitness / Database.problems.size();
         ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);

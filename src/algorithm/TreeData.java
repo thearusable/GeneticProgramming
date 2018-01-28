@@ -15,6 +15,7 @@ public class TreeData extends GPData {
 
     public double value = 0.0;
     public TaskData task;
+    public SingleProblemData data;
     
     @Override
     public String toString() {
@@ -25,6 +26,7 @@ public class TreeData extends GPData {
     public void copyTo(GPData other) {
         ((TreeData)other).value = value;
         ((TreeData)other).task = task;
+        ((TreeData)other).data = data;
     }
     
     public void reset(){
