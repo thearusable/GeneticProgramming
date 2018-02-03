@@ -12,6 +12,11 @@ import ec.gp.GPNode;
 import ec.gp.GPProblem;
 import ec.simple.SimpleProblemForm;
 import ec.util.Parameter;
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -86,11 +91,51 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                     
                     data.getTask(job, task).calculatedPriority = treeData.value;
                     
-                    //System.out.println("Calculated priority: " + data.getTask(job, task).calculatedPriority);
+                    //System.out.println(data.getTask(job, task).ID + " " + data.getTask(job, task).jobID);
                 }
             }
             
+            //when machine will be free
+            ArrayList<Integer> machineEndingTime = new ArrayList<>();
+            //when job will be completed
+            ArrayList<Integer> jobEndingTime = new ArrayList<>();
+            
             //construct scheme of task execution
+            for(int task = 0; task < data.TASKS_PER_JOB; task++)
+            {
+                //per job
+                ArrayList<TaskData> currentTasks = new ArrayList<>();
+                for(int job = 0; job < data.JOBS_COUNT; job++)
+                {
+                    //z gory do dolu
+                    currentTasks.add(data.getTask(job, task));
+                }
+                
+                //sortowanie
+                Collections.sort(currentTasks,new Comparator<TaskData>(){
+                    @Override
+                    public int compare(final TaskData lhs,TaskData rhs) {
+                        //TODO return 1 if rhs should be before lhs 
+                        //     return -1 if lhs should be before rhs
+                        //     return 0 otherwise
+                        if(rhs.calculatedPriority > lhs.calculatedPriority) return 1;
+                        else return -1;
+                    }
+                });
+                
+                for(TaskData t : currentTasks)
+                {
+                    System.out.println(t.calculatedPriority);
+                }
+                
+                //dwu wymiarowa tablica taskow
+                //wybranie jednego z pierwszej kolumny 
+                // uzupelnienie pierwszej kolumny kolejnym z danej pracy
+                // i tak do konca
+                
+                //symulowanie czasu wejscia powinno byc przy takim zalozeniu proste
+                
+            }
             //add time to fitness
         }
         
