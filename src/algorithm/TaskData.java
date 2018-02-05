@@ -13,11 +13,10 @@ public class TaskData {
 
     @Override
     public String toString() {
-        return "T(" + calculatedPriority + ID + "|" + calculatedPriority + "|" + whichTaskInJob + "|" + jobID + "|" + duration + "|" + requiredMachineID + ")";
-    }
+        return "T(" + calculatedPriority + "|" + whichTaskInJob + "|" + jobID + "|" + duration + "|" + requiredMachineID + ")";
+    } //ID needed ?
 
-    public TaskData(int iD, int whichTaskInJob, int jobID, int duration, int requiredMachineID) {
-        this.ID = iD;
+    public TaskData(int whichTaskInJob, int jobID, int duration, int requiredMachineID) {
         this.whichTaskInJob = whichTaskInJob;
         this.jobID = jobID;
         this.duration = duration;
@@ -27,7 +26,6 @@ public class TaskData {
     
     public double calculatedPriority;
     
-    public int ID;
     public int whichTaskInJob;
     public int jobID;
     public int duration;

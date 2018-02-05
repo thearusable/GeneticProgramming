@@ -12,9 +12,13 @@ import ec.gp.GPNode;
 import ec.gp.GPProblem;
 import ec.simple.SimpleProblemForm;
 import ec.util.Parameter;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,6 +40,8 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
     //read weights from params file
     //makespanWeight = state.parameters.getDouble(new Parameter("makespan"), null);
     
+    private static final ArrayList < SingleProblemData > problems = new ArrayList<>();
+    
     @Override
     public void setup(final EvolutionState state, final Parameter base){
         super.setup(state, base);
@@ -43,6 +49,20 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         // verify our input is the right class (or subclasses from it)
         if (!(input instanceof TreeData)){
             state.output.fatal("GPData class must subclass from " + TreeData.class, base.push(P_DATA), null);      
+        }
+        
+        //load all problems
+        File[] files = new File("src/data/").listFiles();
+        for(File file : files){
+            if(file.isFile()){
+                SingleProblemData spd = new SingleProblemData();
+                try {
+                    spd.load(file.getPath(), true);
+                } catch (IOException ex) {
+                    Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                problems.add(spd);
+            }
         }
     }
     
@@ -56,7 +76,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         GPNode root = GPInd.trees[0].child;
         
         //calculate for each problem
-        for(SingleProblemData data : Database.problems)
+        for(SingleProblemData data : problems)
         {
             //calculate priority and save in task
             for(int job = 0; job < data.JOBS_COUNT; job++)
@@ -76,6 +96,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             //when machine will be free
             ArrayList<Integer> machineEndingTime = new ArrayList<>();
             while(machineEndingTime.size() < data.MACHINES_COUNT) machineEndingTime.add(0);
+            
             //when job will be completed
             ArrayList<Integer> jobEndingTime = new ArrayList<>();
             while(jobEndingTime.size() < data.JOBS_COUNT) jobEndingTime.add(0);
@@ -122,7 +143,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             fitness += (maxDuration - data.BEST_RESULT_FROM_WEB)/ data.BEST_RESULT_FROM_WEB; 
         }
         
-        fitness = fitness / Database.problems.size();
+        fitness = fitness / problems.size();
         ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
         ind.evaluated = true;
     }   

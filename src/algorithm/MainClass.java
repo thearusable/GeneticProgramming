@@ -73,9 +73,6 @@ public class MainClass {
         
         //data.load("src/data/p9.txt", true);
         
-        //load data
-        Database.loadAllProblems(true);
-        
         //run gp
         String[] Params = {"-file", "src/problem.params"};            
         Evolve.main(Params);

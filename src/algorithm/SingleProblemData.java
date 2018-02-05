@@ -8,7 +8,8 @@ package algorithm;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -19,8 +20,6 @@ public class SingleProblemData {
     
     // TODO
     // Generowanie czasow wejscia
-    // przygotowanie danych z kazdego rozmiaru po jednej (conajmniej)
-    // zmiana metody przechowywania danych ???
     
     public int JOBS_COUNT = 0;
     public int MACHINES_COUNT = 0;
@@ -30,24 +29,13 @@ public class SingleProblemData {
     public int LONGEST_TASK_DURATION = Integer.MIN_VALUE;
     public double AVERAGE_TASK_DURATION = 0.0;
     
-    private TaskData [] tasks;
+    private TaskData[][] tasks;
+    private List<List<TaskData>> tasks2 = new ArrayList<List<TaskData>>();
     
     public int BEST_RESULT_FROM_WEB = 0;
     
-    //iterate trought task list
-    //save priority in task
-    //create custom eval method in treeData
     public TaskData getTask(int jobId, int taskInJob){
-        int index = jobId * TASKS_PER_JOB + taskInJob;
-        
-        if(index < TASKS_COUNT)
-        {
-            return tasks[index];
-        }
-        else
-        {
-            throw new ArrayIndexOutOfBoundsException();
-        }
+        return tasks[jobId][taskInJob];
     }
     
     public void load(String dataFile, boolean debug) throws IOException {
@@ -95,26 +83,26 @@ public class SingleProblemData {
             }
         }
         
-        tasks = new TaskData[JOBS_COUNT * times[0].length];
-        
         TASKS_COUNT = JOBS_COUNT * times[0].length;
         TASKS_PER_JOB = times[0].length;
         
+        tasks = new TaskData[JOBS_COUNT][TASKS_PER_JOB];
+        
         //build tasks list
-        int tasksCounter = 0;
         double allDurationsSummed = 0;
         for(int x = 0; x < times.length; ++x){ //JobID
             for(int y =0; y < times[0].length; ++y){ //taskInJob
-                tasks[tasksCounter] = new TaskData(tasksCounter, y, x, times[x][y], machines[x][y]);
-                tasksCounter += 1;
+                tasks[x][y] = new TaskData(y, x, times[x][y], machines[x][y]);
                 
                 if(times[x][y] > LONGEST_TASK_DURATION) LONGEST_TASK_DURATION = times[x][y];
                 if(times[x][y] < LOWEST_TASK_DURATION) LOWEST_TASK_DURATION = times[x][y];
                 allDurationsSummed += times[x][y];
             }
         }
+        //TODO - change to new version
+        tasks2.add(new ArrayList<TaskData>());
         
-        AVERAGE_TASK_DURATION = allDurationsSummed / tasksCounter;
+        AVERAGE_TASK_DURATION = allDurationsSummed / (JOBS_COUNT * TASKS_PER_JOB);
         
         //debug print
         if(debug == true){
@@ -148,13 +136,13 @@ public class SingleProblemData {
     
     private void print(){
         System.out.println("\nTASKS:");
-        
+       
         for(int job = 0; job < JOBS_COUNT; job++)
         {
-            System.out.print("JOB " + job + ": ");
+            System.out.println("JOB " + job + ": ");
             for(int task = 0; task < TASKS_PER_JOB; task++)
             {
-                System.out.print(getTask(job, task).toString() + " ");
+                System.out.print(tasks[job][task].toString() + " ");
             }
             System.out.println();
         }
