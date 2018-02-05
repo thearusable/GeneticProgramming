@@ -132,8 +132,8 @@ eval.problem = algorithm.SchedulingProblem
 eval.problem.data = algorithm.TreeData
 
 #max generations number
-generations = 5
-pop.subpop.0.size = 100
+generations = 100
+pop.subpop.0.size = 1000
 
 #size of a tournament
 select.tournament.size = 20

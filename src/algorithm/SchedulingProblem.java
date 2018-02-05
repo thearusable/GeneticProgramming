@@ -12,9 +12,7 @@ import ec.gp.GPNode;
 import ec.gp.GPProblem;
 import ec.simple.SimpleProblemForm;
 import ec.util.Parameter;
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -74,7 +72,6 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         GPIndividual GPInd = (GPIndividual)ind;
         GPNode root = GPInd.trees[0].child;
         
-        
         //calculate for each problem
         for(SingleProblemData data : Database.problems)
         {
@@ -83,6 +80,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             {
                 for(int task = 0; task < data.TASKS_PER_JOB; task++)
                 {
+                    
                     TreeData treeData = new TreeData();
                     treeData.task = data.getTask(job, task);
                     treeData.data = data;
@@ -97,16 +95,20 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             
             //when machine will be free
             ArrayList<Integer> machineEndingTime = new ArrayList<>();
+            while(machineEndingTime.size() < data.MACHINES_COUNT) machineEndingTime.add(0);
             //when job will be completed
             ArrayList<Integer> jobEndingTime = new ArrayList<>();
+            while(jobEndingTime.size() < data.JOBS_COUNT) jobEndingTime.add(0);
             
             //construct scheme of task execution
             for(int task = 0; task < data.TASKS_PER_JOB; task++)
             {
+                
                 //per job
                 ArrayList<TaskData> currentTasks = new ArrayList<>();
                 for(int job = 0; job < data.JOBS_COUNT; job++)
                 {
+                    
                     //z gory do dolu
                     currentTasks.add(data.getTask(job, task));
                 }
@@ -118,6 +120,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                         //TODO return 1 if rhs should be before lhs 
                         //     return -1 if lhs should be before rhs
                         //     return 0 otherwise
+                        
                         if(rhs.calculatedPriority > lhs.calculatedPriority) return 1;
                         else return -1;
                     }
@@ -125,7 +128,8 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                 
                 for(TaskData t : currentTasks)
                 {
-                    System.out.println(t.calculatedPriority);
+                    machineEndingTime.set(t.requiredMachineID, machineEndingTime.get(t.requiredMachineID) + t.duration);
+                    jobEndingTime.set(t.jobID, jobEndingTime.get(t.jobID) + t.duration);
                 }
                 
                 //dwu wymiarowa tablica taskow
@@ -136,7 +140,24 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                 //symulowanie czasu wejscia powinno byc przy takim zalozeniu proste
                 
             }
+            
+            //find longest duration
+            int maxDuration = 0;
+            for(Integer ele : machineEndingTime)
+            {
+                if(ele > maxDuration) maxDuration = ele;
+            }
+            for(Integer ele : jobEndingTime)
+            {
+                if(ele > maxDuration) maxDuration = ele;
+            }
+            
             //add time to fitness
+            //System.out.println("machine" + machineEndingTime);
+            //System.out.println("job" + jobEndingTime);
+            //System.out.println("max:" + maxDuration);
+            
+            fitness += (maxDuration - data.BEST_RESULT_FROM_WEB)/ data.BEST_RESULT_FROM_WEB; 
         }
         
         fitness = fitness / Database.problems.size();
@@ -160,9 +181,5 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         }
         */
         //OrderChart.buildDataset(data.order);
-    }
-    
-    private void printErrorsWeights(){
-        System.out.println("NOT IMPLEMENTED");
     }
 }
