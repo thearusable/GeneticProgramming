@@ -23,7 +23,7 @@ public class GetAverageTaskDuration extends GPNode {
     
     @Override
     public String toString() {
-        return "AD: " + value;
+        return "ATD";
     }
     
     @Override

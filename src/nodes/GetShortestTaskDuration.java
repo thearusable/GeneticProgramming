@@ -23,7 +23,7 @@ public class GetShortestTaskDuration extends GPNode{
     
     @Override
     public String toString() {
-        return "SD: " + value;
+        return "STD";
     }
     
     @Override

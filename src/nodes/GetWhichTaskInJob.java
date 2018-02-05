@@ -23,7 +23,7 @@ public class GetWhichTaskInJob extends GPNode{
     
     @Override
     public String toString() {
-        return "WT: " + value;
+        return "WTIJ";
     }
     
     @Override

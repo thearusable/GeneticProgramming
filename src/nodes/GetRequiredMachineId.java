@@ -23,7 +23,7 @@ public class GetRequiredMachineId extends GPNode {
     
     @Override
     public String toString() {
-        return "RM: " + value;
+        return "RMID";
     }
     
     @Override

@@ -23,7 +23,7 @@ public class GetCurrentTaskDuration extends GPNode {
     
     @Override
     public String toString() {
-        return "CD: " + value;
+        return "CTD";
     }
     
     @Override

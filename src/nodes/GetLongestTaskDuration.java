@@ -23,7 +23,7 @@ public class GetLongestTaskDuration extends GPNode{
     
     @Override
     public String toString() {
-        return "LD: " + value;
+        return "LTD";
     }
     
     @Override
