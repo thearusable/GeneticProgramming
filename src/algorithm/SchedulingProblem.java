@@ -78,6 +78,9 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         //calculate for each problem
         for(SingleProblemData data : problems)
         {
+            System.out.println("Start of calculation:");
+            data.print();
+            
             //calculate priority and save in task
             for(int job = 0; job < data.JOBS_COUNT; job++)
             {
@@ -93,6 +96,9 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                 }
             }
             
+            System.out.println("After calculating priority:");
+            data.print();
+            
             //when machine will be free
             ArrayList<Integer> machineEndingTime = new ArrayList<>();
             while(machineEndingTime.size() < data.MACHINES_COUNT) machineEndingTime.add(0);
@@ -101,6 +107,10 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             ArrayList<Integer> jobEndingTime = new ArrayList<>();
             while(jobEndingTime.size() < data.JOBS_COUNT) jobEndingTime.add(0);
             
+            System.out.println("machineEndingTime: " + machineEndingTime);
+            System.out.println("jobEndingTime: " + jobEndingTime);
+            
+            /*
             //construct scheme of task execution - TOUPGRADE
             for(int task = 0; task < data.TASKS_PER_JOB; task++)
             {
@@ -141,10 +151,12 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             }
             
             fitness += (maxDuration - data.BEST_RESULT_FROM_WEB)/ data.BEST_RESULT_FROM_WEB; 
+            
+            */
         }
         
         fitness = fitness / problems.size();
-        ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
+        ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, true);
         ind.evaluated = true;
     }   
     

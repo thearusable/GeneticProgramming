@@ -134,7 +134,7 @@ public class SingleProblemData {
         return intData;
     }
     
-    private void print(){
+    public void print(){
         System.out.println("\nTASKS:");
        
         for(int job = 0; job < JOBS_COUNT; job++)

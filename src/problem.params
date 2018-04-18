@@ -98,8 +98,8 @@ gp.tc.0.init = ec.gp.koza.FullBuilder
 gp.tc.0.init.min-depth = 2
 gp.tc.0.init.max-depth = 5
 
-breedthreads = auto
-evalthreads = auto
+breedthreads = 1
+evalthreads = 1
 seed.0 = time
 
 checkpoint = false
@@ -132,8 +132,8 @@ eval.problem = algorithm.SchedulingProblem
 eval.problem.data = algorithm.TreeData
 
 #max generations number
-generations = 100
-pop.subpop.0.size = 1000
+generations = 1
+pop.subpop.0.size = 1
 
 #size of a tournament
 select.tournament.size = 20
@@ -143,7 +143,7 @@ stat.file = $problem.stat
 stat.png = $problem.png
 
 #ERC nodes
-gp.fs.0.size = 10
+gp.fs.0.size = 12
 #gp.fs.0.func.0 = nodes.Constant
 #gp.fs.0.func.0.nc = nc0
 gp.fs.0.func.0 = nodes.Add
@@ -166,8 +166,8 @@ gp.fs.0.func.8 = nodes.GetShortestTaskDuration
 gp.fs.0.func.8.nc = nc0
 gp.fs.0.func.9 = nodes.GetWhichTaskInJob
 gp.fs.0.func.9.nc = nc0
-#gp.fs.0.func.5 = nodes.PickGreater
-#gp.fs.0.func.5.nc = nc2
-#gp.fs.0.func.6 = nodes.PickLower
-#gp.fs.0.func.6.nc = nc2
+gp.fs.0.func.10 = nodes.PickGreater
+gp.fs.0.func.10.nc = nc2
+gp.fs.0.func.11 = nodes.PickLower
+gp.fs.0.func.11.nc = nc2
 
