@@ -7,6 +7,7 @@ package algorithm;
  */
 
 
+import algorithm.dataRepresentation.SingleJob;
 import ec.Evolve;
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ public class MainClass {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {       
+    public static void main(String[] args) throws IOException {         
         //create window
         /*
         MainWindow window = new MainWindow();

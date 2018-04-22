@@ -3,40 +3,41 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package algorithm;
+package algorithm.dataRepresentation;
 
 /**
  *
  * @author arsc
  */
-public class TaskData {
+public class SingleTask {
 
     @Override
     public String toString() {
-        return "T(" + calculatedPriority + "|" + whichTaskInJob + "|" + jobID + "|" + duration + "|" + requiredMachineID + ")";
-    } //ID needed ?
+        return "T(" + calculatedPriority + "|" + whichTaskInJob + "|" + duration + "|" + machineId + ")";
+    }
 
-    public TaskData(int whichTaskInJob, int jobID, int duration, int requiredMachineID) {
+    public SingleTask(int whichTaskInJob, int duration, int requiredMachineID) {
         this.whichTaskInJob = whichTaskInJob;
-        this.jobID = jobID;
         this.duration = duration;
-        this.requiredMachineID = requiredMachineID;
+        this.machineId = requiredMachineID;
         this.calculatedPriority = -1.0;
+        nextTask = null;
     }
     
-    public TaskData(TaskData other)
+    public SingleTask(SingleTask other)
     {
         this.whichTaskInJob = other.whichTaskInJob;
-        this.jobID = other.jobID;
         this.duration = other.duration;
-        this.requiredMachineID = requiredMachineID;
+        this.machineId = other.machineId;
         this.calculatedPriority = other.calculatedPriority;
+        this.nextTask = other.nextTask;
     }
     
     public double calculatedPriority;
     
     public int whichTaskInJob;
-    public int jobID;
     public int duration;
-    public int requiredMachineID;
+    public int machineId;
+    
+    public SingleTask nextTask;
 }
