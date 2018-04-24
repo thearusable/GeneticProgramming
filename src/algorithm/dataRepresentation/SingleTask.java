@@ -24,6 +24,12 @@ public class SingleTask {
         nextTask = null;
     }
     
+    public SingleTask()
+    {
+        calculatedPriority = -1.0;
+        nextTask = null;
+    }
+    
     public SingleTask(SingleTask other)
     {
         this.whichTaskInJob = other.whichTaskInJob;

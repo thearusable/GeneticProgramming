@@ -1,5 +1,5 @@
-#Nb of jobs, Nb of Machines, Upper bound
-        15        15        1231
+# Best result from WEB
+ 1231
 Times
  94 66 10 53 26 15 65 82 10 27 93 92 96 70 83
  74 31 88 51 57 78  8  7 91 79 18 51 18 99 33

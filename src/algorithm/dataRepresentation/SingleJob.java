@@ -19,15 +19,28 @@ public class SingleJob {
     // number of tasks in this job
     public int TASK_COUNT;
     // average task duration in this job
-    public double AVERAGE_TASK_DURATION;
+    public double AVERAGE_DURATION_IN_JOB;
+    // shortest task in this job
+    public int LOWEST_DURATION_IN_JOB;
+    // longest task in this job
+    public int LONGEST_DURATION_IN_JOB;
     
     private void increment(int duration)
     {
         size++;
         if(size > TASK_COUNT)
         {
-            AVERAGE_TASK_DURATION = (TASK_COUNT * AVERAGE_TASK_DURATION + duration) / size;
+            AVERAGE_DURATION_IN_JOB = (TASK_COUNT * AVERAGE_DURATION_IN_JOB + duration) / size;
             TASK_COUNT = size;
+            
+            if(duration > LONGEST_DURATION_IN_JOB) 
+            {
+                LONGEST_DURATION_IN_JOB = duration;
+            }
+            else if(duration < LOWEST_DURATION_IN_JOB)
+            {
+                LOWEST_DURATION_IN_JOB = duration;
+            }
         }
     }
     
@@ -37,7 +50,9 @@ public class SingleJob {
         size = 0;
         JOB_ID = jobId;
         TASK_COUNT = 0;
-        AVERAGE_TASK_DURATION = 0.0;
+        AVERAGE_DURATION_IN_JOB = 0.0;
+        LOWEST_DURATION_IN_JOB  = Integer.MAX_VALUE;
+        LONGEST_DURATION_IN_JOB = Integer.MIN_VALUE;
     }
     
     public void append(SingleTask task)
@@ -99,6 +114,18 @@ public class SingleJob {
             head = task;
             head.nextTask = tmpNext;
         }
+    }
+    
+    public void setMachineForTask(int pos, int machine)
+    {
+        if(pos > size) throw new IndexOutOfBoundsException();
+        
+        SingleTask tmpHead = head;
+        for(int i = 0; i < pos; i++)
+        {
+            tmpHead = tmpHead.nextTask;
+        }
+        tmpHead.machineId = machine;
     }
     
     public boolean canPop()
