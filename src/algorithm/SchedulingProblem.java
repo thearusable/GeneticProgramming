@@ -5,6 +5,8 @@
  */
 package algorithm;
 
+import algorithm.dataRepresentation.SingleJob;
+import algorithm.dataRepresentation.SingleProblem;
 import ec.EvolutionState;
 import ec.Individual;
 import ec.gp.GPIndividual;
@@ -40,7 +42,9 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
     //read weights from params file
     //makespanWeight = state.parameters.getDouble(new Parameter("makespan"), null);
     
-    private static final ArrayList < SingleProblemData > problems = new ArrayList<>();
+    //private static final ArrayList < SingleProblemData > problems = new ArrayList<>();
+    
+    private static final ArrayList < SingleProblem > problems = new ArrayList<>();
     
     @Override
     public void setup(final EvolutionState state, final Parameter base){
@@ -55,13 +59,13 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         File[] files = new File("src/data/").listFiles();
         for(File file : files){
             if(file.isFile()){
-                SingleProblemData spd = new SingleProblemData();
+                SingleProblem sp = new SingleProblem();
                 try {
-                    spd.load(file.getPath(), true);
+                    sp.load(file.getPath(), false);
                 } catch (IOException ex) {
                     Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                problems.add(spd);
+                problems.add(sp);
             }
         }
     }
@@ -76,25 +80,32 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         GPNode root = GPInd.trees[0].child;
         
         //calculate for each problem
-        for(SingleProblemData data : problems)
+        for(SingleProblem problem : problems)
         {
+            
             System.out.println("Start of calculation:");
-            data.print();
+            problem.print();
             
             //calculate priority and save in task
-            for(int job = 0; job < data.JOBS_COUNT; job++)
-            {
-                for(int task = 0; task < data.TASKS_PER_JOB; task++)
+            //for(int job = 0; job < problem.jobs.size(); job++)
+            //{
+                for(SingleJob job : problem.jobs)
+                {
+                    
+                //przeniesc ocenianie do problemu
+                for(int task = 0; task <  job.TASK_COUNT; task++)
                 {
                     TreeData treeData = new TreeData();
-                    treeData.task = data.getTask(job, task);
+                    treeData.task = .getTask(job, task);
                     treeData.data = data;
                     
                     root.eval(state, i, treeData, stack, GPInd, this);
                     
                     data.getTask(job, task).calculatedPriority = treeData.value;
                 }
-            }
+                }
+            //}
+            /*
             
             System.out.println("After calculating priority:");
             data.print();
@@ -109,7 +120,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             
             System.out.println("machineEndingTime: " + machineEndingTime);
             System.out.println("jobEndingTime: " + jobEndingTime);
-            
+            */
             /*
             //construct scheme of task execution - TOUPGRADE
             for(int task = 0; task < data.TASKS_PER_JOB; task++)

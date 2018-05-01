@@ -19,9 +19,8 @@ import java.util.StringTokenizer;
  * @author areks
  */
 public class SingleProblem {
-    private List<SingleJob> jobs;
+    public List<SingleJob> jobs;
     
-    //public int JOBS_COUNT = 0; // size of jobs
     public int MACHINES_COUNT;
     public int TASKS_COUNT;
     
@@ -31,7 +30,7 @@ public class SingleProblem {
     
     public int BEST_RESULT_FROM_WEB;
     
-    SingleProblem()
+    public SingleProblem()
     {
         jobs = new ArrayList<>();
         BEST_RESULT_FROM_WEB = 0;
@@ -122,7 +121,7 @@ public class SingleProblem {
         
         AVERAGE_DURATION_IN_PROBLEM = AVERAGE_DURATION_IN_PROBLEM / jobs.size();
         MACHINES_COUNT = machinesIds.size();
-        
+ 
         //debug print
         if(debug == true){
             print();
