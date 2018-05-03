@@ -13,20 +13,25 @@ public class SingleTask {
 
     @Override
     public String toString() {
-        return "T(" + calculatedPriority + "|" + whichTaskInJob + "|" + duration + "|" + machineId + ")";
+        return "T(J" + jobId + "|P" + calculatedPriority + "|W" + whichTaskInJob + "|D" + duration + "|M" + machineId + ")";
     }
 
-    public SingleTask(int whichTaskInJob, int duration, int requiredMachineID) {
+    public SingleTask(int jobId, int whichTaskInJob, int duration, int requiredMachineID) {
         this.whichTaskInJob = whichTaskInJob;
         this.duration = duration;
         this.machineId = requiredMachineID;
-        this.calculatedPriority = -1.0;
+        this.jobId = jobId;
+        this.calculatedPriority = Double.MIN_VALUE;
         nextTask = null;
     }
     
     public SingleTask()
     {
-        calculatedPriority = -1.0;
+        whichTaskInJob = Integer.MIN_VALUE;
+        duration = Integer.MIN_VALUE;
+        machineId = Integer.MIN_VALUE;
+        jobId = Integer.MIN_VALUE;
+        calculatedPriority = Double.MIN_VALUE;
         nextTask = null;
     }
     
@@ -35,6 +40,7 @@ public class SingleTask {
         this.whichTaskInJob = other.whichTaskInJob;
         this.duration = other.duration;
         this.machineId = other.machineId;
+        this.jobId = other.jobId;
         this.calculatedPriority = other.calculatedPriority;
         this.nextTask = other.nextTask;
     }
@@ -44,6 +50,7 @@ public class SingleTask {
     public int whichTaskInJob;
     public int duration;
     public int machineId;
+    public int jobId;
     
     public SingleTask nextTask;
 }

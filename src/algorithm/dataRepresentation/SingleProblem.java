@@ -6,6 +6,7 @@
 package algorithm.dataRepresentation;
 
 import algorithm.TaskData;
+import algorithm.TreeData;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -39,6 +40,59 @@ public class SingleProblem {
         LONGEST_DURATION_IN_PROBLEM = Integer.MIN_VALUE;
         AVERAGE_DURATION_IN_PROBLEM = 0.0;
         TASKS_COUNT = 0;
+    }
+    
+    public void evaluate()
+    {
+        //something
+        //calculate priority and save in task
+            //for(int job = 0; job < problem.jobs.size(); job++)
+            //{
+                for(SingleJob job : problem.jobs)
+                {
+                    
+                //przeniesc ocenianie do problemu
+                for(int task = 0; task <  job.TASK_COUNT; task++)
+                {
+                    TreeData treeData = new TreeData();
+                    treeData.task = .getTask(job, task);
+                    treeData.data = data;
+                    
+                    root.eval(state, i, treeData, stack, GPInd, this);
+                    
+                    data.getTask(job, task).calculatedPriority = treeData.value;
+                }
+                }
+            //}
+            
+    }
+    
+    public SingleTask popWithGreatestPriority()
+    {
+        int job = 0;
+        double maxPriority = Double.MIN_VALUE;
+        for(int i = 0; i < jobs.size(); i++)
+        {
+            if(maxPriority < jobs.get(i).peek().calculatedPriority)
+            {
+                job = i;
+                maxPriority = jobs.get(i).peek().calculatedPriority;
+            }
+        }
+        
+        SingleTask leader = jobs.get(job).pop();
+        
+        if(jobs.get(job).size() == 0)
+        {
+            jobs.remove(job);
+        }
+        
+        return leader;
+    }
+    
+    public boolean isNotFinished()
+    {
+        return !jobs.isEmpty();
     }
     
     public void load(String dataFile, boolean debug) throws IOException 

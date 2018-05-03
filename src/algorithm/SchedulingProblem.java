@@ -7,6 +7,7 @@ package algorithm;
 
 import algorithm.dataRepresentation.SingleJob;
 import algorithm.dataRepresentation.SingleProblem;
+import algorithm.dataRepresentation.SingleTask;
 import ec.EvolutionState;
 import ec.Individual;
 import ec.gp.GPIndividual;
@@ -79,93 +80,66 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         GPIndividual GPInd = (GPIndividual)ind;
         GPNode root = GPInd.trees[0].child;
         
-        //calculate for each problem
+        //calculate for each problem - make a copy ?
         for(SingleProblem problem : problems)
         {
-            
-            System.out.println("Start of calculation:");
-            problem.print();
-            
             //calculate priority and save in task
-            //for(int job = 0; job < problem.jobs.size(); job++)
-            //{
-                for(SingleJob job : problem.jobs)
-                {
-                    
-                //przeniesc ocenianie do problemu
-                for(int task = 0; task <  job.TASK_COUNT; task++)
-                {
-                    TreeData treeData = new TreeData();
-                    treeData.task = .getTask(job, task);
-                    treeData.data = data;
-                    
-                    root.eval(state, i, treeData, stack, GPInd, this);
-                    
-                    data.getTask(job, task).calculatedPriority = treeData.value;
-                }
-                }
-            //}
-            /*
+            problem.evaluate();
             
-            System.out.println("After calculating priority:");
-            data.print();
-            
+            System.out.println("After evaluation:");
+            problem.print();
+                
             //when machine will be free
             ArrayList<Integer> machineEndingTime = new ArrayList<>();
-            while(machineEndingTime.size() < data.MACHINES_COUNT) machineEndingTime.add(0);
+            while(machineEndingTime.size() < problem.MACHINES_COUNT) machineEndingTime.add(0);
             
             //when job will be completed
             ArrayList<Integer> jobEndingTime = new ArrayList<>();
-            while(jobEndingTime.size() < data.JOBS_COUNT) jobEndingTime.add(0);
+            while(jobEndingTime.size() < problem.jobs.size()) jobEndingTime.add(0);
             
-            System.out.println("machineEndingTime: " + machineEndingTime);
-            System.out.println("jobEndingTime: " + jobEndingTime);
-            */
-            /*
-            //construct scheme of task execution - TOUPGRADE
-            for(int task = 0; task < data.TASKS_PER_JOB; task++)
+            while(problem.isNotFinished())
             {
-                //per job
-                ArrayList<TaskData> currentTasks = new ArrayList<>();
-                for(int job = 0; job < data.JOBS_COUNT; job++)
+                SingleTask leader = problem.popWithGreatestPriority();
+                
+                Integer minStartTime = machineEndingTime.get(leader.machineId);
+                
+                if(minStartTime < jobEndingTime.get(leader.jobId))
                 {
-                    //z gory do dolu
-                    currentTasks.add(data.getTask(job, task));
+                    minStartTime = jobEndingTime.get(leader.jobId);
                 }
                 
-                //sortowanie
-                Collections.sort(currentTasks,new Comparator<TaskData>(){
-                    @Override
-                    public int compare(final TaskData lhs,TaskData rhs) {                       
-                        if(rhs.calculatedPriority > lhs.calculatedPriority) return 1;
-                        else return -1;
-                    }
-                });
+                minStartTime += leader.duration;
                 
-                //adding times
-                for(TaskData t : currentTasks)
+                machineEndingTime.set(leader.machineId, minStartTime);
+                jobEndingTime.set(leader.jobId, minStartTime);
+            }
+            
+            //print ending times
+            System.out.println("MachineEndingTimes: " + machineEndingTime);
+            System.out.println("JobEndingTimes: " + jobEndingTime);
+            
+            //search for longest time
+            int duration = Integer.MIN_VALUE;
+            for(int machine = 0; machine < machineEndingTime.size(); i++)
+            {
+                if(machineEndingTime.get(machine) > duration)
                 {
-                    machineEndingTime.set(t.requiredMachineID, machineEndingTime.get(t.requiredMachineID) + t.duration);
-                    jobEndingTime.set(t.jobID, jobEndingTime.get(t.jobID) + t.duration);
-                }                
+                    duration = machineEndingTime.get(machine);
+                }
             }
-            
-            //find longest duration
-            int maxDuration = 0;
-            for(Integer ele : machineEndingTime)
+            for(int job = 0; job < jobEndingTime.size(); job++)
             {
-                if(ele > maxDuration) maxDuration = ele;
-            }
-            for(Integer ele : jobEndingTime)
-            {
-                if(ele > maxDuration) maxDuration = ele;
+                if(jobEndingTime.get(job) > duration)
+                {
+                    duration = jobEndingTime.get(job);
+                }
             }
             
-            fitness += (maxDuration - data.BEST_RESULT_FROM_WEB)/ data.BEST_RESULT_FROM_WEB; 
-            
-            */
+            //calculate difference between best result from web
+            fitness += duration - problem.BEST_RESULT_FROM_WEB;
         }
         
+        //average difference
         fitness = fitness / problems.size();
         ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, true);
         ind.evaluated = true;
