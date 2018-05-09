@@ -84,7 +84,19 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         for(SingleProblem problem : problems)
         {
             //calculate priority and save in task
-            problem.evaluate();
+            for(SingleJob job : problem.jobs)
+            {
+                for(int index = 0; index < job.size(); index++)
+                {
+                    TreeData treeData = new TreeData();
+                    treeData.task = job.get(index);
+                    // anything more ??
+                        
+                    root.eval(state, i, treeData, stack, GPInd, this);
+                    
+                    job.set(index, treeData.task); 
+                }
+            }
             
             System.out.println("After evaluation:");
             problem.print();

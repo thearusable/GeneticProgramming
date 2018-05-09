@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nodes;
+package nodes.leafs;
 
 import algorithm.TreeData;
 import ec.EvolutionState;
@@ -12,36 +12,31 @@ import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import ec.util.Parameter;
 
 /**
  *
  * @author areks
  */
-public class PickLower extends GPNode {
+public class GetShortestDurationInJob extends GPNode{
+    
+    public double value;
+    
     @Override
     public String toString() {
-        return "L";
+        return "SDIJ";
     }
     
     @Override
     public int expectedChildren(){
-        return 2;
+        return 0;
     }
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        TreeData data = (TreeData) gpdata;
-
-        children[0].eval(es, i, gpdata, adfs, gpi, prblm);
-        double a = data.value;
-        children[1].eval(es, i, gpdata, adfs, gpi, prblm);
-        double b = data.value;
+        TreeData data = ((TreeData)gpdata);
+        value = data.LOWEST_DURATION_IN_JOB;
         
-        if(a <= b){
-            data.value = a;
-        }
-        else{
-            data.value = b;
-        }
+        data.value = value;
     }
 }

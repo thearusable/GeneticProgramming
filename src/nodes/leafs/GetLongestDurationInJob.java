@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nodes;
+package nodes.leafs;
 
 import algorithm.TreeData;
 import ec.EvolutionState;
@@ -17,13 +17,13 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class Constant extends GPNode {
-    // random on start or what ?
-    public double C;
+public class GetLongestDurationInJob extends GPNode{
+    
+    public double value;
     
     @Override
     public String toString() {
-        return "C:" + C;
+        return "LDIJ";
     }
     
     @Override
@@ -33,7 +33,9 @@ public class Constant extends GPNode {
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        ((TreeData)gpdata).value = C;
+        TreeData data = ((TreeData)gpdata);
+        value = data.LONGEST_DURATION_IN_JOB;
+        
+        data.value = value;
     }
-    
 }

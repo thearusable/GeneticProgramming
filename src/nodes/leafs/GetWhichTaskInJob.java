@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nodes;
+package nodes.leafs;
 
 import algorithm.TreeData;
 import ec.EvolutionState;
@@ -12,18 +12,19 @@ import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import ec.util.Parameter;
 
 /**
  *
  * @author areks
  */
-public class GetShortestTaskDuration extends GPNode{
-    
+public class GetWhichTaskInJob extends GPNode{
+
     public double value;
     
     @Override
     public String toString() {
-        return "STD";
+        return "WTIJ";
     }
     
     @Override
@@ -34,7 +35,7 @@ public class GetShortestTaskDuration extends GPNode{
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = ((TreeData)gpdata);
-        value = data.data.LOWEST_TASK_DURATION;
+        value = data.task.whichTaskInJob;
         
         data.value = value;
     }

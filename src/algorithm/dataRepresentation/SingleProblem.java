@@ -7,6 +7,7 @@ package algorithm.dataRepresentation;
 
 import algorithm.TaskData;
 import algorithm.TreeData;
+import ec.gp.GPNode;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -42,41 +43,16 @@ public class SingleProblem {
         TASKS_COUNT = 0;
     }
     
-    public void evaluate()
-    {
-        //something
-        //calculate priority and save in task
-            //for(int job = 0; job < problem.jobs.size(); job++)
-            //{
-                for(SingleJob job : problem.jobs)
-                {
-                    
-                //przeniesc ocenianie do problemu
-                for(int task = 0; task <  job.TASK_COUNT; task++)
-                {
-                    TreeData treeData = new TreeData();
-                    treeData.task = .getTask(job, task);
-                    treeData.data = data;
-                    
-                    root.eval(state, i, treeData, stack, GPInd, this);
-                    
-                    data.getTask(job, task).calculatedPriority = treeData.value;
-                }
-                }
-            //}
-            
-    }
-    
     public SingleTask popWithGreatestPriority()
     {
         int job = 0;
         double maxPriority = Double.MIN_VALUE;
         for(int i = 0; i < jobs.size(); i++)
         {
-            if(maxPriority < jobs.get(i).peek().calculatedPriority)
+            if(maxPriority < jobs.get(i).get(0).calculatedPriority)
             {
                 job = i;
-                maxPriority = jobs.get(i).peek().calculatedPriority;
+                maxPriority = jobs.get(i).get(0).calculatedPriority;
             }
         }
         
@@ -159,7 +135,7 @@ public class SingleProblem {
         
         for(int i = 0; i < jobs.size(); i++)
         {
-            TASKS_COUNT += jobs.get(i).TASK_COUNT;
+            TASKS_COUNT += jobs.get(i).MAX_TASK_COUNT;
             AVERAGE_DURATION_IN_PROBLEM += jobs.get(i).AVERAGE_DURATION_IN_JOB;
             
             if(LOWEST_DURATION_IN_PROBLEM > jobs.get(i).LOWEST_DURATION_IN_JOB)

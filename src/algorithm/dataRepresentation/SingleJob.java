@@ -5,19 +5,21 @@
  */
 package algorithm.dataRepresentation;
 
+import java.util.ArrayList;
+
 /**
  * Representation of one JOB
  * 
  * @author areks
  */
 public class SingleJob {
-    private SingleTask head;
-    private int size;
+    // array with tasks
+    ArrayList<SingleTask> tasks;
     
     // job id
     public final int JOB_ID;
-    // number of tasks in this job
-    public int TASK_COUNT;
+    // number of tasks in this job att beggining
+    public int MAX_TASK_COUNT;
     // average task duration in this job
     public double AVERAGE_DURATION_IN_JOB;
     // shortest task in this job
@@ -25,13 +27,24 @@ public class SingleJob {
     // longest task in this job
     public int LONGEST_DURATION_IN_JOB;
     
+    public SingleJob(int jobId)
+    {
+        tasks = new ArrayList<>();
+        
+        JOB_ID = jobId;
+        MAX_TASK_COUNT = 0;
+        AVERAGE_DURATION_IN_JOB = 0.0;
+        LOWEST_DURATION_IN_JOB  = Integer.MAX_VALUE;
+        LONGEST_DURATION_IN_JOB = Integer.MIN_VALUE;
+    }
+    
     private void increment(int duration)
     {
-        size++;
-        if(size > TASK_COUNT)
+        int size = tasks.size();
+        if(size > MAX_TASK_COUNT)
         {
-            AVERAGE_DURATION_IN_JOB = (TASK_COUNT * AVERAGE_DURATION_IN_JOB + duration) / size;
-            TASK_COUNT = size;
+            AVERAGE_DURATION_IN_JOB = (MAX_TASK_COUNT * AVERAGE_DURATION_IN_JOB + duration) / size;
+            MAX_TASK_COUNT = size;
             
             if(duration > LONGEST_DURATION_IN_JOB) 
             {
@@ -43,111 +56,61 @@ public class SingleJob {
             }
         }
     }
-    
-    public SingleJob(int jobId)
-    {
-        head = null;
-        size = 0;
-        JOB_ID = jobId;
-        TASK_COUNT = 0;
-        AVERAGE_DURATION_IN_JOB = 0.0;
-        LOWEST_DURATION_IN_JOB  = Integer.MAX_VALUE;
-        LONGEST_DURATION_IN_JOB = Integer.MIN_VALUE;
-    }
-    
+      
     public void append(SingleTask task)
     {
-        if(head == null)
-        {
-            head = new SingleTask(task);
-            increment(task.duration);
-            return;
-        }
-        
-        SingleTask tmpHead = head;
-        while(tmpHead.nextTask != null)
-        {
-            tmpHead = tmpHead.nextTask;
-        }
-        tmpHead.nextTask = new SingleTask(task);
+        tasks.add(task);
         increment(task.duration);
     }
     
     public SingleTask pop()
     {
-        if(head != null)
-        {
-            SingleTask retVal = head;
-            head = head.nextTask;
-            size--;
-            return retVal;
-        }
-        else
+        if(!canPop())
         {
             throw new IndexOutOfBoundsException();
         }
+        
+        SingleTask retVal = tasks.get(0);
+        tasks.remove(0);
+        return retVal;
     }
 
-    public SingleTask peek()
-    {
-        if(head != null)
-        {
-            return head;
-        }
-        else
-        {
-            throw new IndexOutOfBoundsException();
-        }
+    public SingleTask get(int index)
+    {       
+        return tasks.get(index);
     }
     
-    public void set(SingleTask task)
+    public void set(int index, SingleTask task)
     {
-        if(head == null)
-        {
-            head = new SingleTask(task);
-            increment(task.duration);
-            return;
-        }
-        else   
-        {
-            SingleTask tmpNext = head.nextTask;
-            head = task;
-            head.nextTask = tmpNext;
-        }
+        tasks.set(index, task);
     }
     
     public void setMachineForTask(int pos, int machine)
     {
-        if(pos > size) throw new IndexOutOfBoundsException();
-        
-        SingleTask tmpHead = head;
-        for(int i = 0; i < pos; i++)
-        {
-            tmpHead = tmpHead.nextTask;
-        }
-        tmpHead.machineId = machine;
+        SingleTask temp = tasks.get(pos);
+        temp.machineId = machine;
+        tasks.set(pos, temp);
     }
     
     public boolean canPop()
     {
-        return head != null;
+        return tasks.size() > 0;
     }
     
     public int size()
     {
-        return size;
+        return tasks.size();
     }
     
     @Override
     public String toString()
     {
         String str = "J(" + JOB_ID + ") [";
-        SingleTask tmpHead = head;
-        while(tmpHead != null)
-        {
-            str += tmpHead.toString() + " ";
-            tmpHead = tmpHead.nextTask;
-        }
+        
+        str = tasks.stream().map((task) -> {
+            return task.toString() + " ";
+        }).reduce(str, String::concat);
+        
         str += "] ";
         return str;
     }

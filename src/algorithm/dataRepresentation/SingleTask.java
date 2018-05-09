@@ -22,7 +22,6 @@ public class SingleTask {
         this.machineId = requiredMachineID;
         this.jobId = jobId;
         this.calculatedPriority = Double.MIN_VALUE;
-        nextTask = null;
     }
     
     public SingleTask()
@@ -32,7 +31,6 @@ public class SingleTask {
         machineId = Integer.MIN_VALUE;
         jobId = Integer.MIN_VALUE;
         calculatedPriority = Double.MIN_VALUE;
-        nextTask = null;
     }
     
     public SingleTask(SingleTask other)
@@ -42,7 +40,6 @@ public class SingleTask {
         this.machineId = other.machineId;
         this.jobId = other.jobId;
         this.calculatedPriority = other.calculatedPriority;
-        this.nextTask = other.nextTask;
     }
     
     public double calculatedPriority;
@@ -51,6 +48,4 @@ public class SingleTask {
     public int duration;
     public int machineId;
     public int jobId;
-    
-    public SingleTask nextTask;
 }

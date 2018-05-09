@@ -5,6 +5,7 @@
  */
 package algorithm;
 
+import algorithm.dataRepresentation.SingleTask;
 import ec.gp.GPData;
 
 /**
@@ -12,25 +13,43 @@ import ec.gp.GPData;
  * @author areks
  */
 public class TreeData extends GPData {
-
-    public double value = 0.0;
-    public TaskData task;
-    public SingleProblemData data;
+   
+    public double value;
     
-    @Override
-    public String toString() {
-        return "D:" + value;
+    // task
+    public SingleTask task;
+    
+    // from problem
+    public int LOWEST_DURATION_IN_PROBLEM;
+    public int LONGEST_DURATION_IN_PROBLEM;
+    public double AVERAGE_DURATION_IN_PROBLEM;
+    
+    // from job
+    public int LOWEST_DURATION_IN_JOB;
+    public int LONGEST_DURATION_IN_JOB;
+    public double AVERAGE_DURATION_IN_JOB;
+
+    public TreeData(SingleTask t) 
+    {
+        task = t;
+        value = 0.0;
+        LOWEST_DURATION_IN_PROBLEM = 0;
+        LONGEST_DURATION_IN_PROBLEM = 0;
+        AVERAGE_DURATION_IN_PROBLEM = 0.0;
+        LOWEST_DURATION_IN_JOB = 0;
+        LONGEST_DURATION_IN_JOB = 0;
+        AVERAGE_DURATION_IN_JOB = 0;
     }
     
     @Override
     public void copyTo(GPData other) {
         ((TreeData)other).value = value;
         ((TreeData)other).task = task;
-        ((TreeData)other).data = data;
+        ((TreeData)other).LOWEST_DURATION_IN_PROBLEM = LOWEST_DURATION_IN_PROBLEM;
+        ((TreeData)other).LONGEST_DURATION_IN_PROBLEM = LONGEST_DURATION_IN_PROBLEM;
+        ((TreeData)other).AVERAGE_DURATION_IN_PROBLEM = AVERAGE_DURATION_IN_PROBLEM;
+        ((TreeData)other).LOWEST_DURATION_IN_JOB = LOWEST_DURATION_IN_JOB;
+        ((TreeData)other).LONGEST_DURATION_IN_JOB = LONGEST_DURATION_IN_JOB;
+        ((TreeData)other).AVERAGE_DURATION_IN_JOB = AVERAGE_DURATION_IN_JOB;
     }
-    
-    public void reset(){
-        value = 0.0;
-    }
-    
 }
