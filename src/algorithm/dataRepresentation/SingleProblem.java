@@ -20,8 +20,11 @@ import java.util.StringTokenizer;
  *
  * @author areks
  */
-public class SingleProblem {
+public class SingleProblem implements Cloneable {
+
     public List<SingleJob> jobs;
+    
+    public int PROBLEM_ID;
     
     public int MACHINES_COUNT;
     public int TASKS_COUNT;
@@ -35,6 +38,7 @@ public class SingleProblem {
     public SingleProblem()
     {
         jobs = new ArrayList<>();
+        PROBLEM_ID = 0;
         BEST_RESULT_FROM_WEB = 0;
         MACHINES_COUNT = 0;
         LOWEST_DURATION_IN_PROBLEM = Integer.MAX_VALUE;
@@ -71,8 +75,10 @@ public class SingleProblem {
         return !jobs.isEmpty();
     }
     
-    public void load(String dataFile, boolean debug) throws IOException 
+    public void load(int id, String dataFile, boolean debug) throws IOException 
     {
+        PROBLEM_ID = id;
+        
         BufferedReader reader = new BufferedReader(new FileReader(dataFile)); 
         String line;
         int[] readedData;
@@ -108,12 +114,8 @@ public class SingleProblem {
                 }
                 
                 for(int i = 0; i < readedData.length; i++)
-                {
-                    SingleTask task = new SingleTask();
-                    task.whichTaskInJob = i;
-                    task.duration = readedData[i];
-                    
-                    jobs.get(currentReadedJob).append(task);
+                {                   
+                    jobs.get(currentReadedJob).append(readedData[i]);
                 }
                 
                 currentReadedJob++;
@@ -183,7 +185,7 @@ public class SingleProblem {
     }
     
     public void print(){
-        System.out.println("\nPROBLEM:");
+        System.out.println("\nPROBLEM " + PROBLEM_ID + ":");
 
         for(int i = 0; i < jobs.size(); i++)
         {
@@ -191,11 +193,24 @@ public class SingleProblem {
         }       
         System.out.println("JOBS_COUNT: \t\t" + jobs.size());
         System.out.println("MACHINES_COUNT: \t" + MACHINES_COUNT);
-        System.out.println("TASKS_COUNT: \t" + TASKS_COUNT);
+        System.out.println("TASKS_COUNT: \t\t" + TASKS_COUNT);
         System.out.println("LOWEST_TASK_DURATION: \t" + LOWEST_DURATION_IN_PROBLEM);
         System.out.println("LONGEST_TASK_DURATION: \t" + LONGEST_DURATION_IN_PROBLEM);
         System.out.println("AVERAGE_TASK_DURATION: \t" + AVERAGE_DURATION_IN_PROBLEM);
         System.out.println("BEST_RESULT_FROM_WEB: \t" + BEST_RESULT_FROM_WEB);
     }  
+    
+    @Override
+    public SingleProblem clone() throws CloneNotSupportedException {
+        SingleProblem problem = (SingleProblem)super.clone();
+        
+        problem.jobs = new ArrayList<>();
+        for(SingleJob job : jobs)
+        {
+            problem.jobs.add(job.clone());
+        }
+        
+        return problem;
+    }
     
 }

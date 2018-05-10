@@ -17,10 +17,15 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class Div extends GPNode {
+public class Substract extends GPNode {
     @Override
     public String toString() {
-        return "D";
+        return "S";
+    }
+    
+    @Override
+    public int expectedChildren(){
+        return 2;
     }
 
     @Override
@@ -31,6 +36,6 @@ public class Div extends GPNode {
         double temp = data.value;
         //b
         children[1].eval(es, i, data, adfs, gpi, prblm);
-        data.value = temp / data.value;
+        data.value = temp - data.value;
     }
 }

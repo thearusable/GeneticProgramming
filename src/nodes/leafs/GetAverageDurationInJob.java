@@ -17,11 +17,11 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class GetLongestDurationInProblem extends GPNode{
+public class GetAverageDurationInJob extends GPNode {
     
     @Override
     public String toString() {
-        return "LDIP";
+        return "ADIJ";
     }
     
     @Override
@@ -32,6 +32,6 @@ public class GetLongestDurationInProblem extends GPNode{
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = ((TreeData)gpdata);
-        data.value = data.LONGEST_DURATION_IN_PROBLEM;
+        data.value = data.AVERAGE_DURATION_IN_JOB;
     }
 }

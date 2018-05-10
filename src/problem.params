@@ -1,53 +1,35 @@
-# simple generational evolution
-state = ec.simple.SimpleEvolutionState
-
-# We're using the standard initialization method
-init = ec.simple.SimpleInitializer
-
-# We're using the standard (empty) finalization method
-finish = ec.simple.SimpleFinisher
-
-# We're using the standard (empty) exchange method
-exch = ec.simple.SimpleExchanger
-
-# We're using standard breeding -- no cross-population breeding
-breed =	ec.simple.SimpleBreeder
-
-# We're using standard evaluation -- no coevolution
-eval =	ec.simple.SimpleEvaluator
+#basic parameters
+parent.0 = base.params
 
 #class used for statistics purposes
 stat =	window.MyStatistics
 
-# quit prematurely if I find something ideal
-quit-on-run-complete =			true
-
-# ec.Initializer
-# ==============================
-pop = ec.Population
-
-# No multiple populations
-pop.subpops =	1
-pop.subpop.0 = 	ec.Subpopulation
-
-# initial population
-pop.subpop.0.duplicate-retries = 0
-
-# ==You need to provide the species info for the subpopulation.==
-
-# ec.simple.SimpleBreeder
-# ==============================
-# breed.elite.0 = 10
-
-init = ec.gp.GPInitializer
+#class used to choose better fitness
 pop.subpop.0.species.fitness = algorithm.LowerBetterFitness
-pop.subpop.0.species = ec.gp.GPSpecies
-pop.subpop.0.species.ind = ec.gp.GPIndividual
+
+#definition of problem to solve
+eval.problem = algorithm.SchedulingProblem
+
+#problem data
+eval.problem.data = algorithm.TreeData
+
+#output files
+stat.file = $problem.stat
+stat.png = $problem.png
+
+#number of threads
+breedthreads = 8
+evalthreads = 8
+
+#max generations number
+generations = 10000
+#size of single generation
+pop.subpop.0.size = 5000
+
+#size of a tournament
+select.tournament.size = 20
+
 pop.subpop.0.duplicate-retries = 100
-pop.subpop.0.species.ind.numtrees = 1
-pop.subpop.0.species.ind.tree.0 = ec.gp.GPTree
-pop.subpop.0.species.ind.tree.0.tc = tc0
-pop.subpop.0.species.pipe = ec.breed.MultiBreedingPipeline
 pop.subpop.0.species.pipe.generate-max = false
 pop.subpop.0.species.pipe.num-sources = 2
 pop.subpop.0.species.pipe.source.0 = ec.gp.koza.CrossoverPipeline
@@ -55,14 +37,6 @@ pop.subpop.0.species.pipe.source.0.prob = 0.9
 pop.subpop.0.species.pipe.source.1 = ec.breed.ReproductionPipeline
 pop.subpop.0.species.pipe.source.1.prob = 0.1
 
-
-# Reproduction will use Tournament Selection 
-breed.reproduce.source.0 = ec.select.TournamentSelection
-
-gp.koza.xover.source.0 = ec.select.TournamentSelection
-gp.koza.xover.source.1 = same
-gp.koza.xover.ns.0 = ec.gp.koza.KozaNodeSelector
-gp.koza.xover.ns.1 = same
 gp.koza.xover.maxdepth = 17
 gp.koza.xover.tries = 1
 
@@ -83,7 +57,6 @@ gp.fs.size = 1
 gp.fs.0 = ec.gp.GPFunctionSet
 gp.fs.0.name = f0
 
-#####
 gp.type.a.size = 1
 gp.type.a.0.name = nil
 gp.type.s.size = 0
@@ -97,77 +70,3 @@ gp.tc.0.returns = nil
 gp.tc.0.init = ec.gp.koza.FullBuilder
 gp.tc.0.init.min-depth = 2
 gp.tc.0.init.max-depth = 5
-
-breedthreads = 1
-evalthreads = 1
-seed.0 = time
-
-checkpoint = false
-checkpoint-modulo = 1
-checkpoint-prefix = ec
-
-gp.nc.size = 3
-
-gp.nc.0 = ec.gp.GPNodeConstraints
-gp.nc.0.name = nc0
-gp.nc.0.returns = nil
-gp.nc.0.size = 0
-
-gp.nc.1 = ec.gp.GPNodeConstraints
-gp.nc.1.name = nc1 
-gp.nc.1.returns = nil
-gp.nc.1.size = 1
-gp.nc.1.child.0 = nil
-
-gp.nc.2 = ec.gp.GPNodeConstraints
-gp.nc.2.name = nc2
-gp.nc.2.returns = nil
-gp.nc.2.size = 2
-gp.nc.2.child.0 = nil
-gp.nc.2.child.1 = nil
-
-#definition of problem to solve
-eval.problem = algorithm.SchedulingProblem
-#problem data
-eval.problem.data = algorithm.TreeData
-
-#max generations number
-generations = 1
-pop.subpop.0.size = 1
-
-#size of a tournament
-select.tournament.size = 20
-
-#files
-stat.file = $problem.stat
-stat.png = $problem.png
-
-#ERC nodes
-gp.fs.0.size = 12
-#gp.fs.0.func.0 = nodes.Constant
-#gp.fs.0.func.0.nc = nc0
-gp.fs.0.func.0 = nodes.Add
-gp.fs.0.func.0.nc = nc2
-gp.fs.0.func.1 = nodes.Mul
-gp.fs.0.func.1.nc = nc2
-gp.fs.0.func.2 = nodes.Sub
-gp.fs.0.func.2.nc = nc2
-gp.fs.0.func.3 = nodes.Div
-gp.fs.0.func.3.nc = nc2
-gp.fs.0.func.4 = nodes.GetCurrentTaskDuration
-gp.fs.0.func.4.nc = nc0
-gp.fs.0.func.5 = nodes.GetAverageTaskDuration
-gp.fs.0.func.5.nc = nc0
-gp.fs.0.func.6 = nodes.GetLongestTaskDuration
-gp.fs.0.func.6.nc = nc0
-gp.fs.0.func.7 = nodes.GetRequiredMachineId
-gp.fs.0.func.7.nc = nc0
-gp.fs.0.func.8 = nodes.GetShortestTaskDuration
-gp.fs.0.func.8.nc = nc0
-gp.fs.0.func.9 = nodes.GetWhichTaskInJob
-gp.fs.0.func.9.nc = nc0
-gp.fs.0.func.10 = nodes.PickGreater
-gp.fs.0.func.10.nc = nc2
-gp.fs.0.func.11 = nodes.PickLower
-gp.fs.0.func.11.nc = nc2
-

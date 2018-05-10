@@ -12,7 +12,8 @@ import java.util.ArrayList;
  * 
  * @author areks
  */
-public class SingleJob {
+public class SingleJob implements Cloneable {
+
     // array with tasks
     ArrayList<SingleTask> tasks;
     
@@ -57,8 +58,12 @@ public class SingleJob {
         }
     }
       
-    public void append(SingleTask task)
+    public void append(int duration)
     {
+        SingleTask task = new SingleTask();
+        task.duration = duration;
+        task.jobId = JOB_ID;
+        task.whichTaskInJob = tasks.size();
         tasks.add(task);
         increment(task.duration);
     }
@@ -113,5 +118,18 @@ public class SingleJob {
         
         str += "] ";
         return str;
+    }
+    
+    @Override
+    public SingleJob clone() throws CloneNotSupportedException {
+        SingleJob job = (SingleJob)super.clone();
+        
+        job.tasks = new ArrayList<>();
+        for(SingleTask task : tasks)
+        {
+            job.tasks.add(task.clone());
+        }
+        
+        return job;
     }
 }

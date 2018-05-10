@@ -19,8 +19,6 @@ import ec.util.Parameter;
  * @author areks
  */
 public class GetWhichTaskInJob extends GPNode{
-
-    public double value;
     
     @Override
     public String toString() {
@@ -35,8 +33,6 @@ public class GetWhichTaskInJob extends GPNode{
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = ((TreeData)gpdata);
-        value = data.task.whichTaskInJob;
-        
-        data.value = value;
+        data.value = data.task.whichTaskInJob;
     }
 }

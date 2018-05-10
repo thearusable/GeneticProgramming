@@ -5,6 +5,8 @@
  */
 package algorithm;
 
+import algorithm.dataRepresentation.SingleJob;
+import algorithm.dataRepresentation.SingleProblem;
 import algorithm.dataRepresentation.SingleTask;
 import ec.gp.GPData;
 
@@ -13,7 +15,7 @@ import ec.gp.GPData;
  * @author areks
  */
 public class TreeData extends GPData {
-   
+  
     public double value;
     
     // task
@@ -29,9 +31,8 @@ public class TreeData extends GPData {
     public int LONGEST_DURATION_IN_JOB;
     public double AVERAGE_DURATION_IN_JOB;
 
-    public TreeData(SingleTask t) 
+    public TreeData() 
     {
-        task = t;
         value = 0.0;
         LOWEST_DURATION_IN_PROBLEM = 0;
         LONGEST_DURATION_IN_PROBLEM = 0;
@@ -39,6 +40,19 @@ public class TreeData extends GPData {
         LOWEST_DURATION_IN_JOB = 0;
         LONGEST_DURATION_IN_JOB = 0;
         AVERAGE_DURATION_IN_JOB = 0;
+    }
+    
+    public void set(SingleTask currentTask, SingleJob currentJob, SingleProblem currentProblem)
+    {
+        task = currentTask;
+        
+        LOWEST_DURATION_IN_JOB = currentJob.LOWEST_DURATION_IN_JOB;
+        LONGEST_DURATION_IN_JOB = currentJob.LONGEST_DURATION_IN_JOB;
+        AVERAGE_DURATION_IN_JOB = currentJob.AVERAGE_DURATION_IN_JOB;
+        
+        LOWEST_DURATION_IN_PROBLEM = currentProblem.LOWEST_DURATION_IN_PROBLEM;
+        LONGEST_DURATION_IN_PROBLEM = currentProblem.LONGEST_DURATION_IN_PROBLEM;
+        AVERAGE_DURATION_IN_PROBLEM = currentProblem.AVERAGE_DURATION_IN_PROBLEM;
     }
     
     @Override

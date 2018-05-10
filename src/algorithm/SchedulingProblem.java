@@ -30,20 +30,8 @@ import java.util.logging.Logger;
 public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
    
     //PROBLEMODAJKA:
-    // # wszystkie problemy wczytane
-    // - dla kazdego taska wyznaczony czas wejscia po ktorym moze zostac wykonany
-    
-    //OCENA ROZWIAZANIA:
-    //  - stosunek uzyskanego rozwiazania do najlepszego rozwiazania wczytanego z pliku
-    //dwu wymiarowa tablica taskow
-    //wybranie jednego z pierwszej kolumny 
-    // uzupelnienie pierwszej kolumny kolejnym z danej pracy
-    //symulowanie czasu wejscia powinno byc przy takim zalozeniu proste
-    
-    //read weights from params file
-    //makespanWeight = state.parameters.getDouble(new Parameter("makespan"), null);
-    
-    //private static final ArrayList < SingleProblemData > problems = new ArrayList<>();
+    // ?? dla kazdego taska wyznaczony czas wejscia po ktorym moze zostac wykonany 
+    // zmienic sposob obliczania fitness, % roznicy ???
     
     private static final ArrayList < SingleProblem > problems = new ArrayList<>();
     
@@ -58,11 +46,11 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         
         //load all problems
         File[] files = new File("src/data/").listFiles();
-        for(File file : files){
-            if(file.isFile()){
+        for(int id = 0; id < files.length ;id++){
+            if(files[id].isFile()){
                 SingleProblem sp = new SingleProblem();
                 try {
-                    sp.load(file.getPath(), false);
+                    sp.load(id, files[id].getPath(), false);
                 } catch (IOException ex) {
                     Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -80,26 +68,35 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         GPIndividual GPInd = (GPIndividual)ind;
         GPNode root = GPInd.trees[0].child;
         
-        //calculate for each problem - make a copy ?
+        //make a copy for safety reasons
+        ArrayList < SingleProblem > myProblems = new ArrayList<>();
         for(SingleProblem problem : problems)
         {
+            try {
+                myProblems.add(problem.clone());
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        //calculate for each problem - make a copy ?
+        for(SingleProblem problem : myProblems)
+        {            
             //calculate priority and save in task
             for(SingleJob job : problem.jobs)
             {
                 for(int index = 0; index < job.size(); index++)
                 {
                     TreeData treeData = new TreeData();
-                    treeData.task = job.get(index);
-                    // anything more ??
+                    treeData.set(job.get(index), job, problem);
                         
                     root.eval(state, i, treeData, stack, GPInd, this);
+                    
+                    treeData.task.calculatedPriority = treeData.value;
                     
                     job.set(index, treeData.task); 
                 }
             }
-            
-            System.out.println("After evaluation:");
-            problem.print();
                 
             //when machine will be free
             ArrayList<Integer> machineEndingTime = new ArrayList<>();
@@ -113,39 +110,18 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             {
                 SingleTask leader = problem.popWithGreatestPriority();
                 
-                Integer minStartTime = machineEndingTime.get(leader.machineId);
+                // minus 1 because machines are numbered from 1
+                Integer minMachineTime = machineEndingTime.get(leader.machineId - 1);
+                Integer minJobTime = jobEndingTime.get(leader.jobId);
                 
-                if(minStartTime < jobEndingTime.get(leader.jobId))
-                {
-                    minStartTime = jobEndingTime.get(leader.jobId);
-                }
+                Integer timeAfterTask = Math.max(minMachineTime, minJobTime) + leader.duration;
                 
-                minStartTime += leader.duration;
-                
-                machineEndingTime.set(leader.machineId, minStartTime);
-                jobEndingTime.set(leader.jobId, minStartTime);
+                machineEndingTime.set(leader.machineId - 1, timeAfterTask);
+                jobEndingTime.set(leader.jobId, timeAfterTask);
             }
-            
-            //print ending times
-            System.out.println("MachineEndingTimes: " + machineEndingTime);
-            System.out.println("JobEndingTimes: " + jobEndingTime);
             
             //search for longest time
-            int duration = Integer.MIN_VALUE;
-            for(int machine = 0; machine < machineEndingTime.size(); i++)
-            {
-                if(machineEndingTime.get(machine) > duration)
-                {
-                    duration = machineEndingTime.get(machine);
-                }
-            }
-            for(int job = 0; job < jobEndingTime.size(); job++)
-            {
-                if(jobEndingTime.get(job) > duration)
-                {
-                    duration = jobEndingTime.get(job);
-                }
-            }
+            int duration = Math.max(Collections.max(machineEndingTime), Collections.max(jobEndingTime));
             
             //calculate difference between best result from web
             fitness += duration - problem.BEST_RESULT_FROM_WEB;
@@ -153,17 +129,17 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         
         //average difference
         fitness = fitness / problems.size();
-        ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, true);
+        ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, fitness == 0.0);
         ind.evaluated = true;
     }   
     
     //get makespan of individual
     public void printData(GPIndividual ind){
-        TreeData data = new TreeData();
+        //TreeData data = new TreeData();
         
-        GPNode root = ind.trees[0].child;
-        EvolutionState state = new EvolutionState();
-        root.eval(state, 0, data, stack, ind, this);
+        //GPNode root = ind.trees[0].child;
+        //EvolutionState state = new EvolutionState();
+        //root.eval(state, 0, data, stack, ind, this);
 /*
         if(data.isValidtree()){
             MainWindow.updateMinimumMakespan(Integer.toString(data.getMakespan()));

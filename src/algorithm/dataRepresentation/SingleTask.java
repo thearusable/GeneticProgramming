@@ -9,12 +9,14 @@ package algorithm.dataRepresentation;
  *
  * @author arsc
  */
-public class SingleTask {
+public class SingleTask implements Cloneable {
 
-    @Override
-    public String toString() {
-        return "T(J" + jobId + "|P" + calculatedPriority + "|W" + whichTaskInJob + "|D" + duration + "|M" + machineId + ")";
-    }
+    public double calculatedPriority;
+    
+    public int whichTaskInJob;
+    public int duration;
+    public int machineId;
+    public int jobId;
 
     public SingleTask(int jobId, int whichTaskInJob, int duration, int requiredMachineID) {
         this.whichTaskInJob = whichTaskInJob;
@@ -42,10 +44,15 @@ public class SingleTask {
         this.calculatedPriority = other.calculatedPriority;
     }
     
-    public double calculatedPriority;
+    @Override
+    public String toString() {
+        return "T(J" + jobId + "|P" + calculatedPriority + "|W" + whichTaskInJob + "|D" + duration + "|M" + machineId + ")";
+    }
     
-    public int whichTaskInJob;
-    public int duration;
-    public int machineId;
-    public int jobId;
+    @Override
+    public SingleTask clone() throws CloneNotSupportedException {
+        return (SingleTask)super.clone();
+    }
+    
+    
 }

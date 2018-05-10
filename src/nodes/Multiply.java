@@ -17,10 +17,11 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class Sub extends GPNode {
+public class Multiply extends GPNode {
+
     @Override
     public String toString() {
-        return "S";
+        return "M";
     }
     
     @Override
@@ -36,6 +37,7 @@ public class Sub extends GPNode {
         double temp = data.value;
         //b
         children[1].eval(es, i, data, adfs, gpi, prblm);
-        data.value = temp - data.value;
+        data.value = temp * data.value;
     }
+    
 }

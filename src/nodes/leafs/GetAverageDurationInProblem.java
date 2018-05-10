@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nodes;
+package nodes.leafs;
 
 import algorithm.TreeData;
 import ec.EvolutionState;
@@ -17,27 +17,21 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class Mul extends GPNode {
-
+public class GetAverageDurationInProblem extends GPNode {
+    
     @Override
     public String toString() {
-        return "M";
+        return "ADIP";
     }
     
     @Override
     public int expectedChildren(){
-        return 2;
+        return 0;
     }
 
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
-        TreeData data = (TreeData) gpdata;
-        //a
-        children[0].eval(es, i, data, adfs, gpi, prblm);
-        double temp = data.value;
-        //b
-        children[1].eval(es, i, data, adfs, gpi, prblm);
-        data.value = temp * data.value;
+        TreeData data = ((TreeData)gpdata);
+        data.value = data.AVERAGE_DURATION_IN_PROBLEM;
     }
-    
 }
