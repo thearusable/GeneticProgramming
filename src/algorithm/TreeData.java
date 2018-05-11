@@ -16,6 +16,7 @@ import ec.gp.GPData;
  */
 public class TreeData extends GPData {
   
+    //calculated result value
     public double value;
     
     // task

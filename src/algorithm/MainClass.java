@@ -7,9 +7,10 @@ package algorithm;
  */
 
 
-import algorithm.dataRepresentation.SingleJob;
-import ec.Evolve;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import window.MainWindow;
 
 /**
  *
@@ -19,63 +20,18 @@ public class MainClass {
     
      /**
      * @param args the command line arguments
-     * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {         
+    public static void main(String[] args) {         
+        
         //create window
-        /*
-        MainWindow window = new MainWindow();
-        
-        //print startup params
-        System.out.println("Startup params: \t" + Arrays.toString(args));
-        
-        //get path to current folder
-        String path = Paths.get("").toAbsolutePath().toString() + File.separator;
-        String problemName = "";
-        
-        for(int i = 0; i < args.length; ++i){
-            //check if its run from IDE
-            if(args[i].equals("-IDE")){
-                path += "src" + File.separator;
-            }else if (args[i].contains("-problem=")){ //check for problem name
-                problemName = args[i].substring(args[i].lastIndexOf("=") + 1);
-            }
+        MainWindow window = null;
+        try {
+            window = new MainWindow();
+        } catch (IOException ex) {
+            Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //check if found a paramsFile name
-        if(problemName.isEmpty()){
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            }catch(ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException ex) {
-            }
-            //create file chooser window
-            JFileChooser chooser = new JFileChooser();
-            chooser.setCurrentDirectory(new File(path));
-            //set filter
-            chooser.setAcceptAllFileFilterUsed(false);
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("PARAMS FILES", "params");
-            chooser.setFileFilter(filter);
-            //read choosed file
-            int result = chooser.showOpenDialog(chooser);
-            if(result == JFileChooser.APPROVE_OPTION){
-                path = chooser.getSelectedFile().getAbsolutePath();
-            }        
-        }else{
-            //add file extension
-            path += problemName + ".params";
-        }
-        
-        //print path
-        System.out.println("Path to params file: \t" + path);
-
-        */
-        
-        //SingleProblemData data = new SingleProblemData();
-        
-        //data.load("src/data/p9.txt", true);
         
         //run gp
-        String[] Params = {"-file", "src/problem.params"};            
-        Evolve.main(Params);
+        CustomEvolve.evolve();
     }
 }

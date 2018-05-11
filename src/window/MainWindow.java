@@ -50,6 +50,7 @@ import org.jfree.ui.RectangleInsets;
  * @author arsc
  */
 public class MainWindow {
+    
     //window
     static JFrame guiFrame = new JFrame();
     //console output
@@ -60,42 +61,30 @@ public class MainWindow {
     static private final XYSeriesCollection  dataset = new XYSeriesCollection();
     static private final XYSeries minF = new XYSeries("Min Generation Fitness", false);
     static private final XYSeries avgF = new XYSeries("Avg Generation Fitness", false);
-    static JFreeChart lineChart = ChartFactory.createXYLineChart("Generations fitnesses", "generation", "fitness", dataset, PlotOrientation.VERTICAL, true, true, false);
+    static JFreeChart lineChart = ChartFactory.createXYLineChart("", "generation", "fitness", dataset, PlotOrientation.VERTICAL, true, true, false);
     static ChartPanel chartPanel = new ChartPanel(lineChart);
     //stats
     static JPanel stats = new JPanel();
     static JLabel generationsNumberLabel = new JLabel("Current Generation: ");
-    static JTextField generationsNumberField = new JTextField(6);
+    static JTextField generationsNumberField = new JTextField(9);
     static JLabel minimumFitnessLabel = new JLabel("       Minimum Fitness: ");
-    static JTextField minimumFitnessField = new JTextField(14);
-    static JLabel minimumMakepsanLabel = new JLabel("       Minimum Makespan: ");
-    static JTextField minimumMakepsanField = new JTextField(8);
-    static int hitsCounter = 0;
-    static double minTree = Double.MAX_VALUE;
+    static JTextField minimumFitnessField = new JTextField(18);
     //styles
     static StandardChartTheme theme = (StandardChartTheme)org.jfree.chart.StandardChartTheme.createJFreeTheme();
     static String fontName = "Lucida Sans";
     //saveing graph
     static JPanel save = new JPanel();
-    static JButton saveButton = new JButton("Save generation chart.");
-    static JButton openBestPNG = new JButton("Show best graph.");
-    static JButton openOrderButton = new JButton("Show order.");
+    static JButton saveButton = new JButton("Save chart.");
+    static JButton openBestPNG = new JButton("Show best tree.");
     //saving dialog
     protected static final String EXTENSION = ".png";
     protected static final String EXTENSION_NAME = "png";
     protected static final String FILTER_NAME = ".png files";
     //graph window
     static String bestPath = "";
-    
+    //calculation duration
     static public long startTime;
     static public long endTime;
-    
-    //order graph
-    final static String austria = "Austria";
-    final static String brazil = "Brazil";
-    final static String france = "France";
-    final static String italy = "Italy";
-    final static String usa = "USA";
 
     
     private void setGraphStyle(){ 
@@ -115,10 +104,10 @@ public class MainWindow {
     
     public MainWindow() throws IOException {
         //set maximum window size
-        guiFrame.setMinimumSize(new Dimension(1500, 900));
+        guiFrame.setMinimumSize(new Dimension(1700, 900));
         
         //maximialize window
-        guiFrame.setExtendedState(guiFrame.getExtendedState() | JFrame.MAXIMIZED_VERT | JFrame.MAXIMIZED_HORIZ);
+        //guiFrame.setExtendedState(guiFrame.getExtendedState() | JFrame.MAXIMIZED_VERT | JFrame.MAXIMIZED_HORIZ);
         
         guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         guiFrame.setTitle("Tasks Scheduling");
@@ -180,26 +169,7 @@ public class MainWindow {
                     System.err.println("Cant open PNG file.");
                 }
             }
-        });
-        //show order graph
-        openOrderButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                
-                JFrame orderFrame = new JFrame();
-                orderFrame.setMinimumSize(new Dimension(800, 600));
-                orderFrame.setExtendedState(orderFrame.getExtendedState() | JFrame.MAXIMIZED_VERT | JFrame.MAXIMIZED_HORIZ);
-                orderFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                orderFrame.setTitle("Order graph");
-                orderFrame.setLocationRelativeTo(null);
-                
-                OrderChart orderChart = new OrderChart();
-                ChartPanel orderPanel = new ChartPanel(orderChart.buildChart());
-                orderFrame.add(orderPanel);
-                orderFrame.setVisible(true);
-            }
-        });
-        
+        });       
         
         //////////////////////////Sets components
         //auto-scroll to bottom
@@ -225,34 +195,26 @@ public class MainWindow {
         
         generationsNumberLabel.setFont(new Font(fontName,Font.PLAIN, 16));
         minimumFitnessLabel.setFont(new Font(fontName,Font.PLAIN, 16));
-        minimumMakepsanLabel.setFont(new Font(fontName,Font.PLAIN, 16));
         
         generationsNumberField.setFont(new Font(fontName,Font.PLAIN, 16));
         minimumFitnessField.setFont(new Font(fontName,Font.PLAIN, 16));
-        minimumMakepsanField.setFont(new Font(fontName,Font.PLAIN, 16));
                 
         stats.add(generationsNumberLabel, gbc0);
         stats.add(generationsNumberField, gbc0);
         stats.add(minimumFitnessLabel, gbc0);
         stats.add(minimumFitnessField, gbc0);
-        stats.add(minimumMakepsanLabel, gbc0);
-        stats.add(minimumMakepsanField, gbc0);
-        
         
         //Button
         save.setLayout(new GridBagLayout());
         
         saveButton.setFont(new Font(fontName,Font.PLAIN, 16));
         openBestPNG.setFont(new Font(fontName,Font.PLAIN, 16));
-        openOrderButton.setFont(new Font(fontName, Font.PLAIN, 16));
         
         //disable button
         openBestPNG.setEnabled(false);
-        openOrderButton.setEnabled(false);
         
         save.add(saveButton, gbc0);
         save.add(openBestPNG, gbc0);
-        save.add(openOrderButton, gbc0);
         
         //////////////////////////Adding components
         GridBagConstraints gbc = new GridBagConstraints();
@@ -350,17 +312,9 @@ public class MainWindow {
         minimumFitnessField.setText(Double.toString(fitness));
     }
     
-    public static void updateMinimumMakespan(String text){
-        minimumMakepsanField.setText(text);
-    }
-    
     public static void updateBestPath(String path){
         bestPath = path;
         openBestPNG.setEnabled(true);
-    }
-    
-    public static void unlockOrderButton(){
-        openOrderButton.setEnabled(true);
     }
     
 }

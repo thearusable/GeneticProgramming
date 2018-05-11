@@ -5,9 +5,6 @@
  */
 package algorithm.dataRepresentation;
 
-import algorithm.TaskData;
-import algorithm.TreeData;
-import ec.gp.GPNode;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

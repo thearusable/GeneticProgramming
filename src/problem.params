@@ -22,12 +22,14 @@ breedthreads = 8
 evalthreads = 8
 
 #max generations number
-generations = 10000
+generations = 100
 #size of single generation
 pop.subpop.0.size = 5000
+#quit when ended
+quit-on-run-complete = false
 
 #size of a tournament
-select.tournament.size = 20
+select.tournament.size = 5
 
 pop.subpop.0.duplicate-retries = 100
 pop.subpop.0.species.pipe.generate-max = false

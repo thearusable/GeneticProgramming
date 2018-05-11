@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,13 +61,16 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
     @Override
     public void evaluate(EvolutionState state, Individual ind, int i, int threadnum) {
         
+        //skip evaluated ones
         if(ind.evaluated == true) return;
         
         double fitness = 0.0;
+        
+        //get tree root
         GPIndividual GPInd = (GPIndividual)ind;
         GPNode root = GPInd.trees[0].child;
         
-        //make a copy for safety reasons
+        //make a copy for safety reasons - to upgrade later
         ArrayList < SingleProblem > myProblems = new ArrayList<>();
         for(SingleProblem problem : problems)
         {
@@ -79,7 +81,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             }
         }
         
-        //calculate for each problem - make a copy ?
+        //calculate for each problem
         for(SingleProblem problem : myProblems)
         {            
             //calculate priority and save in task
@@ -87,13 +89,15 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             {
                 for(int index = 0; index < job.size(); index++)
                 {
+                    //make new TreeData
                     TreeData treeData = new TreeData();
                     treeData.set(job.get(index), job, problem);
                         
+                    //evaluate tree
                     root.eval(state, i, treeData, stack, GPInd, this);
                     
+                    //update task with new priority
                     treeData.task.calculatedPriority = treeData.value;
-                    
                     job.set(index, treeData.task); 
                 }
             }
@@ -106,29 +110,35 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             ArrayList<Integer> jobEndingTime = new ArrayList<>();
             while(jobEndingTime.size() < problem.jobs.size()) jobEndingTime.add(0);
             
+            //keep picking best ones until jobs become empty
             while(problem.isNotFinished())
             {
+                //get the best one
                 SingleTask leader = problem.popWithGreatestPriority();
                 
                 // minus 1 because machines are numbered from 1
                 Integer minMachineTime = machineEndingTime.get(leader.machineId - 1);
                 Integer minJobTime = jobEndingTime.get(leader.jobId);
                 
+                //get minimal time when next task can be processed
                 Integer timeAfterTask = Math.max(minMachineTime, minJobTime) + leader.duration;
                 
+                //set new ending times
                 machineEndingTime.set(leader.machineId - 1, timeAfterTask);
                 jobEndingTime.set(leader.jobId, timeAfterTask);
             }
             
-            //search for longest time
+            //search for longest time (makespan)
             int duration = Math.max(Collections.max(machineEndingTime), Collections.max(jobEndingTime));
             
             //calculate difference between best result from web
-            fitness += duration - problem.BEST_RESULT_FROM_WEB;
+            fitness += ((double)duration / problem.BEST_RESULT_FROM_WEB) - 1.0;
         }
         
-        //average difference
-        fitness = fitness / problems.size();
+        // fitness -> % how much longer are durations than best from web
+        fitness = (fitness * 100) / problems.size();
+        
+        //end when perfect fitness occurs - if miracle happend
         ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, fitness == 0.0);
         ind.evaluated = true;
     }   
