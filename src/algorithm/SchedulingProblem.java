@@ -28,9 +28,9 @@ import java.util.logging.Logger;
  */
 public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
    
-    //PROBLEMODAJKA:
-    // ?? dla kazdego taska wyznaczony czas wejscia po ktorym moze zostac wykonany 
-    // zmienic sposob obliczania fitness, % roznicy ???
+    // naprawic system checkpointow - obliczenia beda trwaly dlugo
+    // zoptymalizowac ocene - usunac kopiowanie.
+    // zoptymalizowac parametry
     
     private static final ArrayList < SingleProblem > problems = new ArrayList<>();
     
@@ -102,13 +102,9 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                 }
             }
                 
-            //when machine will be free
-            ArrayList<Integer> machineEndingTime = new ArrayList<>();
-            while(machineEndingTime.size() < problem.MACHINES_COUNT) machineEndingTime.add(0);
-            
-            //when job will be completed
-            ArrayList<Integer> jobEndingTime = new ArrayList<>();
-            while(jobEndingTime.size() < problem.jobs.size()) jobEndingTime.add(0);
+            //helper arrays for keeping track on ending times
+            ArrayList<Integer> machineEndingTime = new ArrayList<>(Collections.nCopies(problem.MACHINES_COUNT, 0));
+            ArrayList<Integer> jobEndingTime = new ArrayList<>(Collections.nCopies(problem.jobs.size(), 0));
             
             //keep picking best ones until jobs become empty
             while(problem.isNotFinished())
@@ -142,22 +138,4 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, fitness == 0.0);
         ind.evaluated = true;
     }   
-    
-    //get makespan of individual
-    public void printData(GPIndividual ind){
-        //TreeData data = new TreeData();
-        
-        //GPNode root = ind.trees[0].child;
-        //EvolutionState state = new EvolutionState();
-        //root.eval(state, 0, data, stack, ind, this);
-/*
-        if(data.isValidtree()){
-            MainWindow.updateMinimumMakespan(Integer.toString(data.getMakespan()));
-        }else{
-            MainWindow.updateMinimumMakespan("Not Founded");
-            System.out.println(data.toString());
-        }
-        */
-        //OrderChart.buildDataset(data.order);
-    }
 }

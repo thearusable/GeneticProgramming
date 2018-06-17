@@ -20,7 +20,7 @@ import ec.gp.GPNode;
 public class Add extends GPNode {
     @Override
     public String toString() {
-        return "A";
+        return "ADD";
     }
 
     @Override

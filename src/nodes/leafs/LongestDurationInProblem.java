@@ -17,7 +17,7 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class GetLongestDurationInProblem extends GPNode{
+public class LongestDurationInProblem extends GPNode{
     
     @Override
     public String toString() {

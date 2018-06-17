@@ -18,18 +18,24 @@ stat.file = $problem.stat
 stat.png = $problem.png
 
 #number of threads
-breedthreads = 8
-evalthreads = 8
+breedthreads = auto
+evalthreads = auto
 
 #max generations number
 generations = 100
 #size of single generation
-pop.subpop.0.size = 5000
+pop.subpop.0.size = 1000
 #quit when ended
 quit-on-run-complete = false
 
 #size of a tournament
-select.tournament.size = 5
+select.tournament.size = 3
+
+#checkpoints
+checkpoint = true
+checkpoint-modulo = 10
+checkpoint-prefix = gp
+#checkpoint-directory = /checkpoints/
 
 pop.subpop.0.duplicate-retries = 100
 pop.subpop.0.species.pipe.generate-max = false

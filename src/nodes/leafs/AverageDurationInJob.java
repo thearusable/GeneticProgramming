@@ -17,11 +17,11 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class GetCurrentTaskDuration extends GPNode {
+public class AverageDurationInJob extends GPNode {
     
     @Override
     public String toString() {
-        return "CTD";
+        return "ADIJ";
     }
     
     @Override
@@ -32,7 +32,6 @@ public class GetCurrentTaskDuration extends GPNode {
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = ((TreeData)gpdata);
-        data.value = data.task.duration;
+        data.value = data.AVERAGE_DURATION_IN_JOB;
     }
-    
 }

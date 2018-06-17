@@ -17,11 +17,11 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class GetWhichTaskInJob extends GPNode{
+public class ShortestDurationInProblem extends GPNode{
     
     @Override
     public String toString() {
-        return "WTIJ";
+        return "SDIP";
     }
     
     @Override
@@ -32,6 +32,6 @@ public class GetWhichTaskInJob extends GPNode{
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = ((TreeData)gpdata);
-        data.value = data.task.whichTaskInJob;
+        data.value = data.LOWEST_DURATION_IN_PROBLEM;
     }
 }

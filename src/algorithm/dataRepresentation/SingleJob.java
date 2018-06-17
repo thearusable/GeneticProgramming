@@ -19,7 +19,7 @@ public class SingleJob implements Cloneable {
     
     // job id
     public final int JOB_ID;
-    // number of tasks in this job att beggining
+    // number of tasks in this job at beggining
     public int MAX_TASK_COUNT;
     // average task duration in this job
     public double AVERAGE_DURATION_IN_JOB;

@@ -20,7 +20,7 @@ import ec.gp.GPNode;
 public class Divide extends GPNode {
     @Override
     public String toString() {
-        return "D";
+        return "DIV";
     }
 
     @Override

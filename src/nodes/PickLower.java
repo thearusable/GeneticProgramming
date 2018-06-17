@@ -20,7 +20,7 @@ import ec.gp.GPNode;
 public class PickLower extends GPNode {
     @Override
     public String toString() {
-        return "L";
+        return "pickL";
     }
     
     @Override

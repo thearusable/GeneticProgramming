@@ -21,7 +21,7 @@ public class Multiply extends GPNode {
 
     @Override
     public String toString() {
-        return "M";
+        return "MUL";
     }
     
     @Override

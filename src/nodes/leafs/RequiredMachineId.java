@@ -17,11 +17,11 @@ import ec.gp.GPNode;
  *
  * @author areks
  */
-public class GetLongestDurationInJob extends GPNode{
+public class RequiredMachineId extends GPNode {
     
     @Override
     public String toString() {
-        return "LDIJ";
+        return "RMID";
     }
     
     @Override
@@ -32,6 +32,6 @@ public class GetLongestDurationInJob extends GPNode{
     @Override
     public void eval(EvolutionState es, int i, GPData gpdata, ADFStack adfs, GPIndividual gpi, Problem prblm) {
         TreeData data = ((TreeData)gpdata);
-        data.value = data.LONGEST_DURATION_IN_JOB;
+        data.value = data.task.machineId;
     }
 }

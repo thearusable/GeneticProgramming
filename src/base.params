@@ -96,19 +96,6 @@ breedthreads = 				1
 seed.0 =				time
 
 
-
-
-# ec.EvolutionState
-# ==============================
-
-# We're not writing checkpoint files.  If we were, we'd do it every
-# generation, and the prefix to all the files would be "ec.*"
-checkpoint =				false
-checkpoint-modulo =                     1
-checkpoint-prefix = 			ec
-
-
-
 # 
 # The following parameter file will set up a very basic form
 # of evolution, single-threaded, no coevolution, no exchanging,
