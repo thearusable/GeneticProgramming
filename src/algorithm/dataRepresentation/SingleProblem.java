@@ -31,6 +31,7 @@ public class SingleProblem implements Cloneable {
     public double AVERAGE_DURATION_IN_PROBLEM;
     
     public int BEST_RESULT_FROM_WEB;
+    public int BEST_RESULT_SO_FAR;
     
     public SingleProblem()
     {
@@ -42,34 +43,12 @@ public class SingleProblem implements Cloneable {
         LONGEST_DURATION_IN_PROBLEM = Integer.MIN_VALUE;
         AVERAGE_DURATION_IN_PROBLEM = 0.0;
         TASKS_COUNT = 0;
+        BEST_RESULT_SO_FAR = Integer.MAX_VALUE;
     }
     
-    public SingleTask popWithGreatestPriority()
+    public SingleTask getTask(int jobId, int taskId)
     {
-        int job = 0;
-        double maxPriority = Double.MIN_VALUE;
-        for(int i = 0; i < jobs.size(); i++)
-        {
-            if(maxPriority < jobs.get(i).get(0).calculatedPriority)
-            {
-                job = i;
-                maxPriority = jobs.get(i).get(0).calculatedPriority;
-            }
-        }
-        
-        SingleTask leader = jobs.get(job).pop();
-        
-        if(jobs.get(job).size() == 0)
-        {
-            jobs.remove(job);
-        }
-        
-        return leader;
-    }
-    
-    public boolean isNotFinished()
-    {
-        return !jobs.isEmpty();
+        return jobs.get(jobId).get(taskId);
     }
     
     public void load(int id, String dataFile, boolean debug) throws IOException 

@@ -13,6 +13,12 @@ eval.problem = algorithm.SchedulingProblem
 #problem data
 eval.problem.data = algorithm.TreeData
 
+# fitness evaluation type
+# 1 - difference in % between calculated makespan and makespan from web
+# 2 - median of all makespans
+# 3 - difference in % between calculated makespan and best calculated makespan so far
+eval.problem.fitnessType = 1
+
 #output files
 stat.file = $problem.stat
 stat.png = $problem.png
@@ -22,7 +28,7 @@ breedthreads = auto
 evalthreads = auto
 
 #max generations number
-generations = 100
+generations = 25
 #size of single generation
 pop.subpop.0.size = 1000
 #quit when ended
