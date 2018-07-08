@@ -8,6 +8,8 @@ package algorithm.dataRepresentation;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +35,8 @@ public class SingleProblem implements Cloneable {
     public int BEST_RESULT_FROM_WEB;
     public int BEST_RESULT_SO_FAR;
     
+    public String PROBLEM_NAME;
+    
     public SingleProblem()
     {
         jobs = new ArrayList<>();
@@ -44,6 +48,7 @@ public class SingleProblem implements Cloneable {
         AVERAGE_DURATION_IN_PROBLEM = 0.0;
         TASKS_COUNT = 0;
         BEST_RESULT_SO_FAR = Integer.MAX_VALUE;
+        PROBLEM_NAME = "";
     }
     
     public SingleTask getTask(int jobId, int taskId)
@@ -51,7 +56,7 @@ public class SingleProblem implements Cloneable {
         return jobs.get(jobId).get(taskId);
     }
     
-    public void load(int id, String dataFile, boolean debug) throws IOException 
+    public void load(int id, String dataFile, boolean loadUpperBound, boolean debug) throws IOException 
     {
         PROBLEM_ID = id;
         
@@ -72,7 +77,16 @@ public class SingleProblem implements Cloneable {
                     continue;
                 }
                 readedData = split(line);
-                BEST_RESULT_FROM_WEB = readedData[0];
+                if(loadUpperBound == true)
+                {
+                    // load upper bound
+                    BEST_RESULT_FROM_WEB = readedData[4];
+                }
+                else
+                {
+                    // load lower bound
+                    BEST_RESULT_FROM_WEB = readedData[5];
+                }               
                 continue;
             }
             //times
@@ -130,6 +144,16 @@ public class SingleProblem implements Cloneable {
         AVERAGE_DURATION_IN_PROBLEM = AVERAGE_DURATION_IN_PROBLEM / jobs.size();
         MACHINES_COUNT = machinesIds.size();
  
+        // get problem name       
+        Path p = Paths.get(dataFile);
+        String file = p.getFileName().toString();
+        if(file.contains("."))
+        {
+            file = file.substring(0, file.indexOf('.'));
+        }
+        
+        PROBLEM_NAME = file;
+        
         //debug print
         if(debug == true){
             print();
@@ -137,7 +161,7 @@ public class SingleProblem implements Cloneable {
     }
     
     private static boolean isComment(String line){
-        return line.length() > 0 && line.charAt(0) == '#';
+        return (line.length() > 0 && (line.charAt(0) == '#' || line.startsWith("Nb") ));
     }
     
     private static int[] split(String text) {

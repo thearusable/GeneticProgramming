@@ -15,9 +15,15 @@ eval.problem.data = algorithm.TreeData
 
 # fitness evaluation type
 # 1 - difference in % between calculated makespan and makespan from web
-# 2 - median of all makespans
+# 2 - median of all calculated makespans
 # 3 - difference in % between calculated makespan and best calculated makespan so far
 eval.problem.fitnessType = 1
+
+# folder with data that should be used for learninng(only name of the folder)
+eval.problem.DatasetName = dataset_1
+
+# Specify if best results from WEB should be readed from upper or lower bound
+eval.problem.useUpperBound = true
 
 #output files
 stat.file = $problem.stat

@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,12 +29,15 @@ import java.util.logging.Logger;
 public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
     // naprawic system checkpointow - obliczenia beda trwaly dlugo
-    // zoptymalizowac ocene - usunac kopiowanie.
+    // zoptymalizowac ocene - usunac dodatkowe wartosci.
     // zoptymalizowac parametry
+    
     private static final ArrayList< SingleProblem> problems = new ArrayList<>();
 
     //config variables
     private int fitnessType;
+    private String DatasetName;
+    private boolean useUpperBound;
 
     @Override
     public void setup(final EvolutionState state, final Parameter base) {
@@ -47,24 +49,30 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         }
 
         //read path to png file from params
-        fitnessType = state.parameters.getInt(base.push("fitnessType"), null, 0);
+        fitnessType = state.parameters.getInt(base.push("fitnessType"), null, 1);
+        DatasetName = state.parameters.getString(base.push("DatasetName"), null);
+        useUpperBound = state.parameters.getBoolean(base.push("useUpperBound"), null, true);
 
         //parameters check
         if (fitnessType < 1 || fitnessType > 3) {
-            throw new ExceptionInInitializerError("Value of fitnessType is out of range");
+            throw new ExceptionInInitializerError("Parameter: eval.problem.fitnessType is missing or incorrect.");
+        }
+        if(DatasetName == null || DatasetName.isEmpty()){
+            throw new ExceptionInInitializerError("Parameter: eval.problem.DatasetName is missing or incorrect.");
         }
 
         System.out.println("fitnessType: " + fitnessType);
+        System.out.println("DatasetName: " + DatasetName);
 
         //load all problems
-        File[] files = new File("src/data/").listFiles();
+        File[] files = new File("src/data/" + DatasetName + "/").listFiles();
         for (int id = 0; id < files.length; id++) {
             if (files[id].isFile()) {
                 SingleProblem sp = new SingleProblem();
                 try {
-                    sp.load(id, files[id].getPath(), false);
+                    sp.load(id, files[id].getPath(), useUpperBound, false);
                 } catch (IOException ex) {
-                    System.out.println(ex.getMessage().toString());
+                    System.out.println(ex.getMessage());
                     Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 problems.add(sp);
@@ -101,37 +109,46 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
             //save lowest duration for problem
             if (duration < problem.BEST_RESULT_SO_FAR) {
+                System.out.println("MAKESPAN |" + problem.PROBLEM_NAME + "| " + problem.BEST_RESULT_SO_FAR + " -> " + duration);
                 problem.BEST_RESULT_SO_FAR = duration;
-                System.out.println("New lowest makespan for problem " + problem.PROBLEM_ID + ": " + duration);
             }
 
-            if(fitnessType == 1)
-            {
-                //calculate difference between best result from web
-                fitness += ((double) duration / problem.BEST_RESULT_FROM_WEB) - 1.0;
-            }
-            else if(fitnessType == 2)
-            {
-                fitness += (double) duration;
-            }
-            else if(fitnessType == 3)
-            {
-                fitness += ((double) duration / problem.BEST_RESULT_SO_FAR) - 1.0;
+            switch (fitnessType) {
+                case 1:
+                    //calculate difference between best result from web
+                    fitness += ((double) duration / problem.BEST_RESULT_FROM_WEB) - 1.0;
+                    break;
+                case 2:
+                    fitness += (double) duration;
+                    break;
+                case 3:
+                    fitness += ((double) duration / problem.BEST_RESULT_SO_FAR) - 1.0;
+                    break;
+                default:
+                    break;
             }
         }
 
-        if(fitnessType == 1 || fitnessType == 3)
-        {
-            // fitness -> % how much longer are durations than best from web
-            fitness = (fitness * 100) / problems.size();
-        }
-        else if(fitnessType == 2)
-        {
-            fitness /= problems.size();
+        switch (fitnessType) {
+            case 1:
+                // fitness -> % how much longer are durations than best from web
+                fitness = (fitness * 100) / problems.size();
+                //end when perfect fitness occurs - if miracle happend
+                ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, fitness == 0.0);
+                break;
+            case 2:
+                fitness /= problems.size();
+                ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
+                break;
+            case 3:
+                // fitness -> % how much longer are durations than best from web
+                fitness = (fitness * 100) / problems.size();
+                ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
+                break;
+            default:
+                break;
         }
         
-        //end when perfect fitness occurs - if miracle happend
-        ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, fitness == 0.0);
         ind.evaluated = true;
     }
 

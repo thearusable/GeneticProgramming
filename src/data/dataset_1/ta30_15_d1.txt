@@ -1,5 +1,5 @@
-# Best result from WEB
-1764
+Nb of jobs, Nb of Machines, Time seed, Machine seed, Upper bound, Lower bound
+        30        15   98640593 1981283465      1770      1764
 Times
  99 43  6 99 23 98 84 24 30 53 34 95 50 48 38
  19 24 65 16 94  9 60 32 59 85  9 36 22 25  5
