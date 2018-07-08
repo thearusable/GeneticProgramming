@@ -2,7 +2,7 @@
 parent.0 = base.params
 
 #class used for statistics purposes
-stat =	window.MyStatistics
+stat =	algorithm.MyStatistics
 
 #class used to choose better fitness
 pop.subpop.0.species.fitness = algorithm.LowerBetterFitness
@@ -19,8 +19,9 @@ eval.problem.data = algorithm.TreeData
 # 3 - difference in % between calculated makespan and best calculated makespan so far
 eval.problem.fitnessType = 1
 
-# folder with data that should be used for learninng(only name of the folder)
-eval.problem.DatasetName = dataset_1
+# Specify datasets to use(folder names)
+eval.problem.learningDatasets = dataset_1
+eval.problem.crossValidationDatasets = dataset_2, dataset_4,dataset_5, dataset_3
 
 # Specify if best results from WEB should be readed from upper or lower bound
 eval.problem.useUpperBound = true
@@ -34,7 +35,7 @@ breedthreads = auto
 evalthreads = auto
 
 #max generations number
-generations = 25
+generations = 100
 #size of single generation
 pop.subpop.0.size = 1000
 #quit when ended

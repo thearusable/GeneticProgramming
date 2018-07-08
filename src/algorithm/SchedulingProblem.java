@@ -18,6 +18,7 @@ import ec.util.Parameter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,16 +29,25 @@ import java.util.logging.Logger;
  */
 public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
-    // naprawic system checkpointow - obliczenia beda trwaly dlugo
+    // naprawic system checkpointow - obliczenia beda trwaly dlugo (pewnie porpawic czas trawania w statystykach)
     // zoptymalizowac ocene - usunac dodatkowe wartosci.
     // zoptymalizowac parametry
+    // poprawic 3 typ oceny
+    // porownanie z randomowymi i obliczyc:
+        // minimalna
+        // maksymalna
+        // srednia 
+        // mediana
+        // odchylenie standardowe
     
-    private static final ArrayList< SingleProblem> problems = new ArrayList<>();
+    private static final ArrayList< SingleProblem> learningProblems = new ArrayList<>();
+    private static final ArrayList< SingleProblem> crossValidationProblems = new ArrayList<>();
 
     //config variables
     private int fitnessType;
-    private String DatasetName;
     private boolean useUpperBound;
+    private String learningDatasets;
+    private String crossValidationDatasets;
 
     @Override
     public void setup(final EvolutionState state, final Parameter base) {
@@ -50,34 +60,26 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
         //read path to png file from params
         fitnessType = state.parameters.getInt(base.push("fitnessType"), null, 1);
-        DatasetName = state.parameters.getString(base.push("DatasetName"), null);
         useUpperBound = state.parameters.getBoolean(base.push("useUpperBound"), null, true);
+        learningDatasets = state.parameters.getString(base.push("learningDatasets"), null);
+        crossValidationDatasets = state.parameters.getString(base.push("crossValidationDatasets"), null);
 
         //parameters check
         if (fitnessType < 1 || fitnessType > 3) {
             throw new ExceptionInInitializerError("Parameter: eval.problem.fitnessType is missing or incorrect.");
         }
-        if(DatasetName == null || DatasetName.isEmpty()){
-            throw new ExceptionInInitializerError("Parameter: eval.problem.DatasetName is missing or incorrect.");
+        if (learningDatasets == null || learningDatasets.isEmpty()) {
+            throw new ExceptionInInitializerError("Parameter: eval.problem.learningDatasets is missing or incorrect.");
         }
-
-        System.out.println("fitnessType: " + fitnessType);
-        System.out.println("DatasetName: " + DatasetName);
+        if (crossValidationDatasets == null || crossValidationDatasets.isEmpty()) {
+            throw new ExceptionInInitializerError("Parameter: eval.problem.crossValidationDatasets is missing or incorrect.");
+        }
 
         //load all problems
-        File[] files = new File("src/data/" + DatasetName + "/").listFiles();
-        for (int id = 0; id < files.length; id++) {
-            if (files[id].isFile()) {
-                SingleProblem sp = new SingleProblem();
-                try {
-                    sp.load(id, files[id].getPath(), useUpperBound, false);
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                    Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                problems.add(sp);
-            }
-        }
+        System.out.print("Learning datasets: ");
+        loadDatasets(learningDatasets, learningProblems, useUpperBound);
+        System.out.print("Cross Validation datasets: ");
+        loadDatasets(crossValidationDatasets, crossValidationProblems, useUpperBound);
     }
 
     @Override
@@ -96,60 +98,102 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         GPNode root = GPInd.trees[0].child;
 
         //calculate for each problem
-        for (SingleProblem problem : problems) {
+        for (SingleProblem problem : learningProblems) {
+            fitness += calcFitnessForSingleProblem(problem, state, ind, i);
+        }
 
-            // storing calculated properties
-            Priorities priorities = new Priorities(problem);
+        fitness /= learningProblems.size();
 
-            //calculate priority
-            calculatePriorities(priorities, ind, state, i);
+        ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
+        ind.evaluated = true;
+    }
 
-            //search for longest time (makespan)
-            int duration = calculateDuration(priorities);
+    public void doCrossValidation(GPIndividual leader, final EvolutionState state) {
+        System.out.println("----- CROSS VALIDATION -----");
 
-            //save lowest duration for problem
-            if (duration < problem.BEST_RESULT_SO_FAR) {
-                System.out.println("MAKESPAN |" + problem.PROBLEM_NAME + "| " + problem.BEST_RESULT_SO_FAR + " -> " + duration);
-                problem.BEST_RESULT_SO_FAR = duration;
-            }
+        //get tree root
+        GPNode root = leader.trees[0].child;
 
-            switch (fitnessType) {
-                case 1:
-                    //calculate difference between best result from web
-                    fitness += ((double) duration / problem.BEST_RESULT_FROM_WEB) - 1.0;
-                    break;
-                case 2:
-                    fitness += (double) duration;
-                    break;
-                case 3:
-                    fitness += ((double) duration / problem.BEST_RESULT_SO_FAR) - 1.0;
-                    break;
-                default:
-                    break;
-            }
+        System.out.println("--- Learning problems ---");
+        double sum = 0.0;
+        //calculate for each problem
+        for (SingleProblem problem : learningProblems) {
+
+            // base fitness value
+            double fitness = calcFitnessForSingleProblem(problem, state, leader, 0);
+            sum += fitness;
+
+            System.out.println("Problem " + problem.PROBLEM_NAME + ": " + fitness);
+        }
+        System.out.println("--- Learning problems average: " + sum / learningProblems.size() + " ---");
+        System.out.println("--- Cross validation problems ---");
+
+        sum = 0.0;
+        //calculate for each problem
+        for (SingleProblem problem : crossValidationProblems) {
+
+            // base fitness value
+            double fitness = calcFitnessForSingleProblem(problem, state, leader, 0);
+            sum += fitness;
+
+            System.out.println("Problem " + problem.PROBLEM_NAME + ": " + fitness);
+        }
+        System.out.println("--- Cross validation problems average: " + sum / crossValidationProblems.size() + " ---");
+    }
+
+    private double calcFitnessForSingleProblem(SingleProblem problem, EvolutionState state, Individual ind, int i) {
+
+        // storing calculated properties
+        Priorities priorities = new Priorities(problem);
+
+        //calculate priority
+        calculatePriorities(priorities, ind, state, i);
+
+        //search for longest time (makespan)
+        int duration = calculateDuration(priorities);
+
+        //save lowest duration for problem
+        if (duration < problem.BEST_RESULT_SO_FAR) {
+            problem.BEST_RESULT_SO_FAR = duration;
         }
 
         switch (fitnessType) {
             case 1:
-                // fitness -> % how much longer are durations than best from web
-                fitness = (fitness * 100) / problems.size();
-                //end when perfect fitness occurs - if miracle happend
-                ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, fitness == 0.0);
-                break;
+                // calculate difference between best result from web in %
+                return (((double) duration / problem.BEST_RESULT_FROM_WEB) - 1.0) * 100.0;
             case 2:
-                fitness /= problems.size();
-                ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
-                break;
+                // just return duration
+                return (double) duration;
             case 3:
-                // fitness -> % how much longer are durations than best from web
-                fitness = (fitness * 100) / problems.size();
-                ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
-                break;
-            default:
-                break;
+                // calculate difference between best result so ofar and current duration
+                return duration - problem.BEST_RESULT_SO_FAR;
         }
-        
-        ind.evaluated = true;
+
+        return 0.0;
+    }
+
+    private void loadDatasets(String str, ArrayList< SingleProblem> problems, boolean upper) {
+        // remove spaces and get datasets
+        str = str.replaceAll(" ", "");
+        String[] datasets = str.split(",");
+        System.out.println(Arrays.toString(datasets));
+
+        // load files
+        for (String dataset : datasets) {
+            File[] files = new File("src/data/" + dataset + "/").listFiles();
+            for (int id = 0; id < files.length; id++) {
+                if (files[id].isFile()) {
+                    SingleProblem sp = new SingleProblem();
+                    try {
+                        sp.load(id, files[id].getPath(), upper, false);
+                    } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                        Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    problems.add(sp);
+                }
+            }
+        }
     }
 
     private void calculatePriorities(Priorities priorities, Individual ind, EvolutionState state, int i) {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package window;
+package algorithm;
 
 import ec.EvolutionState;
 import ec.Individual;
@@ -14,6 +14,8 @@ import ec.simple.SimpleStatistics;
 import ec.util.Parameter;
 import java.io.File;
 import java.io.IOException;
+import window.GraphViz;
+import window.MainWindow;
 
 /**
  *
@@ -36,13 +38,12 @@ public class MyStatistics extends SimpleStatistics {
         bestPNGFile = state.parameters.getFile(base.push(P_PNG_FILE), null);
     }
 
-    public void saveBestSoFar() throws IOException {
+    public void saveBestSoFar(GPIndividual BestSoFarInd) throws IOException {
 
         //set ending time
         MainWindow.endTime = System.currentTimeMillis();
 
         //get dot tree
-        GPIndividual BestSoFarInd = (GPIndividual) getBestSoFar()[0];
         String dotTree = BestSoFarInd.trees[0].child.makeGraphvizTree();
 
         //init grapviz and pass tree data
@@ -59,9 +60,17 @@ public class MyStatistics extends SimpleStatistics {
     @Override
     public void finalStatistics(final EvolutionState state, final int result) {
         super.finalStatistics(state, result);
-
+        
+        // best individual
+        GPIndividual BestSoFarInd = (GPIndividual) getBestSoFar()[0];
+        
+        // cross validation
+        if (state.evaluator.p_problem instanceof SchedulingProblem){
+            ((SchedulingProblem)(state.evaluator.p_problem).clone()).doCrossValidation(BestSoFarInd, state); 
+        }
+        
         try {
-            saveBestSoFar();
+            saveBestSoFar(BestSoFarInd);
         } catch (IOException e) {
             // do something
             System.out.println("Saving best result as .png Fails!");
