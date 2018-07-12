@@ -31,14 +31,22 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
     // naprawic system checkpointow - obliczenia beda trwaly dlugo (pewnie porpawic czas trawania w statystykach)
     // zoptymalizowac ocene - usunac dodatkowe wartosci.
+    
     // zoptymalizowac parametry
     // poprawic 3 typ oceny
+    // tworzenie losowych na zasadzie brania z listy oczekujacych w losowej kolejnosci. 
+    // druga opcja to by wylosowac losowe osobniki i je porownac z wyuczonym
     // porownanie z randomowymi i obliczyc:
         // minimalna
         // maksymalna
         // srednia 
         // mediana
         // odchylenie standardowe
+    
+    // wykres boxowy z zestawieniem wszystkich wyników(wyuczone + losowe)(w matlabie -> boxplot)
+    // przebadac wplyw parametrow na wyniki.
+    
+    // CEL - przygotowac tabelki i wykres z otrzymanymi danymi
     
     private static final ArrayList< SingleProblem> learningProblems = new ArrayList<>();
     private static final ArrayList< SingleProblem> crossValidationProblems = new ArrayList<>();
