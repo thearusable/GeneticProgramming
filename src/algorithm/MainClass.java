@@ -6,15 +6,14 @@ package algorithm;
  * and open the template in the editor.
  */
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 import window.MainWindow;
 
 /**
@@ -29,7 +28,7 @@ public class MainClass {
      */
     public static void main(String[] args) throws IOException {
 
-        Path dir = Paths.get("./"); //main folder
+        Path dir = Paths.get("./checkpoints/");
         String path = "src/problem.params";
         boolean useCheckpoint = false;
 
@@ -41,8 +40,8 @@ public class MainClass {
         if (lastFilePath.isPresent()) // if file exists
         {
            //not yet ready
-           //path = lastFilePath.get().getFileName().toString();
-           //useCheckpoint = true;
+           path = dir.toAbsolutePath().toString() + FileSystems.getDefault().getSeparator() + lastFilePath.get().getFileName().toString();
+           useCheckpoint = true;
         }
 
         //create window

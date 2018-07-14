@@ -9,7 +9,10 @@ package algorithm;
  *
  * @author areks
  */
-public class TaskPriority {
+public class TaskPriority implements java.io.Serializable{
+    
+    private static final long serialVersionUID = 1;
+    
     public int JOB_ID;
     public int TASK_ID;
     public double PRIORITY;

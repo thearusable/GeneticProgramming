@@ -12,8 +12,10 @@ import java.util.ArrayList;
  * 
  * @author areks
  */
-public class SingleJob implements Cloneable {
+public class SingleJob implements java.io.Serializable, Cloneable {
 
+    private static final long serialVersionUID = 1;
+    
     // array with tasks
     ArrayList<SingleTask> tasks;
     

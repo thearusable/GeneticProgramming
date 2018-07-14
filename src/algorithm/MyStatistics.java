@@ -23,6 +23,8 @@ import window.MainWindow;
  */
 public class MyStatistics extends SimpleStatistics {
 
+    private static final long serialVersionUID = 1;
+    
     //extension of a output file
     public static final String P_PNG_FILE = "png";
 

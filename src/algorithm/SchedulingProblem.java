@@ -37,6 +37,8 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
     // wykres boxowy z zestawieniem wszystkich wyników(wyuczone + losowe)(w matlabie -> boxplot)
     // przebadac wplyw parametrow na wyniki.
     // CEL - przygotowac tabelki i wykres z otrzymanymi danymi
+
+    private static final long serialVersionUID = 1;
     
     private static final ArrayList< SingleProblem> learningProblems = new ArrayList<>();
     private static final ArrayList< SingleProblem> crossValidationProblems = new ArrayList<>();

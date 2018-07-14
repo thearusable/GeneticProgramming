@@ -22,6 +22,8 @@ import ec.util.DecodeReturn;
  */
 public class Constant extends ERC {
 
+    private static final long serialVersionUID = 1;
+    
     private double constant;
 
     @Override

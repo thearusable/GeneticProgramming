@@ -14,7 +14,9 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author areks
  */
-public class Priorities {
+public class Priorities implements java.io.Serializable{
+    
+    private static final long serialVersionUID = 1;
     
     public SingleProblem problem;
     private ArrayList<ArrayList<TaskPriority>> priorities;

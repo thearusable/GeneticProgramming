@@ -16,6 +16,8 @@ import ec.gp.GPData;
  */
 public class TreeData extends GPData {
   
+    private static final long serialVersionUID = 1;
+    
     //calculated result value
     public double value;
     

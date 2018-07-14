@@ -18,6 +18,9 @@ import ec.gp.GPNode;
  * @author areks
  */
 public class Add extends GPNode {
+    
+    private static final long serialVersionUID = 1;
+    
     @Override
     public String toString() {
         return "ADD";

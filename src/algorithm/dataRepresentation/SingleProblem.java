@@ -19,8 +19,10 @@ import java.util.StringTokenizer;
  *
  * @author areks
  */
-public class SingleProblem implements Cloneable {
+public class SingleProblem implements java.io.Serializable, Cloneable {
 
+    private static final long serialVersionUID = 1;
+    
     public List<SingleJob> jobs;
     
     public int PROBLEM_ID;

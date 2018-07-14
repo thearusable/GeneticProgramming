@@ -14,6 +14,8 @@ import ec.simple.SimpleFitness;
  */
 public class LowerBetterFitness extends SimpleFitness {
 
+    private static final long serialVersionUID = 1;
+    
     @Override
     public boolean betterThan(Fitness _fitness) {
         return ((LowerBetterFitness)_fitness).fitness() > fitness();

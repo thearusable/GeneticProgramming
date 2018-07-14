@@ -19,6 +19,8 @@ import ec.gp.GPNode;
  */
 public class RequiredMachineId extends GPNode {
     
+    private static final long serialVersionUID = 1;
+    
     @Override
     public String toString() {
         return "RMID";

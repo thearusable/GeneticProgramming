@@ -12,8 +12,10 @@ import java.util.Collections;
  *
  * @author areks
  */
-public class SingleRandomStatistics {
+public class SingleRandomStatistics implements java.io.Serializable{
 
+    private static final long serialVersionUID = 1;
+    
     private ArrayList<Double> values;
 
     SingleRandomStatistics(int size) {

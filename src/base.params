@@ -427,3 +427,7 @@ seed.4 = time
 seed.5 = time
 seed.6 = time
 seed.7 = time
+
+#chheckpoints
+checkpoint-prefix = gp
+checkpoint-directory = ../checkpoints/

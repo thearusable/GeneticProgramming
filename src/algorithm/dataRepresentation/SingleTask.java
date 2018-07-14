@@ -9,9 +9,9 @@ package algorithm.dataRepresentation;
  *
  * @author arsc
  */
-public class SingleTask implements Cloneable {
+public class SingleTask implements java.io.Serializable, Cloneable {
 
-    public double calculatedPriority;
+    private static final long serialVersionUID = 1;
     
     public int whichTaskInJob;
     public int duration;
@@ -23,7 +23,6 @@ public class SingleTask implements Cloneable {
         this.duration = duration;
         this.machineId = requiredMachineID;
         this.jobId = jobId;
-        this.calculatedPriority = Double.MIN_VALUE;
     }
     
     public SingleTask()
@@ -32,7 +31,6 @@ public class SingleTask implements Cloneable {
         duration = Integer.MIN_VALUE;
         machineId = Integer.MIN_VALUE;
         jobId = Integer.MIN_VALUE;
-        calculatedPriority = Double.MIN_VALUE;
     }
     
     public SingleTask(SingleTask other)
@@ -41,12 +39,11 @@ public class SingleTask implements Cloneable {
         this.duration = other.duration;
         this.machineId = other.machineId;
         this.jobId = other.jobId;
-        this.calculatedPriority = other.calculatedPriority;
     }
     
     @Override
     public String toString() {
-        return "T(J" + jobId + "|P" + calculatedPriority + "|W" + whichTaskInJob + "|D" + duration + "|M" + machineId + ")";
+        return "T(J" + jobId + "|W" + whichTaskInJob + "|D" + duration + "|M" + machineId + ")";
     }
     
     @Override

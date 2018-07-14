@@ -38,7 +38,7 @@ breedthreads = auto
 evalthreads = auto
 
 #max generations number
-generations = 5
+generations = 12
 #size of single generation
 pop.subpop.0.size = 1000
 #quit when ended
@@ -50,8 +50,6 @@ select.tournament.size = 3
 #checkpoints
 checkpoint = true
 checkpoint-modulo = 10
-checkpoint-prefix = gp
-#checkpoint-directory = /checkpoints/
 
 pop.subpop.0.duplicate-retries = 100
 pop.subpop.0.species.pipe.generate-max = false
