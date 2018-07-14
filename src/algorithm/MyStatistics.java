@@ -66,7 +66,7 @@ public class MyStatistics extends SimpleStatistics {
         
         // cross validation
         if (state.evaluator.p_problem instanceof SchedulingProblem){
-            ((SchedulingProblem)(state.evaluator.p_problem).clone()).doCrossValidation(BestSoFarInd, state); 
+            ((SchedulingProblem)(state.evaluator.p_problem).clone()).createStatistics(BestSoFarInd, state); 
         }
         
         try {

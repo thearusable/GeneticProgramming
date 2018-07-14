@@ -8,6 +8,7 @@ package algorithm;
 import algorithm.dataRepresentation.SingleProblem;
 import algorithm.dataRepresentation.SingleTask;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -51,6 +52,23 @@ public class Priorities {
                maxPriority = priorities.get(job).get(0).PRIORITY;
            }
         }
+        
+        //best task
+        SingleTask leader = problem.getTask(priorities.get(leaderJob).get(0).JOB_ID, priorities.get(leaderJob).get(0).TASK_ID);
+        
+        //remove if empty array
+        priorities.get(leaderJob).remove(0);
+        if(priorities.get(leaderJob).isEmpty())
+        {
+            priorities.remove(leaderJob);
+        }
+        
+        return leader;
+    }
+    
+    public SingleTask getRandomWaitingTask()
+    {
+        int leaderJob = ThreadLocalRandom.current().nextInt(0, priorities.size());
         
         //best task
         SingleTask leader = problem.getTask(priorities.get(leaderJob).get(0).JOB_ID, priorities.get(leaderJob).get(0).TASK_ID);

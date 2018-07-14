@@ -31,21 +31,11 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
     // naprawic system checkpointow - obliczenia beda trwaly dlugo (pewnie porpawic czas trawania w statystykach)
     // zoptymalizowac ocene - usunac dodatkowe wartosci.
-    
     // zoptymalizowac parametry
-    // poprawic 3 typ oceny
-    // tworzenie losowych na zasadzie brania z listy oczekujacych w losowej kolejnosci. 
-    // druga opcja to by wylosowac losowe osobniki i je porownac z wyuczonym
-    // porownanie z randomowymi i obliczyc:
-        // minimalna
-        // maksymalna
-        // srednia 
-        // mediana
-        // odchylenie standardowe
-    
+    // (??) poprawic 3 typ oceny
+
     // wykres boxowy z zestawieniem wszystkich wyników(wyuczone + losowe)(w matlabie -> boxplot)
     // przebadac wplyw parametrow na wyniki.
-    
     // CEL - przygotowac tabelki i wykres z otrzymanymi danymi
     
     private static final ArrayList< SingleProblem> learningProblems = new ArrayList<>();
@@ -53,6 +43,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
     //config variables
     private int fitnessType;
+    private int amountOfRandoms;
     private boolean useUpperBound;
     private String learningDatasets;
     private String crossValidationDatasets;
@@ -71,6 +62,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         useUpperBound = state.parameters.getBoolean(base.push("useUpperBound"), null, true);
         learningDatasets = state.parameters.getString(base.push("learningDatasets"), null);
         crossValidationDatasets = state.parameters.getString(base.push("crossValidationDatasets"), null);
+        amountOfRandoms = state.parameters.getInt(base.push("amountOfRandoms"), null, 100000);
 
         //parameters check
         if (fitnessType < 1 || fitnessType > 3) {
@@ -81,6 +73,10 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         }
         if (crossValidationDatasets == null || crossValidationDatasets.isEmpty()) {
             throw new ExceptionInInitializerError("Parameter: eval.problem.crossValidationDatasets is missing or incorrect.");
+        }
+        if(amountOfRandoms < 0)
+        {
+            throw new ExceptionInInitializerError("Parameter: eval.problem.amountOfRandoms is missing or incorrect");
         }
 
         //load all problems
@@ -97,7 +93,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         if (ind.evaluated == true) {
             return;
         }
-
+        
         // base fitness value
         double fitness = 0.0;
 
@@ -107,7 +103,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
         //calculate for each problem
         for (SingleProblem problem : learningProblems) {
-            fitness += calcFitnessForSingleProblem(problem, state, ind, i);
+            fitness += calcFitnessForSingleProblem(problem, state, ind);
         }
 
         fitness /= learningProblems.size();
@@ -115,47 +111,52 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
         ind.evaluated = true;
     }
+    
+    public void createStatistics(GPIndividual leader, final EvolutionState state) {
+        System.out.println("----- STATISTICS -----");
 
-    public void doCrossValidation(GPIndividual leader, final EvolutionState state) {
-        System.out.println("----- CROSS VALIDATION -----");
-
-        //get tree root
-        GPNode root = leader.trees[0].child;
-
-        System.out.println("--- Learning problems ---");
-        double sum = 0.0;
-        //calculate for each problem
+        System.out.println("--- Learning Problems ---");
+        double sumLearningFitness = 0.0;
         for (SingleProblem problem : learningProblems) {
-
-            // base fitness value
-            double fitness = calcFitnessForSingleProblem(problem, state, leader, 0);
-            sum += fitness;
-
-            System.out.println("Problem " + problem.PROBLEM_NAME + ": " + fitness);
+            sumLearningFitness += calcStatisticsForSingleProblem(problem, leader, state);
         }
-        System.out.println("--- Learning problems average: " + sum / learningProblems.size() + " ---");
-        System.out.println("--- Cross validation problems ---");
 
-        sum = 0.0;
-        //calculate for each problem
+        System.out.println("--- Cross Validation Problems ---");
+        double sumCrossFitness = 0.0;
         for (SingleProblem problem : crossValidationProblems) {
-
-            // base fitness value
-            double fitness = calcFitnessForSingleProblem(problem, state, leader, 0);
-            sum += fitness;
-
-            System.out.println("Problem " + problem.PROBLEM_NAME + ": " + fitness);
+            sumCrossFitness += calcStatisticsForSingleProblem(problem, leader, state);
         }
-        System.out.println("--- Cross validation problems average: " + sum / crossValidationProblems.size() + " ---");
-    }
 
-    private double calcFitnessForSingleProblem(SingleProblem problem, EvolutionState state, Individual ind, int i) {
+        System.out.println("--- Summary ---");
+        System.out.println("Average Learned Fitness in Learning Problems: \n" + sumLearningFitness / learningProblems.size());
+        System.out.println("Average Learned Fitness in Cross Validation Problems: \n" + sumCrossFitness / crossValidationProblems.size());
+    }   
+
+    private double calcStatisticsForSingleProblem(SingleProblem problem, GPIndividual leader, final EvolutionState state) {
+        // fitness value for learned resolution
+        double learned = calcFitnessForSingleProblem(problem, state, leader);
+        System.out.println("--- Problem " + problem.PROBLEM_NAME + ":\nLearned: \t" + learned);
+
+        SingleRandomStatistics stats = new SingleRandomStatistics(amountOfRandoms);
+
+        for (int i = 0; i < amountOfRandoms; i++) {
+            double duration = calcFitnessForRandom(problem);
+            stats.add(duration);
+        }
+
+        stats.print();
+        
+        return learned;
+    }
+    
+    private double calcFitnessForSingleProblem(SingleProblem problem, EvolutionState state, Individual ind) {
 
         // storing calculated properties
         Priorities priorities = new Priorities(problem);
 
         //calculate priority
-        calculatePriorities(priorities, ind, state, i);
+        int threadId = (int) Thread.currentThread().getId();
+        calculatePriorities(priorities, ind, state, threadId);
 
         //search for longest time (makespan)
         int duration = calculateDuration(priorities);
@@ -179,6 +180,30 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
         return 0.0;
     }
+
+    private double calcFitnessForRandom(SingleProblem problem) {
+        // storing calculated properties
+        Priorities priorities = new Priorities(problem);
+
+        //search for longest time (makespan)
+        int duration = calculateDurationForRandom(priorities);
+
+        switch (fitnessType) {
+            case 1:
+                // calculate difference between best result from web in %
+                return (((double) duration / problem.BEST_RESULT_FROM_WEB) - 1.0) * 100.0;
+            case 2:
+                // just return duration
+                return (double) duration;
+            case 3:
+                // calculate difference between best result so ofar and current duration
+                return duration - problem.BEST_RESULT_SO_FAR;
+        }
+
+        return 0.0;
+    }
+
+    
 
     private void loadDatasets(String str, ArrayList< SingleProblem> problems, boolean upper) {
         // remove spaces and get datasets
@@ -233,6 +258,28 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         while (priorities.isNotFinished()) {
             //get the best one
             SingleTask leader = priorities.getTaskWithGreatestPriority();
+            // minus 1 because machines are numbered from 1
+            Integer minMachineTime = machineEndingTime.get(leader.machineId - 1);
+            Integer minJobTime = jobEndingTime.get(leader.jobId);
+            //get minimal time when next task can be processed
+            Integer timeAfterTask = Math.max(minMachineTime, minJobTime) + leader.duration;
+            //set new ending times
+            machineEndingTime.set(leader.machineId - 1, timeAfterTask);
+            jobEndingTime.set(leader.jobId, timeAfterTask);
+        }
+
+        //search for longest time (makespan)
+        return Math.max(Collections.max(machineEndingTime), Collections.max(jobEndingTime));
+    }
+
+    private int calculateDurationForRandom(Priorities priorities) {
+        //helper arrays for keeping track on ending times
+        ArrayList<Integer> machineEndingTime = new ArrayList<>(Collections.nCopies(priorities.problem.MACHINES_COUNT, 0));
+        ArrayList<Integer> jobEndingTime = new ArrayList<>(Collections.nCopies(priorities.problem.jobs.size(), 0));
+
+        while (priorities.isNotFinished()) {
+            //get the best one
+            SingleTask leader = priorities.getRandomWaitingTask();
             // minus 1 because machines are numbered from 1
             Integer minMachineTime = machineEndingTime.get(leader.machineId - 1);
             Integer minJobTime = jobEndingTime.get(leader.jobId);

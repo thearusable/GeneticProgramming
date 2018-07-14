@@ -23,6 +23,9 @@ eval.problem.fitnessType = 1
 eval.problem.learningDatasets = dataset_1
 eval.problem.crossValidationDatasets = dataset_2, dataset_4,dataset_5, dataset_3
 
+# Specify how many random resolution must be generated
+eval.problem.amountOfRandoms = 100000
+
 # Specify if best results from WEB should be readed from upper or lower bound
 eval.problem.useUpperBound = true
 
@@ -35,7 +38,7 @@ breedthreads = auto
 evalthreads = auto
 
 #max generations number
-generations = 100
+generations = 5
 #size of single generation
 pop.subpop.0.size = 1000
 #quit when ended
