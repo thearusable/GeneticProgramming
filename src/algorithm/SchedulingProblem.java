@@ -5,6 +5,8 @@
  */
 package algorithm;
 
+import algorithm.results.Priorities;
+import algorithm.results.SingleProblemStatistics;
 import algorithm.dataRepresentation.SingleJob;
 import algorithm.dataRepresentation.SingleProblem;
 import algorithm.dataRepresentation.SingleTask;
@@ -20,8 +22,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.mathworks.engine.*;
 
 /**
  *
@@ -30,16 +39,13 @@ import java.util.logging.Logger;
 public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
     // naprawic system checkpointow - obliczenia beda trwaly dlugo (pewnie porpawic czas trawania w statystykach)
-    // zoptymalizowac ocene - usunac dodatkowe wartosci.
     // zoptymalizowac parametry
     // (??) poprawic 3 typ oceny
-
     // wykres boxowy z zestawieniem wszystkich wyników(wyuczone + losowe)(w matlabie -> boxplot)
     // przebadac wplyw parametrow na wyniki.
     // CEL - przygotowac tabelki i wykres z otrzymanymi danymi
-
     private static final long serialVersionUID = 1;
-    
+
     private static final ArrayList< SingleProblem> learningProblems = new ArrayList<>();
     private static final ArrayList< SingleProblem> crossValidationProblems = new ArrayList<>();
 
@@ -76,8 +82,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         if (crossValidationDatasets == null || crossValidationDatasets.isEmpty()) {
             throw new ExceptionInInitializerError("Parameter: eval.problem.crossValidationDatasets is missing or incorrect.");
         }
-        if(amountOfRandoms < 0)
-        {
+        if (amountOfRandoms < 0) {
             throw new ExceptionInInitializerError("Parameter: eval.problem.amountOfRandoms is missing or incorrect");
         }
 
@@ -95,7 +100,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         if (ind.evaluated == true) {
             return;
         }
-        
+
         // base fitness value
         double fitness = 0.0;
 
@@ -113,44 +118,111 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         ((LowerBetterFitness) ind.fitness).setFitness(state, fitness, false);
         ind.evaluated = true;
     }
-    
-    public void createStatistics(GPIndividual leader, final EvolutionState state) {
-        System.out.println("----- STATISTICS -----");
 
-        System.out.println("--- Learning Problems ---");
-        double sumLearningFitness = 0.0;
+    public void createStatistics(GPIndividual leader, final EvolutionState state) throws InterruptedException, ExecutionException {
+        System.out.println("----- CALCULATING STATISTICS -----");
+
+        ExecutorService WORKER_THREAD_POOL = Executors.newFixedThreadPool(learningProblems.size() + crossValidationProblems.size());
+
+        List<Callable<SingleProblemStatistics>> callables = new ArrayList<>();
+
         for (SingleProblem problem : learningProblems) {
-            sumLearningFitness += calcStatisticsForSingleProblem(problem, leader, state);
+            callables.add(new Callable<SingleProblemStatistics>() {
+                @Override
+                public SingleProblemStatistics call() {
+                    return calcStatisticsForSingleProblem(problem, leader, state, true);
+                }
+            });
         }
 
-        System.out.println("--- Cross Validation Problems ---");
-        double sumCrossFitness = 0.0;
         for (SingleProblem problem : crossValidationProblems) {
-            sumCrossFitness += calcStatisticsForSingleProblem(problem, leader, state);
+            callables.add(new Callable<SingleProblemStatistics>() {
+                @Override
+                public SingleProblemStatistics call() {
+                    return calcStatisticsForSingleProblem(problem, leader, state, false);
+                }
+            });
         }
 
-        System.out.println("--- Summary ---");
-        System.out.println("Average Learned Fitness in Learning Problems: \n" + sumLearningFitness / learningProblems.size());
-        System.out.println("Average Learned Fitness in Cross Validation Problems: \n" + sumCrossFitness / crossValidationProblems.size());
-    }   
+        List<Future<SingleProblemStatistics>> futures = WORKER_THREAD_POOL.invokeAll(callables);
 
-    private double calcStatisticsForSingleProblem(SingleProblem problem, GPIndividual leader, final EvolutionState state) {
+        // print 
+        for (Future<SingleProblemStatistics> f : futures) {
+            f.get().print();
+        }
+
+        // send to matlab
+        MatlabEngine engine = MatlabEngine.connectMatlab();
+        engine.putVariable("learningProblems", learningProblems.size());
+
+        sendToMatlab(futures, engine);
+
+        engine.close();
+    }
+
+    private void sendToMatlab(List<Future<SingleProblemStatistics>> futures, MatlabEngine engine) {
+        try {
+
+            String[] names = new String[futures.size()];
+            double[] learnedValues = new double[futures.size()];
+            double[] minValues = new double[futures.size()];
+            double[] maxValues = new double[futures.size()];
+            double[] avgValues = new double[futures.size()];
+            double[] medianValues = new double[futures.size()];
+            double[] stddevValues = new double[futures.size()];
+
+            double[][] values = new double[futures.size()][futures.get(0).get().values.size()];
+
+            for (int i = 0; i < futures.size(); i++) {
+                SingleProblemStatistics stat = futures.get(i).get();
+
+                names[i] = stat.problemName;
+                learnedValues[i] = stat.learnedValue;
+                minValues[i] = stat.getMin();
+                maxValues[i] = stat.getMax();
+                avgValues[i] = stat.AVG;
+                medianValues[i] = stat.MEDIAN;
+                stddevValues[i] = stat.STDDEV;
+
+                for (int x = 0; x < stat.values.size(); x++) {
+                    values[i][x] = stat.values.get(x);
+                }
+            }
+
+            // send to matlab
+            engine.putVariable("names", names);
+            engine.putVariable("learned", learnedValues);
+            engine.putVariable("values", values);
+            engine.putVariable("min", minValues);
+            engine.putVariable("max", maxValues);
+            engine.putVariable("avg", avgValues);
+            engine.putVariable("median", medianValues);
+            engine.putVariable("stddev", stddevValues);
+
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private SingleProblemStatistics calcStatisticsForSingleProblem(SingleProblem problem, GPIndividual leader, final EvolutionState state, boolean isLearning) {
         // fitness value for learned resolution
         double learned = calcFitnessForSingleProblem(problem, state, leader);
-        System.out.println("--- Problem " + problem.PROBLEM_NAME + ":\nLearned: \t" + learned);
 
-        SingleRandomStatistics stats = new SingleRandomStatistics(amountOfRandoms);
+        SingleProblemStatistics stats = new SingleProblemStatistics(problem.PROBLEM_NAME, amountOfRandoms, learned, isLearning);
 
         for (int i = 0; i < amountOfRandoms; i++) {
             double duration = calcFitnessForRandom(problem);
             stats.add(duration);
         }
 
-        stats.print();
-        
-        return learned;
+        stats.prepare();
+
+        return stats;
     }
-    
+
     private double calcFitnessForSingleProblem(SingleProblem problem, EvolutionState state, Individual ind) {
 
         // storing calculated properties
@@ -204,8 +276,6 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
         return 0.0;
     }
-
-    
 
     private void loadDatasets(String str, ArrayList< SingleProblem> problems, boolean upper) {
         // remove spaces and get datasets

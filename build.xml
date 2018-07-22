@@ -13,26 +13,48 @@
 	
 	<target name="-post-jar"> 
 		<copy file="src/base.params" flatten="true" todir="${dist.dir}"/>
-        <copy file="src/p9.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/p9.params" flatten="true" todir="${dist.dir}"/>
-		<copy file="src/p16.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/p16.params" flatten="true" todir="${dist.dir}"/> 	
-		<copy file="src/p25.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/p25.params" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/p36.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/p36.params" flatten="true" todir="${dist.dir}"/> 		
-		<copy file="src/p49.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/p49.params" flatten="true" todir="${dist.dir}"/>
-		<copy file="src/p64.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/p64.params" flatten="true" todir="${dist.dir}"/>
-		<copy file="src/p81.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/p81.params" flatten="true" todir="${dist.dir}"/>
-		<copy file="src/p100.txt" flatten="true" todir="${dist.dir}"/> 
-		<copy file="src/p100.params" flatten="true" todir="${dist.dir}"/>
-
-		
-		<delete file="${dist.dir}/README.TXT"/> 
-		<copy file="src/README.TXT" flatten="true" todir="${dist.dir}"/> 		
+		<copy file="src/problem.params" flatten="true" todir="${dist.dir}"/>
+        <copy file="src/data/dataset_1/ta15_15_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/> 
+		<copy file="src/data/dataset_1/ta20_15_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>
+		<copy file="src/data/dataset_1/ta20_20_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>
+		<copy file="src/data/dataset_1/ta30_15_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>
+		<copy file="src/data/dataset_1/ta30_20_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>
+		<copy file="src/data/dataset_1/ta50_15_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>
+		<copy file="src/data/dataset_1/ta50_20_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>
+		<copy file="src/data/dataset_1/ta100_20_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>
+		<copy file="src/data/dataset_2/ta15_15_d2.txt" flatten="true" todir="${dist.dir}/src/data/dataset_2/"/> 
+		<copy file="src/data/dataset_2/ta20_15_d2.txt" flatten="true" todir="${dist.dir}/src/data/dataset_2/"/>
+		<copy file="src/data/dataset_2/ta20_20_d2.txt" flatten="true" todir="${dist.dir}/src/data/dataset_2/"/>
+		<copy file="src/data/dataset_2/ta30_15_d2.txt" flatten="true" todir="${dist.dir}/src/data/dataset_2/"/>
+		<copy file="src/data/dataset_2/ta30_20_d2.txt" flatten="true" todir="${dist.dir}/src/data/dataset_2/"/>
+		<copy file="src/data/dataset_2/ta50_15_d2.txt" flatten="true" todir="${dist.dir}/src/data/dataset_2/"/>
+		<copy file="src/data/dataset_2/ta50_20_d2.txt" flatten="true" todir="${dist.dir}/src/data/dataset_2/"/>
+		<copy file="src/data/dataset_2/ta100_20_d2.txt" flatten="true" todir="${dist.dir}/src/data/dataset_2/"/>
+		<copy file="src/data/dataset_3/ta15_15_d3.txt" flatten="true" todir="${dist.dir}/src/data/dataset_3/"/> 
+		<copy file="src/data/dataset_3/ta20_15_d3.txt" flatten="true" todir="${dist.dir}/src/data/dataset_3/"/>
+		<copy file="src/data/dataset_3/ta20_20_d3.txt" flatten="true" todir="${dist.dir}/src/data/dataset_3/"/>
+		<copy file="src/data/dataset_3/ta30_15_d3.txt" flatten="true" todir="${dist.dir}/src/data/dataset_3/"/>
+		<copy file="src/data/dataset_3/ta30_20_d3.txt" flatten="true" todir="${dist.dir}/src/data/dataset_3/"/>
+		<copy file="src/data/dataset_3/ta50_15_d3.txt" flatten="true" todir="${dist.dir}/src/data/dataset_3/"/>
+		<copy file="src/data/dataset_3/ta50_20_d3.txt" flatten="true" todir="${dist.dir}/src/data/dataset_3/"/>
+		<copy file="src/data/dataset_3/ta100_20_d3.txt" flatten="true" todir="${dist.dir}/src/data/dataset_3/"/>
+		<copy file="src/data/dataset_4/ta15_15_d4.txt" flatten="true" todir="${dist.dir}/src/data/dataset_4/"/> 
+		<copy file="src/data/dataset_4/ta20_15_d4.txt" flatten="true" todir="${dist.dir}/src/data/dataset_4/"/>
+		<copy file="src/data/dataset_4/ta20_20_d4.txt" flatten="true" todir="${dist.dir}/src/data/dataset_4/"/>
+		<copy file="src/data/dataset_4/ta30_15_d4.txt" flatten="true" todir="${dist.dir}/src/data/dataset_4/"/>
+		<copy file="src/data/dataset_4/ta30_20_d4.txt" flatten="true" todir="${dist.dir}/src/data/dataset_4/"/>
+		<copy file="src/data/dataset_4/ta50_15_d4.txt" flatten="true" todir="${dist.dir}/src/data/dataset_4/"/>
+		<copy file="src/data/dataset_4/ta50_20_d4.txt" flatten="true" todir="${dist.dir}/src/data/dataset_4/"/>
+		<copy file="src/data/dataset_4/ta100_20_d4.txt" flatten="true" todir="${dist.dir}/src/data/dataset_4/"/>
+		<copy file="src/data/dataset_5/ta15_15_d5.txt" flatten="true" todir="${dist.dir}/src/data/dataset_5/"/> 
+		<copy file="src/data/dataset_5/ta20_15_d5.txt" flatten="true" todir="${dist.dir}/src/data/dataset_5/"/>
+		<copy file="src/data/dataset_5/ta20_20_d5.txt" flatten="true" todir="${dist.dir}/src/data/dataset_5/"/>
+		<copy file="src/data/dataset_5/ta30_15_d5.txt" flatten="true" todir="${dist.dir}/src/data/dataset_5/"/>
+		<copy file="src/data/dataset_5/ta30_20_d5.txt" flatten="true" todir="${dist.dir}/src/data/dataset_5/"/>
+		<copy file="src/data/dataset_5/ta50_15_d5.txt" flatten="true" todir="${dist.dir}/src/data/dataset_5/"/>
+		<copy file="src/data/dataset_5/ta50_20_d5.txt" flatten="true" todir="${dist.dir}/src/data/dataset_5/"/>
+		<copy file="src/data/dataset_5/ta100_20_d5.txt" flatten="true" todir="${dist.dir}/src/data/dataset_5/"/>
+		<delete file="${dist.dir}/README.TXT"/> 		
     </target> 
 	
     <!--

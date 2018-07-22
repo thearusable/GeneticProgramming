@@ -14,6 +14,9 @@ import ec.simple.SimpleStatistics;
 import ec.util.Parameter;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import window.GraphViz;
 import window.MainWindow;
 
@@ -68,7 +71,13 @@ public class MyStatistics extends SimpleStatistics {
         
         // cross validation
         if (state.evaluator.p_problem instanceof SchedulingProblem){
-            ((SchedulingProblem)(state.evaluator.p_problem).clone()).createStatistics(BestSoFarInd, state); 
+            try { 
+                ((SchedulingProblem)(state.evaluator.p_problem).clone()).createStatistics(BestSoFarInd, state);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MyStatistics.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
+                Logger.getLogger(MyStatistics.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         try {
