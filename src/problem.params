@@ -21,7 +21,7 @@ eval.problem.fitnessType = 1
 
 # Specify datasets to use(folder names)
 eval.problem.learningDatasets = dataset_1
-eval.problem.crossValidationDatasets = dataset_2, dataset_4,dataset_5, dataset_3
+eval.problem.crossValidationDatasets = dataset_2, dataset_3,dataset_4, dataset_5
 
 # Specify how many random resolution must be generated
 eval.problem.amountOfRandoms = 1000000
@@ -38,9 +38,9 @@ breedthreads = auto
 evalthreads = auto
 
 #max generations number
-generations = 12
+generations = 1000
 #size of single generation
-pop.subpop.0.size = 1000
+pop.subpop.0.size = 3000
 #quit when ended
 quit-on-run-complete = false
 
@@ -48,7 +48,7 @@ quit-on-run-complete = false
 select.tournament.size = 3
 
 #checkpoints
-checkpoint = true
+checkpoint = false
 checkpoint-modulo = 10
 
 pop.subpop.0.duplicate-retries = 100

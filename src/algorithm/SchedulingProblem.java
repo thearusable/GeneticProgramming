@@ -41,7 +41,6 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
     // naprawic system checkpointow - obliczenia beda trwaly dlugo (pewnie porpawic czas trawania w statystykach)
     // zoptymalizowac parametry
     // (??) poprawic 3 typ oceny
-    // wykres boxowy z zestawieniem wszystkich wyników(wyuczone + losowe)(w matlabie -> boxplot)
     // przebadac wplyw parametrow na wyniki.
     // CEL - przygotowac tabelki i wykres z otrzymanymi danymi
     private static final long serialVersionUID = 1;
