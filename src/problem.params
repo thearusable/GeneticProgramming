@@ -38,7 +38,7 @@ breedthreads = auto
 evalthreads = auto
 
 #max generations number
-generations = 3000
+generations = 1000
 #size of single generation
 pop.subpop.0.size = 1000
 #quit when ended
@@ -55,9 +55,9 @@ pop.subpop.0.duplicate-retries = 100
 pop.subpop.0.species.pipe.generate-max = false
 pop.subpop.0.species.pipe.num-sources = 2
 pop.subpop.0.species.pipe.source.0 = ec.gp.koza.CrossoverPipeline
-pop.subpop.0.species.pipe.source.0.prob = 0.9
+pop.subpop.0.species.pipe.source.0.prob = 0.95
 pop.subpop.0.species.pipe.source.1 = ec.breed.ReproductionPipeline
-pop.subpop.0.species.pipe.source.1.prob = 0.1
+pop.subpop.0.species.pipe.source.1.prob = 0.05
 
 gp.koza.xover.maxdepth = 17
 gp.koza.xover.tries = 1
@@ -65,8 +65,8 @@ gp.koza.xover.tries = 1
 gp.breed.mutate-erc.tries = 1
 gp.breed.mutate-erc.tree.0
 
-gp.koza.grow.min-depth = 7
-gp.koza.grow.max-depth = 7
+gp.koza.grow.min-depth = 1
+gp.koza.grow.max-depth = 6
 
 gp.problem.stack = ec.gp.ADFStack
 gp.adf-stack.context = ec.gp.ADFContext
@@ -90,5 +90,5 @@ gp.tc.0.fset = f0
 gp.tc.0.returns = nil
 
 gp.tc.0.init = ec.gp.koza.FullBuilder
-gp.tc.0.init.min-depth = 2
-gp.tc.0.init.max-depth = 5
+gp.tc.0.init.min-depth = 1
+gp.tc.0.init.max-depth = 6

@@ -1,0 +1,94 @@
+#basic parameters
+parent.0 = base.params
+
+#class used for statistics purposes
+stat =	algorithm.MyStatistics
+
+#class used to choose better fitness
+pop.subpop.0.species.fitness = algorithm.LowerBetterFitness
+
+#definition of problem to solve
+eval.problem = algorithm.SchedulingProblem
+
+#problem data
+eval.problem.data = algorithm.TreeData
+
+# fitness evaluation type
+# 1 - difference in % between calculated makespan and makespan from web
+# 2 - median of all calculated makespans
+# 3 - difference in % between calculated makespan and best calculated makespan so far
+eval.problem.fitnessType = 1
+
+# Specify datasets to use(folder names)
+eval.problem.learningDatasets = dataset_1
+eval.problem.crossValidationDatasets = dataset_2, dataset_3,dataset_4, dataset_5
+
+# Specify how many random resolution must be generated
+eval.problem.amountOfRandoms = 1000000
+
+# Specify if best results from WEB should be readed from upper or lower bound
+eval.problem.useUpperBound = true
+
+#output files
+stat.file = $problem.stat
+stat.png = $problem.png
+
+#number of threads
+breedthreads = auto
+evalthreads = auto
+
+#max generations number
+generations = 1000
+#size of single generation
+pop.subpop.0.size = 1000
+#quit when ended
+quit-on-run-complete = false
+
+#size of a tournament
+select.tournament.size = 3
+
+#checkpoints
+checkpoint = false
+checkpoint-modulo = 10
+
+pop.subpop.0.duplicate-retries = 100
+pop.subpop.0.species.pipe.generate-max = false
+pop.subpop.0.species.pipe.num-sources = 2
+pop.subpop.0.species.pipe.source.0 = ec.gp.koza.CrossoverPipeline
+pop.subpop.0.species.pipe.source.0.prob = 0.9
+pop.subpop.0.species.pipe.source.1 = ec.breed.ReproductionPipeline
+pop.subpop.0.species.pipe.source.1.prob = 0.1
+
+gp.koza.xover.maxdepth = 17
+gp.koza.xover.tries = 1
+
+gp.breed.mutate-erc.tries = 1
+gp.breed.mutate-erc.tree.0
+
+gp.koza.grow.min-depth = 1
+gp.koza.grow.max-depth = 6
+
+gp.problem.stack = ec.gp.ADFStack
+gp.adf-stack.context = ec.gp.ADFContext
+
+gp.koza.ns.terminals = 0.1
+gp.koza.ns.nonterminals = 0.9
+gp.koza.ns.root = 0.0
+
+gp.fs.size = 1
+gp.fs.0 = ec.gp.GPFunctionSet
+gp.fs.0.name = f0
+
+gp.type.a.size = 1
+gp.type.a.0.name = nil
+gp.type.s.size = 0
+
+gp.tc.size = 1
+gp.tc.0 = ec.gp.GPTreeConstraints
+gp.tc.0.name = tc0
+gp.tc.0.fset = f0
+gp.tc.0.returns = nil
+
+gp.tc.0.init = ec.gp.koza.FullBuilder
+gp.tc.0.init.min-depth = 1
+gp.tc.0.init.max-depth = 6
