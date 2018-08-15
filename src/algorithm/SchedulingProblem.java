@@ -38,10 +38,10 @@ import com.mathworks.engine.*;
  */
 public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
-    // naprawic system checkpointow - obliczenia beda trwaly dlugo (pewnie porpawic czas trawania w statystykach)
     // zoptymalizowac parametry
     // (??) poprawic 3 typ oceny
     // przebadac wplyw parametrow na wyniki.
+    // posortowac problemy od najmniej licznego do najbardziej
     // CEL - przygotowac tabelki i wykres z otrzymanymi danymi
     private static final long serialVersionUID = 1;
 
@@ -289,6 +289,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                 if (files[id].isFile()) {
                     SingleProblem sp = new SingleProblem();
                     try {
+                        System.out.println(files[id].getPath());
                         sp.load(id, files[id].getPath(), upper, false);
                     } catch (IOException ex) {
                         System.out.println(ex.getMessage());
