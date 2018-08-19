@@ -19,7 +19,7 @@ import java.util.StringTokenizer;
  *
  * @author areks
  */
-public class SingleProblem implements java.io.Serializable, Cloneable {
+public class SingleProblem implements java.io.Serializable, Cloneable, Comparable<SingleProblem> {
 
     private static final long serialVersionUID = 1;
     
@@ -214,5 +214,21 @@ public class SingleProblem implements java.io.Serializable, Cloneable {
         
         return problem;
     }
-    
+
+    @Override
+    public int compareTo(SingleProblem o) {
+        int currentSize = this.jobs.size() * this.jobs.get(0).MAX_TASK_COUNT;
+        int oSize = o.jobs.size() * o.jobs.get(0).MAX_TASK_COUNT;
+        
+        if(currentSize > oSize) 
+        {
+            return 1;
+        }
+        else if(currentSize < oSize)
+        {
+            return -1;
+        }
+        
+        return 0;
+    }
 }

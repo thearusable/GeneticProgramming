@@ -38,11 +38,8 @@ import com.mathworks.engine.*;
  */
 public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
-    // zoptymalizowac parametry
-    // (??) poprawic 3 typ oceny
     // przebadac wplyw parametrow na wyniki.
-    // posortowac problemy od najmniej licznego do najbardziej
-    // CEL - przygotowac tabelki i wykres z otrzymanymi danymi
+    
     private static final long serialVersionUID = 1;
 
     private static final ArrayList< SingleProblem> learningProblems = new ArrayList<>();
@@ -72,7 +69,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         amountOfRandoms = state.parameters.getInt(base.push("amountOfRandoms"), null, 100000);
 
         //parameters check
-        if (fitnessType < 1 || fitnessType > 3) {
+        if (fitnessType < 1 || fitnessType > 2) {
             throw new ExceptionInInitializerError("Parameter: eval.problem.fitnessType is missing or incorrect.");
         }
         if (learningDatasets == null || learningDatasets.isEmpty()) {
@@ -109,7 +106,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
         //calculate for each problem
         for (SingleProblem problem : learningProblems) {
-            fitness += calcFitnessForSingleProblem(problem, state, ind);
+            fitness += calcFitnessForSingleProblem(problem, state, ind, fitnessType);
         }
 
         fitness /= learningProblems.size();
@@ -152,7 +149,10 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
         // send to matlab
         MatlabEngine engine = MatlabEngine.connectMatlab();
-        engine.putVariable("learningProblems", learningProblems.size());
+        engine.putVariable("size_LearningProblems", learningProblems.size());
+        engine.putVariable("size_CrossValidationProblems", crossValidationProblems.size());
+        engine.putVariable("fitnessType", fitnessType);
+        engine.putVariable("size_RandomResults", amountOfRandoms);
 
         sendToMatlab(futures, engine);
 
@@ -189,14 +189,14 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             }
 
             // send to matlab
-            engine.putVariable("names", names);
-            engine.putVariable("learned", learnedValues);
-            engine.putVariable("values", values);
-            engine.putVariable("min", minValues);
-            engine.putVariable("max", maxValues);
-            engine.putVariable("avg", avgValues);
-            engine.putVariable("median", medianValues);
-            engine.putVariable("stddev", stddevValues);
+            engine.putVariable("raw_Names", names);
+            engine.putVariable("raw_LearnedValues", learnedValues);
+            engine.putVariable("raw_AllValues", values);
+            engine.putVariable("raw_MinValues", minValues);
+            engine.putVariable("raw_MaxValues", maxValues);
+            engine.putVariable("raw_AvgValues", avgValues);
+            engine.putVariable("raw_MedianValues", medianValues);
+            engine.putVariable("raw_StddevValues", stddevValues);
 
         } catch (InterruptedException ex) {
             Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,7 +208,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
     private SingleProblemStatistics calcStatisticsForSingleProblem(SingleProblem problem, GPIndividual leader, final EvolutionState state, boolean isLearning) {
         // fitness value for learned resolution
-        double learned = calcFitnessForSingleProblem(problem, state, leader);
+        double learned = calcFitnessForSingleProblem(problem, state, leader, 2);
 
         SingleProblemStatistics stats = new SingleProblemStatistics(problem.PROBLEM_NAME, amountOfRandoms, learned, isLearning);
 
@@ -222,7 +222,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         return stats;
     }
 
-    private double calcFitnessForSingleProblem(SingleProblem problem, EvolutionState state, Individual ind) {
+    private double calcFitnessForSingleProblem(SingleProblem problem, EvolutionState state, Individual ind, int type) {
 
         // storing calculated properties
         Priorities priorities = new Priorities(problem);
@@ -239,7 +239,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             problem.BEST_RESULT_SO_FAR = duration;
         }
 
-        switch (fitnessType) {
+        switch (type) {
             case 1:
                 // calculate difference between best result from web in %
                 return (((double) duration / problem.BEST_RESULT_FROM_WEB) - 1.0) * 100.0;
@@ -259,21 +259,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         Priorities priorities = new Priorities(problem);
 
         //search for longest time (makespan)
-        int duration = calculateDurationForRandom(priorities);
-
-        switch (fitnessType) {
-            case 1:
-                // calculate difference between best result from web in %
-                return (((double) duration / problem.BEST_RESULT_FROM_WEB) - 1.0) * 100.0;
-            case 2:
-                // just return duration
-                return (double) duration;
-            case 3:
-                // calculate difference between best result so ofar and current duration
-                return duration - problem.BEST_RESULT_SO_FAR;
-        }
-
-        return 0.0;
+        return (double) calculateDurationForRandom(priorities);
     }
 
     private void loadDatasets(String str, ArrayList< SingleProblem> problems, boolean upper) {
@@ -284,21 +270,31 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
         // load files
         for (String dataset : datasets) {
+            ArrayList<SingleProblem> tempProblemsList = new ArrayList<>();
+            
             File[] files = new File("src/data/" + dataset + "/").listFiles();
             for (int id = 0; id < files.length; id++) {
                 if (files[id].isFile()) {
                     SingleProblem sp = new SingleProblem();
                     try {
-                        System.out.println(files[id].getPath());
                         sp.load(id, files[id].getPath(), upper, false);
                     } catch (IOException ex) {
                         System.out.println(ex.getMessage());
                         Logger.getLogger(SchedulingProblem.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    problems.add(sp);
+                    tempProblemsList.add(sp);
                 }
             }
+            
+            // sort
+            tempProblemsList.sort((o1, o2) -> o1.compareTo(o2));
+            
+            problems.addAll(tempProblemsList);
         }
+        
+        //for (SingleProblem problem : problems) {
+        //    System.out.println(problem.PROBLEM_NAME);
+        //}
     }
 
     private void calculatePriorities(Priorities priorities, Individual ind, EvolutionState state, int i) {

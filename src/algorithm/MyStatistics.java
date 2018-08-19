@@ -5,6 +5,8 @@
  */
 package algorithm;
 
+import com.mathworks.engine.EngineException;
+import com.mathworks.engine.MatlabEngine;
 import ec.EvolutionState;
 import ec.Individual;
 
@@ -94,10 +96,24 @@ public class MyStatistics extends SimpleStatistics {
         int minutes = (int) ((time / (1000 * 60)) % 60);
         int hours = (int) ((time / (1000 * 60 * 60)) % 24);
 
-        System.out.println(
-                String.format("%02d h %02d min %02d sec",
-                        hours, minutes, seconds));
+        String strTime = String.format("%02d h %02d min %02d sec", hours, minutes, seconds);
+        
+        System.out.println(strTime);
 
+        MatlabEngine engine;
+        try {
+            engine = MatlabEngine.connectMatlab();
+            engine.putVariable("calculationTime", strTime);
+            engine.close();
+        } catch (EngineException ex) {
+            Logger.getLogger(MyStatistics.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MyStatistics.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(MyStatistics.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(MyStatistics.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
