@@ -37,7 +37,7 @@ breedthreads = auto
 evalthreads = auto
 
 #max generations number
-generations = 1000
+generations = 2
 #size of single generation
 pop.subpop.0.size = 1000
 #quit when ended

@@ -121,7 +121,10 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         ExecutorService WORKER_THREAD_POOL = Executors.newFixedThreadPool(learningProblems.size() + crossValidationProblems.size());
 
         List<Callable<SingleProblemStatistics>> callables = new ArrayList<>();
+        
+        double[] bestKnownValues = new double[learningProblems.size() + crossValidationProblems.size()];
 
+        int i = 0;
         for (SingleProblem problem : learningProblems) {
             callables.add(new Callable<SingleProblemStatistics>() {
                 @Override
@@ -129,6 +132,9 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                     return calcStatisticsForSingleProblem(problem, leader, state, true);
                 }
             });
+            
+            bestKnownValues[i] = learningProblems.get(i).BEST_RESULT_FROM_WEB;
+            i++;
         }
 
         for (SingleProblem problem : crossValidationProblems) {
@@ -138,6 +144,8 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                     return calcStatisticsForSingleProblem(problem, leader, state, false);
                 }
             });
+            bestKnownValues[i] = crossValidationProblems.get(i).BEST_RESULT_FROM_WEB;
+            i++;
         }
 
         List<Future<SingleProblemStatistics>> futures = WORKER_THREAD_POOL.invokeAll(callables);
@@ -149,6 +157,10 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
 
         // send to matlab
         MatlabEngine engine = MatlabEngine.connectMatlab();
+        engine.putVariable("raw_BestKnownValues", bestKnownValues);
+        engine.putVariable("size_Dataset", 8);
+        engine.putVariable("size_LearningDatasets", learningProblems.size() / 8);
+        engine.putVariable("size_CrossValidationDatasets", crossValidationProblems.size() / 8);
         engine.putVariable("size_LearningProblems", learningProblems.size());
         engine.putVariable("size_CrossValidationProblems", crossValidationProblems.size());
         engine.putVariable("fitnessType", fitnessType);
