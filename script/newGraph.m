@@ -28,7 +28,7 @@ boxplot(AllValues_display, 'labels', cellstr(raw_Names(1:size_LearningProblems))
 
 % set new limit for lowest values
 ax = gca;
-ax.YLim = [min(Results_1D)-150 ax.YLim(2)];
+ax.YLim = [min(BestPossible)-150 ax.YLim(2)];
 
 % add markers
 hold on

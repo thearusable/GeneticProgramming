@@ -1,23 +1,6 @@
 #basic parameters
 parent.0 = base.params
 
-#class used for statistics purposes
-stat =	algorithm.MyStatistics
-
-#class used to choose better fitness
-pop.subpop.0.species.fitness = algorithm.LowerBetterFitness
-
-#definition of problem to solve
-eval.problem = algorithm.SchedulingProblem
-
-#problem data
-eval.problem.data = algorithm.TreeData
-
-# fitness evaluation type
-# 1 - difference in % between calculated makespan and makespan from web
-# 2 - median of all calculated makespans
-eval.problem.fitnessType = 1
-
 # Specify datasets to use(folder names)
 eval.problem.learningDatasets = dataset_1
 eval.problem.crossValidationDatasets = dataset_2, dataset_3,dataset_4, dataset_5
@@ -28,66 +11,41 @@ eval.problem.amountOfRandoms = 1000000
 # Specify if best results from WEB should be readed from upper or lower bound
 eval.problem.useUpperBound = true
 
-#output files
-stat.file = $problem.stat
-stat.png = $problem.png
-
-#number of threads
-breedthreads = auto
-evalthreads = auto
-
 #max generations number
-generations = 2
-#size of single generation
+generations = 500
+
+#################### Parameters to compare
+
+# fitness evaluation type                           (1,2)
+# 1 - difference in % between calculated makespan and makespan from web
+# 2 - median of all calculated makespans
+eval.problem.fitnessType = 1
+
+#size of single generation                          (500, 750, 1000, 1500, 2000 )
 pop.subpop.0.size = 1000
-#quit when ended
-quit-on-run-complete = false
 
-#size of a tournament
-select.tournament.size = 3
+#size of a tournament                               (2, 3, 4, 5, 6, 7, 8)
+select.tournament.size = 5
 
-#checkpoints
-checkpoint = false
-checkpoint-modulo = 10
-
-pop.subpop.0.duplicate-retries = 100
+pop.subpop.0.species.pipe.num-sources = 3
 pop.subpop.0.species.pipe.generate-max = false
-pop.subpop.0.species.pipe.num-sources = 2
-pop.subpop.0.species.pipe.source.0 = ec.gp.koza.CrossoverPipeline
-pop.subpop.0.species.pipe.source.0.prob = 0.95
-pop.subpop.0.species.pipe.source.1 = ec.breed.ReproductionPipeline
-pop.subpop.0.species.pipe.source.1.prob = 0.05
+# % just copy to new generation                     (0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5)
+pop.subpop.0.species.pipe.source.0 = ec.breed.ReproductionPipeline
+pop.subpop.0.species.pipe.source.0.prob = 0.10
+# % crossover                                       (0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+pop.subpop.0.species.pipe.source.1 = ec.gp.koza.CrossoverPipeline
+pop.subpop.0.species.pipe.source.1.prob = 0.80
+# % mutation                                        (0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5)
+pop.subpop.0.species.pipe.source.2 = ec.gp.koza.MutationPipeline
+pop.subpop.0.species.pipe.source.2.prob = 0.10
 
-gp.koza.xover.maxdepth = 17
-gp.koza.xover.tries = 1
+# HalfBuilder
+# min                                               (1, 2, 3, 4, 5, 6, 7)
+gp.koza.half.min-depth = 3 
+# max #                                             (3, 4, 5, 6, 7, 8, 9)
+gp.koza.half.max-depth = 6 
+gp.koza.half.growp = 0.5
 
-gp.breed.mutate-erc.tries = 1
-gp.breed.mutate-erc.tree.0
+######################
 
-gp.koza.grow.min-depth = 1
-gp.koza.grow.max-depth = 6
 
-gp.problem.stack = ec.gp.ADFStack
-gp.adf-stack.context = ec.gp.ADFContext
-
-gp.koza.ns.terminals = 0.1
-gp.koza.ns.nonterminals = 0.9
-gp.koza.ns.root = 0.0
-
-gp.fs.size = 1
-gp.fs.0 = ec.gp.GPFunctionSet
-gp.fs.0.name = f0
-
-gp.type.a.size = 1
-gp.type.a.0.name = nil
-gp.type.s.size = 0
-
-gp.tc.size = 1
-gp.tc.0 = ec.gp.GPTreeConstraints
-gp.tc.0.name = tc0
-gp.tc.0.fset = f0
-gp.tc.0.returns = nil
-
-gp.tc.0.init = ec.gp.koza.FullBuilder
-gp.tc.0.init.min-depth = 1
-gp.tc.0.init.max-depth = 6

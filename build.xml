@@ -10,11 +10,10 @@
 <project name="GP" default="default" basedir=".">
     <description>Builds, tests, and runs the project GP.</description>
     <import file="nbproject/build-impl.xml"/>
-	
 	<target name="-post-jar"> 
 		<copy file="src/base.params" flatten="true" todir="${dist.dir}"/>
 		<copy file="src/problem.params" flatten="true" todir="${dist.dir}"/>
-        <copy file="src/data/dataset_1/ta15_15_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/> 
+                <copy file="src/data/dataset_1/ta15_15_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/> 
 		<copy file="src/data/dataset_1/ta20_15_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>
 		<copy file="src/data/dataset_1/ta20_20_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>
 		<copy file="src/data/dataset_1/ta30_15_d1.txt" flatten="true" todir="${dist.dir}/src/data/dataset_1/"/>

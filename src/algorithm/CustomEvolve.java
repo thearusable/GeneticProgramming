@@ -18,21 +18,13 @@ import window.MainWindow;
  */
 public class CustomEvolve extends Evolve {
     
-    public static void evolve(boolean useCheckpoints, String filename) {
+    public static void evolve(String filename) {
         EvolutionState state;
         ParameterDatabase parameters;
 
         String[] args = new String[2];
-        if(useCheckpoints == true)
-        {
-            args[0] = "-checkpoint";
-        }
-        else
-        {
-            args[0] = "-file"; 
-        }
-        args[1] = filename;
-        
+        args[0] = "-file";
+        args[1] = filename;       
         
         // should we print the help message and quit?
         checkForHelp(args);

@@ -29,7 +29,7 @@ public class MainClass {
         if (engines.length == 0) {
             throw new ExceptionInInitializerError("MATLAB IS NOT RUNNING!");
         }
-
+        
         //create window
         MainWindow window = null;
         try {
@@ -39,7 +39,6 @@ public class MainClass {
         }
 
         //run gp
-        CustomEvolve.evolve(false, "src/problem.params");
-
+        CustomEvolve.evolve("src/problem.params");
     }
 }

@@ -124,7 +124,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         
         double[] bestKnownValues = new double[learningProblems.size() + crossValidationProblems.size()];
 
-        int i = 0;
+        int lerningCounter = 0;
         for (SingleProblem problem : learningProblems) {
             callables.add(new Callable<SingleProblemStatistics>() {
                 @Override
@@ -133,10 +133,11 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                 }
             });
             
-            bestKnownValues[i] = learningProblems.get(i).BEST_RESULT_FROM_WEB;
-            i++;
+            bestKnownValues[lerningCounter] = learningProblems.get(lerningCounter).BEST_RESULT_FROM_WEB;
+            lerningCounter++;
         }
 
+        int crossCounter = 0;
         for (SingleProblem problem : crossValidationProblems) {
             callables.add(new Callable<SingleProblemStatistics>() {
                 @Override
@@ -144,8 +145,8 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
                     return calcStatisticsForSingleProblem(problem, leader, state, false);
                 }
             });
-            bestKnownValues[i] = crossValidationProblems.get(i).BEST_RESULT_FROM_WEB;
-            i++;
+            bestKnownValues[crossCounter+lerningCounter] = crossValidationProblems.get(crossCounter).BEST_RESULT_FROM_WEB;
+            crossCounter++;
         }
 
         List<Future<SingleProblemStatistics>> futures = WORKER_THREAD_POOL.invokeAll(callables);
