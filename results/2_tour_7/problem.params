@@ -25,7 +25,7 @@ eval.problem.fitnessType = 2
 pop.subpop.0.size = 1000
 
 #size of a tournament                               (2, 3, 4, 5(d), 6, 7, 8)
-select.tournament.size = 5
+select.tournament.size = 7
 
 pop.subpop.0.species.pipe.num-sources = 3
 pop.subpop.0.species.pipe.generate-max = false
@@ -41,9 +41,9 @@ pop.subpop.0.species.pipe.source.2.prob = 0.10
 
 # HalfBuilder
 # min                                               (1, 1, 2, 3(d), 4, 5, 6, 7)
-gp.koza.half.min-depth = 1 
+gp.koza.half.min-depth = 3 
 # max #                                             (3, 4, 5, 6(d), 7, 8, 9, 10)
-gp.koza.half.max-depth = 3 
+gp.koza.half.max-depth = 6 
 gp.koza.half.growp = 0.5
 
 ######################

@@ -31,19 +31,19 @@ pop.subpop.0.species.pipe.num-sources = 3
 pop.subpop.0.species.pipe.generate-max = false
 # % just copy to new generation                     (0.2, 0.2, 0.15, 0.1(d), 0.05, 0)
 pop.subpop.0.species.pipe.source.0 = ec.breed.ReproductionPipeline
-pop.subpop.0.species.pipe.source.0.prob = 0.10
+pop.subpop.0.species.pipe.source.0.prob = 0.20
 # % crossover                                       (0.5, 0.6, 0.7,  0.8(d), 0.9,  1.0)
 pop.subpop.0.species.pipe.source.1 = ec.gp.koza.CrossoverPipeline
-pop.subpop.0.species.pipe.source.1.prob = 0.80
+pop.subpop.0.species.pipe.source.1.prob = 0.60
 # % mutation                                        (0.3, 0.2, 0.15, 0.1(d), 0.05, 0)
 pop.subpop.0.species.pipe.source.2 = ec.gp.koza.MutationPipeline
-pop.subpop.0.species.pipe.source.2.prob = 0.10
+pop.subpop.0.species.pipe.source.2.prob = 0.20
 
 # HalfBuilder
 # min                                               (1, 1, 2, 3(d), 4, 5, 6, 7)
-gp.koza.half.min-depth = 1 
+gp.koza.half.min-depth = 3 
 # max #                                             (3, 4, 5, 6(d), 7, 8, 9, 10)
-gp.koza.half.max-depth = 3 
+gp.koza.half.max-depth = 6 
 gp.koza.half.growp = 0.5
 
 ######################

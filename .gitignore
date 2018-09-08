@@ -5,6 +5,6 @@ dist/
 nbdist/
 .nb-gradle/
 *.stat
-*.png
+problem.png
 *.dot
 *.gz
