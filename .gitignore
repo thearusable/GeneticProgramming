@@ -4,7 +4,5 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-*.stat
-problem.png
 *.dot
 *.gz

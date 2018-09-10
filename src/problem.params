@@ -39,12 +39,10 @@ pop.subpop.0.species.pipe.source.1.prob = 0.80
 pop.subpop.0.species.pipe.source.2 = ec.gp.koza.MutationPipeline
 pop.subpop.0.species.pipe.source.2.prob = 0.10
 
-# HalfBuilder
-# min                                               (1, 1, 2, 3(d), 4, 5, 6, 7)
-gp.koza.half.min-depth = 1 
-# max #                                             (3, 4, 5, 6(d), 7, 8, 9, 10)
-gp.koza.half.max-depth = 3 
-gp.koza.half.growp = 0.5
+
+# max depth of the tree                             (5, 9, 13, 17(d), 21, 25, 29)
+gp.koza.xover.maxdepth = 5
+gp.koza.mutate.maxdepth = 5
 
 ######################
 
