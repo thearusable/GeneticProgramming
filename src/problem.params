@@ -41,8 +41,8 @@ pop.subpop.0.species.pipe.source.2.prob = 0.10
 
 
 # max depth of the tree                             (5, 9, 13, 17(d), 21, 25, 29)
-gp.koza.xover.maxdepth = 5
-gp.koza.mutate.maxdepth = 5
+gp.koza.xover.maxdepth = 29
+gp.koza.mutate.maxdepth = 29
 
 ######################
 
