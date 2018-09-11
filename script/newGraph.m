@@ -43,7 +43,12 @@ hold off
 % legend
 title('Learning and Cross Validation values compared with randoms')
 ylabel('Makespan')
-legend('Learned values', 'First Cross Validation Dataset', 'Second Cross Validation Dataset', 'Third Cross Validation Dataset', 'Fourth Cross Validation Dataset', 'Best results from WEB', 'Location', 'best')
+legend('Learned values', 'First Cross Validation Dataset', 'Second Cross Validation Dataset', 'Third Cross Validation Dataset', 'Fourth Cross Validation Dataset', 'Best results from WEB', 'Location', 'NorthWest')
+
+% annotation
+dim = [.13552 .4 .4 .4];
+str = ['Calculation Time: ' + calculationTime; fitnessValue; 'FitnessType: ' + string(fitnessType)];
+annotation('textbox', dim, 'String', str, 'FitBoxToText', 'on');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TABLE

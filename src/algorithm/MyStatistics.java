@@ -97,13 +97,13 @@ public class MyStatistics extends SimpleStatistics {
         int hours = (int) ((time / (1000 * 60 * 60)) % 24);
 
         String strTime = String.format("%02d h %02d min %02d sec", hours, minutes, seconds);
-        
         System.out.println(strTime);
 
         MatlabEngine engine;
         try {
             engine = MatlabEngine.connectMatlab();
             engine.putVariable("calculationTime", strTime);
+            engine.putVariable("fitnessValue", this.best_of_run[0].fitness.fitnessToStringForHumans());
             engine.close();
         } catch (EngineException ex) {
             Logger.getLogger(MyStatistics.class.getName()).log(Level.SEVERE, null, ex);
