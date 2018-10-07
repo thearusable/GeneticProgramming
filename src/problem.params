@@ -2,8 +2,8 @@
 parent.0 = base.params
 
 # Specify datasets to use(folder names)
-eval.problem.learningDatasets = dataset_1
-eval.problem.crossValidationDatasets = dataset_2, dataset_3,dataset_4, dataset_5
+eval.problem.learningDatasets = dataset_2
+eval.problem.crossValidationDatasets = dataset_1, dataset_3,dataset_4, dataset_5
 
 # Specify how many random resolution must be generated
 eval.problem.amountOfRandoms = 1000000
@@ -27,8 +27,7 @@ pop.subpop.0.size = 1000
 
 # type 2 best - 3
 #size of a tournament                               (2, 3, 4, 5(d), 6, 7, 8)
-select.tournament.size = 5
-
+select.tournament.size = 3
 
 pop.subpop.0.species.pipe.num-sources = 3
 pop.subpop.0.species.pipe.generate-max = false
@@ -47,8 +46,8 @@ pop.subpop.0.species.pipe.source.2.prob = 0.10
 
 # type 2 best - 7
 # max depth of the tree                             (5, 9, 13, 17(d), 21, 25, 29)
-gp.koza.xover.maxdepth = 29
-gp.koza.mutate.maxdepth = 29
+gp.koza.xover.maxdepth = 7
+gp.koza.mutate.maxdepth = 7
 
 ######################
 
