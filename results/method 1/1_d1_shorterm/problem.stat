@@ -1,0 +1,134 @@
+
+Generation: 0
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.380564920107226
+Tree 0:
+ (SUB (pickL ADIP ADIP) (SUB WTIJ SDIP))
+
+Generation: 1
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.380564920107226
+Tree 0:
+ (DIV (pickG ADIP RMID) (DIV WTIJ LDIP))
+
+Generation: 2
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.380564920107226
+Tree 0:
+ (SUB (ADD ADIP SDIP) (SUB WTIJ SDIP))
+
+Generation: 3
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.380564920107226
+Tree 0:
+ (SUB (ADD ADIP SDIP) (SUB WTIJ SDIP))
+
+Generation: 4
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.380564920107226
+Tree 0:
+ (SUB (ADD ADIP SDIP) (SUB WTIJ SDIP))
+
+Generation: 5
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.23521608289793
+Tree 0:
+ (pickL (pickG (pickL (MUL (pickL SDIP RMID)
+     (SUB ADIP CTD)) (DIV (pickL SDIP WTIJ) (ADD
+     RMID LDIJ))) (ADD (DIV (pickG (ADD LDIP WTIJ)
+     RMID) (pickG (SUB RMID SDIJ) CTD)) (DIV (MUL
+     LDIJ LDIP) (MUL SDIP WTIJ)))) (MUL (pickG
+     (pickG (MUL ADIP LDIP) (pickL LDIJ SDIP))
+     (pickG (pickL WTIJ 0.24002765243000934) (DIV
+         SDIP LDIJ))) (DIV (DIV (ADD ADIP SDIP) (ADD
+     ADIP WTIJ)) WTIJ)))
+
+Generation: 6
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.23521608289793
+Tree 0:
+ (pickL (pickG (pickL (MUL (pickL SDIP RMID)
+     (SUB ADIP CTD)) (DIV (pickL SDIP WTIJ) (ADD
+     RMID LDIJ))) (ADD (DIV (pickG (ADD LDIP WTIJ)
+     RMID) (pickG (SUB RMID SDIJ) CTD)) (DIV (MUL
+     LDIJ LDIP) (MUL SDIP WTIJ)))) (MUL (pickG
+     (pickG (MUL ADIP LDIP) (pickL LDIJ SDIP))
+     (pickG (DIV (DIV (ADD ADIP SDIP) (ADD ADIP
+         WTIJ)) (ADD ADIP WTIJ)) (DIV SDIP LDIJ)))
+     (DIV (DIV (ADD ADIP SDIP) (ADD ADIP WTIJ))
+         WTIJ)))
+
+Generation: 7
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.23521608289793
+Tree 0:
+ (pickL (pickG (pickL (MUL (pickL SDIP RMID)
+     (SUB ADIP CTD)) (SUB LDIP (pickL ADIP WTIJ)))
+     (ADD (DIV (pickG (ADD LDIP WTIJ) RMID) (pickG
+         (SUB RMID SDIJ) CTD)) (DIV (MUL LDIJ LDIP)
+         (MUL SDIP WTIJ)))) (MUL (pickG (pickG (MUL
+     ADIP LDIP) (pickL LDIJ SDIP)) (pickG (pickL
+     WTIJ 0.24002765243000934) (DIV SDIP LDIJ)))
+     (DIV (DIV (ADD ADIP SDIP) (ADD ADIP WTIJ))
+         WTIJ)))
+
+Generation: 8
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.23521608289793
+Tree 0:
+ (pickL (pickG (pickL (MUL (pickL SDIP RMID)
+     (SUB ADIP CTD)) (DIV (pickL SDIP WTIJ) (DIV
+     SDIP WTIJ))) (ADD (DIV (pickL WTIJ 0.24002765243000934)
+     (pickG (SUB RMID SDIJ) CTD)) (DIV (MUL LDIJ
+     LDIP) (MUL SDIP WTIJ)))) (MUL (pickG (pickG
+     (MUL ADIP LDIP) (pickL LDIJ SDIP)) (pickG
+     (pickL WTIJ 0.24002765243000934) (DIV SDIP
+     LDIJ))) (DIV (DIV (ADD ADIP SDIP) (ADD ADIP
+     WTIJ)) WTIJ)))
+
+Generation: 9
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.18071026894444
+Tree 0:
+ (pickL (pickG (pickL (MUL (pickL SDIP RMID)
+     (SUB ADIP CTD)) (DIV (pickL SDIP WTIJ) (DIV
+     SDIP WTIJ))) (ADD (DIV (pickG (ADD LDIP WTIJ)
+     RMID) (pickG (SUB RMID SDIJ) CTD)) (DIV (MUL
+     LDIJ LDIP) (MUL SDIP WTIJ)))) (MUL (pickG
+     (pickG (MUL ADIP LDIP) (DIV ADIP WTIJ)) (pickG
+     (pickL WTIJ 0.24002765243000934) (DIV SDIP
+     LDIJ))) (DIV (DIV (ADD ADIP SDIP) ADIP) WTIJ)))
+
+Best Individual of Run:
+Subpopulation 0:
+Evaluated: true
+Fitness: 38.18071026894444
+Tree 0:
+ (pickL (pickG (pickL (MUL (pickL SDIP RMID)
+     (SUB ADIP CTD)) (DIV (pickL SDIP WTIJ) (DIV
+     SDIP WTIJ))) (ADD (DIV (pickG (ADD LDIP WTIJ)
+     RMID) (pickG (SUB RMID SDIJ) CTD)) (DIV (MUL
+     LDIJ LDIP) (MUL SDIP WTIJ)))) (MUL (pickG
+     (pickG (MUL ADIP LDIP) (DIV ADIP WTIJ)) (pickG
+     (pickL WTIJ 0.24002765243000934) (DIV SDIP
+     LDIJ))) (DIV (DIV (ADD ADIP SDIP) ADIP) WTIJ)))
