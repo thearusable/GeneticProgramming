@@ -37,9 +37,7 @@ import com.mathworks.engine.*;
  * @author areks
  */
 public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
-
-    // przebadac wplyw parametrow na wyniki.
-    
+   
     private static final long serialVersionUID = 1;
 
     private static final ArrayList< SingleProblem> learningProblems = new ArrayList<>();
@@ -244,7 +242,7 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
         int threadId = (int) Thread.currentThread().getId();
         calculatePriorities(priorities, ind, state, threadId);
 
-        //search for longest time (makespan)
+        //search for makespan
         int duration = calculateDuration(priorities);
 
         //save lowest duration for problem
@@ -259,9 +257,6 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             case 2:
                 // just return duration
                 return (double) duration;
-            case 3:
-                // calculate difference between best result so ofar and current duration
-                return duration - problem.BEST_RESULT_SO_FAR;
         }
 
         return 0.0;
@@ -304,10 +299,6 @@ public class SchedulingProblem extends GPProblem implements SimpleProblemForm {
             
             problems.addAll(tempProblemsList);
         }
-        
-        //for (SingleProblem problem : problems) {
-        //    System.out.println(problem.PROBLEM_NAME);
-        //}
     }
 
     private void calculatePriorities(Priorities priorities, Individual ind, EvolutionState state, int i) {
