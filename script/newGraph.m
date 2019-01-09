@@ -24,37 +24,49 @@ BestPossible = raw_BestKnownValues(1:size_LearningProblems);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GRAPH
 % make box plot
 figure
-boxplot(AllValues_display, 'labels', cellstr(raw_Names(1:size_LearningProblems)), 'labelorientation', 'inline')
+boxplot(AllValues_display, 'Notch', 'on', 'labels', cellstr(raw_Names(1:size_LearningProblems)), 'labelorientation', 'inline')
+% Disable interpreter
+ax = gca;
+ax.XAxis.TickLabelInterpreter = 'none';
+ax.LineWidth = 2;
+% change font size and apply custom grid
+set(gca,'XTick',1:size_LearningProblems)
+set(gca,'XTickLabel',cellstr(raw_Names(1:size_LearningProblems)),'FontSize',23)
+set(gca,'Ytick',0:1000:15000)
+grid off
+grid on
 
 % set new limit for lowest values
-ax = gca;
-ax.YLim = [min(BestPossible)-150 ax.YLim(2)];
+ax.YLim = [min(BestPossible)-400 ax.YLim(2)];
 
 % add markers
 hold on
-plot(Results_1D, 'b*--')
+plot(Results_1D, 'bd-', 'MarkerSize',7)
 plot(Results_2D, 'g*--')
 plot(Results_3D, 'c*--')
 plot(Results_4D, 'k*--')
 plot(Results_5D, 'm*--')
-plot(BestPossible, 'r*--')
+plot(BestPossible, 'r.-')
 hold off
 
 % legend
-title('Learning and Cross Validation values compared with randoms')
+title('Porównanie wyników dopasowania modelu z danymi walidacyjnymi oraz losowymi.')
 ylabel('Makespan')
-legend('Learned values', 'First Cross Validation Dataset', 'Second Cross Validation Dataset', 'Third Cross Validation Dataset', 'Fourth Cross Validation Dataset', 'Best results from WEB', 'Location', 'NorthWest')
+legend('Najlepiej dopasowane rozwi¹zanie', 'Pierwszy zestaw danych walidacyjnych', 'Drugi zestaw danych walidacyjnych', 'Trzeci zestaw danych walidacyjnych', 'Czwarty zestaw danych walidacyjnych', 'Najlepsze znane rozwi¹zanie', 'Location', 'NorthWest')
 
 % annotation
-dim = [.13552 .4 .4 .4];
-str = ['Calculation Time: ' + calculationTime; fitnessValue; 'FitnessType: ' + string(fitnessType)];
-annotation('textbox', dim, 'String', str, 'FitBoxToText', 'on');
+dim = [.137 .28 .4 .4];
+str = ['Czas obliczeñ: ' + calculationTime; 'Dopasowanie: ' +  string(str2num(sprintf('%.4f',strrep(string(fitnessValue), 'Fitness: ', '')))); 'Typ metody dopasowania: ' + string(fitnessType)];
+note = annotation('textbox', dim, 'String', str, 'FitBoxToText', 'on', 'BackgroundColor', 'w');
+note.FontSize = 21;
+% change line width
+set(findall(gca, 'Type', 'Line'),'LineWidth',1.2);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TABLE
-headlines = ["Minimum", "Average", "Maximum", "Median", "Standard Deviation", "Learned Value", "Best Known Values"];
-data = [raw_MinValues' raw_AvgValues' raw_MaxValues' raw_MedianValues' raw_StddevValues' raw_LearnedValues' raw_BestKnownValues'];
-table = uitable(figure, 'RowName', raw_Names, 'ColumnName', headlines, 'Data', data);
-table.Position = [0 0 table.Extent(3) table.Extent(4)];
+names = {'Problem', 'Minimalna', 'Srednia', 'Maksymalna', 'Mediana', 'Odchylenie', 'Dopasowanie', 'Najlepsza'}
+data = [raw_Names', raw_MinValues' round(raw_AvgValues', 2) raw_MaxValues' raw_MedianValues' round(raw_StddevValues', 2) raw_LearnedValues' raw_BestKnownValues'];
+T = array2table(data ,'VariableNames', names)
+writetable(T, "C:\Users\areks\Documents\data.txt")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
